@@ -9,8 +9,17 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    appBar: {
+      // Put navbar over the side drawer
+      zIndex: theme.zIndex.drawer + 1,
+    },
     menuButton: {
       marginRight: theme.spacing(2),
+
+      // Hide when showing fixed drawer on big screens
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
+      },
     },
     title: {
       flexGrow: 1,
@@ -18,14 +27,24 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onMenuButtonClick: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onMenuButtonClick }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton
+            onClick={onMenuButtonClick}
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
