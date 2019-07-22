@@ -5,4 +5,7 @@
     {"language":"typescript", "autoFix": true},
     {"language": "typescriptreact", "autoFix": true},
   ],
+  "cSpell.words": [
+    "Appanino"
+  ],
 }
