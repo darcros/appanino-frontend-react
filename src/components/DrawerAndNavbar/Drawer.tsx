@@ -4,7 +4,7 @@ import { Theme } from '@material-ui/core/styles';
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';
 import InboxIcon from '@material-ui/icons/Inbox';
-import { ToolbarSpacer } from './ToolbarSpacer';
+import { ToolbarSpacer } from '../ToolbarSpacer';
 
 const drawerWidth = 240;
 
