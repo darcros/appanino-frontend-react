@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container } from '@material-ui/core';
+import Container, { ContainerProps } from '@material-ui/core/Container';
 import { ToolbarSpacer } from './ToolbarSpacer';
 
-export const PageContainer: React.FC = ({ children }) => {
+export const PageContainer: React.FC<ContainerProps> = ({ children, ...props }) => {
   return (
-    <Container maxWidth="xl">
+    <Container {...props}>
       <ToolbarSpacer />
       {children}
     </Container>
