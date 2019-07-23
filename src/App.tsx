@@ -8,6 +8,7 @@ import { Navbar } from './components/Navbar';
 import { SideDrawer } from './components/Drawer';
 import { makeStyles } from '@material-ui/styles';
 import { Theme, createStyles } from '@material-ui/core';
+import { PageContainer } from './components/PageContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,8 +30,10 @@ const App: React.FC = () => {
         <Navbar onMenuButtonClick={handleDrawerToggle} />
         <SideDrawer mobileOpen={mobileOpen} onClose={handleDrawerToggle} />
 
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={LoginPage} />
+        <PageContainer>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" exact component={LoginPage} />
+        </PageContainer>
       </div>
     </Router>
   );

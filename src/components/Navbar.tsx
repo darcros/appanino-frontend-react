@@ -6,9 +6,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
     appBar: {
       // Put navbar over the side drawer
       zIndex: theme.zIndex.drawer + 1,
@@ -35,26 +32,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuButtonClick }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            onClick={onMenuButtonClick}
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Appanino
-          </Typography>
-          <Button component={RouterLink} to="/login/" color="inherit">
-            Login
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="fixed" className={classes.appBar}>
+      <Toolbar>
+        <IconButton
+          onClick={onMenuButtonClick}
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="Menu"
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" className={classes.title}>
+          Appanino
+        </Typography>
+        <Button component={RouterLink} to="/login/" color="inherit">
+          Login
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 };
