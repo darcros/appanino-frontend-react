@@ -20,20 +20,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
 }));
-
-interface LoginFormState {
-  email: string;
-  password: string;
-  remember: boolean;
-}
 
 const DO_LOGIN = gql`
   mutation doLogin($email: String!, $password: String!) {
@@ -63,7 +50,7 @@ export const LoginPage: React.FC = () => {
           Login to Appanino
         </Typography>
         <Mutation<Data, Variables> mutation={DO_LOGIN}>
-          {(login, { data, called, loading }) => {
+          {(login, { data, called, loading, error }) => {
             console.log(data);
 
             // Redirect to home page after login
@@ -74,6 +61,7 @@ export const LoginPage: React.FC = () => {
             return (
               <LoginForm
                 loading={loading}
+                errorMessage={error && 'Login Failed'}
                 onSubmit={({ email, password }) => {
                   login({ variables: { email, password } });
                 }}

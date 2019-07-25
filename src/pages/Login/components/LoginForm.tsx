@@ -1,21 +1,11 @@
 import React from 'react';
 import useForm from 'react-hook-form';
-import { TextField, FormControlLabel, Checkbox, makeStyles } from '@material-ui/core';
+import { TextField, FormControlLabel, Checkbox, makeStyles, Typography } from '@material-ui/core';
 
 import { LoadingButton } from '../../../components/LoadingButton';
 import { getErrorMessage } from '../../../util/form';
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -35,10 +25,11 @@ interface LoginFormState {
 
 interface LoginFormProps {
   loading: boolean;
+  errorMessage?: string;
   onSubmit: (formState: LoginFormState) => void;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ loading, errorMessage, onSubmit }) => {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm<LoginFormState>();
 
@@ -87,6 +78,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
       >
         Sign In
       </LoadingButton>
+      {errorMessage && (
+        <Typography color="error" align="center" component="h3" variant="subtitle2">
+          {errorMessage}
+        </Typography>
+      )}
     </form>
   );
 };
