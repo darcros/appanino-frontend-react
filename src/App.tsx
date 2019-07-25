@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { ApolloProvider } from 'react-apollo';
+import { client } from './graphql/client';
+
 import 'typeface-roboto';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import { Theme, createStyles, CssBaseline } from '@material-ui/core';
@@ -24,16 +27,18 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
 
-        <Router>
-          <DrawerAndNavbar />
+          <Router>
+            <DrawerAndNavbar />
 
-          <Route path="/" exact component={HomePage} />
-          <Route path="/login" exact component={LoginPage} />
-        </Router>
-      </ThemeProvider>
+            <Route path="/" exact component={HomePage} />
+            <Route path="/login" exact component={LoginPage} />
+          </Router>
+        </ThemeProvider>
+      </ApolloProvider>
     </div>
   );
 };
