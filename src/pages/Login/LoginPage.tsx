@@ -1,13 +1,11 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import { Redirect } from 'react-router';
 import { makeStyles, Avatar, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
+import { DoLoginComponent } from '../../generated/graphql';
 import { PageContainer } from '../../components/PageContainer';
-
 import { LoginForm } from './components/LoginForm';
-import { Redirect } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -22,21 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DO_LOGIN = gql`
-  mutation doLogin($email: String!, $password: String!) {
-    login(email: $email, password: $password)
-  }
-`;
-
-interface Data {
-  login: string;
-}
-
-interface Variables {
-  email: string;
-  password: string;
-}
-
 export const LoginPage: React.FC = () => {
   const classes = useStyles();
 
@@ -49,7 +32,24 @@ export const LoginPage: React.FC = () => {
         <Typography component="h1" variant="h5">
           Login to Appanino
         </Typography>
-        <Mutation<Data, Variables> mutation={DO_LOGIN}>
+        <DoLoginComponent
+          update={(cache, { data, errors }) => {
+            if (data && !errors) {
+              // Save token
+              localStorage.setItem('token', data.login);
+              cache.writeData({
+                data: { isLoggedIn: true },
+              });
+
+              return;
+            }
+
+            console.log(errors);
+            cache.writeData({
+              data: { isLoggedIn: false },
+            });
+          }}
+        >
           {(login, { data, called, loading, error }) => {
             console.log(data);
 
@@ -68,7 +68,7 @@ export const LoginPage: React.FC = () => {
               />
             );
           }}
-        </Mutation>
+        </DoLoginComponent>
       </div>
     </PageContainer>
   );

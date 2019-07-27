@@ -1,0 +1,3 @@
+mutation DoLogin($email: String!, $password: String!) {
+  login(email: $email, password: $password)
+}
