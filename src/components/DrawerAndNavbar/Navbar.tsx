@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,30 +26,44 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface NavbarProps {
+  loggedIn: boolean;
   onMenuButtonClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onMenuButtonClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) => {
   const classes = useStyles();
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <IconButton
-          onClick={onMenuButtonClick}
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="Menu"
-        >
-          <MenuIcon />
-        </IconButton>
+        {loggedIn && (
+          <IconButton
+            onClick={onMenuButtonClick}
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography variant="h6" className={classes.title}>
           Appanino
         </Typography>
-        <Button component={RouterLink} to="/login/" color="inherit">
-          Login
-        </Button>
+        {loggedIn ? (
+          <IconButton
+            // TODO: connect to account page
+            edge="end"
+            color="inherit"
+            aria-label="Account"
+          >
+            <AccountCircleIcon />
+          </IconButton>
+        ) : (
+          <Button component={RouterLink} to="/login/" color="inherit">
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
