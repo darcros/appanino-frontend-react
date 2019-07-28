@@ -61,7 +61,7 @@ export const LoginPage: React.FC = () => {
             return (
               <LoginForm
                 loading={loading}
-                errorMessage={error && 'Login Failed'}
+                errorMessage={error && error.graphQLErrors[0].message}
                 onSubmit={({ email, password }) => {
                   login({ variables: { email, password } });
                 }}
