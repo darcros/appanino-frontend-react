@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
-import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer } from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/Inbox';
+import { Divider, List, Hidden, Drawer } from '@material-ui/core';
+import { Restaurant, ShoppingCart, AttachMoney, RestaurantMenu, Fastfood, School, Settings } from '@material-ui/icons/';
+
 import { ToolbarSpacer } from '../ToolbarSpacer';
+import { DrawerListItem } from './DrawerListItem';
 
 const drawerWidth = 240;
 
@@ -35,33 +36,18 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
       <ToolbarSpacer />
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="User stuff" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Work in progress..." />
-        </ListItem>
+        <DrawerListItem title="Shop" icon={Restaurant} page="/shop" />
+
+        {/* TODO: create pages */}
+        <DrawerListItem title="Your orders" icon={ShoppingCart} page="#" />
+        <DrawerListItem title="Transactions" icon={AttachMoney} page="#" />
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Admin stuff" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Work in progress..." />
-        </ListItem>
+        <DrawerListItem title="Orders" icon={RestaurantMenu} page="#" />
+        <DrawerListItem title="Products" icon={Fastfood} page="#" />
+        <DrawerListItem title="Schools" icon={School} page="#" />
+        <DrawerListItem title="Settings" icon={Settings} page="#" />
       </List>
     </div>
   );
