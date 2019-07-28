@@ -12,6 +12,19 @@ export type Scalars = {
   Float: number;
 };
 
+export type JwtSchool = {
+  __typename?: 'JwtSchool';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type JwtUserInfo = {
+  __typename?: 'JwtUserInfo';
+  id: Scalars['Int'];
+  role: Role;
+  school: JwtSchool;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Returns a jwt to use for authentication */
@@ -73,6 +86,7 @@ export type Query = {
   schools: Array<School>;
   users: Array<User>;
   isLoggedIn: Scalars['Boolean'];
+  userInfo?: Maybe<JwtUserInfo>;
 };
 
 export type QueryProductsArgs = {
@@ -126,6 +140,12 @@ export type DoLoginMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logi
 export type IsLoggedInQueryVariables = {};
 
 export type IsLoggedInQuery = { __typename?: 'Query' } & Pick<Query, 'isLoggedIn'>;
+
+export type GetUserRoleQueryVariables = {};
+
+export type GetUserRoleQuery = { __typename?: 'Query' } & {
+  userInfo: Maybe<{ __typename?: 'JwtUserInfo' } & Pick<JwtUserInfo, 'role'>>;
+};
 
 export const DoLoginDocument = gql`
   mutation DoLogin($email: String!, $password: String!) {
@@ -189,6 +209,42 @@ export function withIsLoggedIn<TProps, TChildProps = {}>(
     IsLoggedInDocument,
     {
       alias: 'withIsLoggedIn',
+      ...operationOptions,
+    },
+  );
+}
+export const GetUserRoleDocument = gql`
+  query GetUserRole {
+    userInfo @client {
+      role
+    }
+  }
+`;
+export type GetUserRoleComponentProps = Omit<
+  ReactApollo.QueryProps<GetUserRoleQuery, GetUserRoleQueryVariables>,
+  'query'
+>;
+
+export const GetUserRoleComponent = (props: GetUserRoleComponentProps) => (
+  <ReactApollo.Query<GetUserRoleQuery, GetUserRoleQueryVariables> query={GetUserRoleDocument} {...props} />
+);
+
+export type GetUserRoleProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<GetUserRoleQuery, GetUserRoleQueryVariables>
+> &
+  TChildProps;
+export function withGetUserRole<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    GetUserRoleQuery,
+    GetUserRoleQueryVariables,
+    GetUserRoleProps<TChildProps>
+  >,
+) {
+  return ReactApollo.withQuery<TProps, GetUserRoleQuery, GetUserRoleQueryVariables, GetUserRoleProps<TChildProps>>(
+    GetUserRoleDocument,
+    {
+      alias: 'withGetUserRole',
       ...operationOptions,
     },
   );

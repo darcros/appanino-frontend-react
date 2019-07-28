@@ -1,3 +1,15 @@
+type JwtSchool {
+  id: ID!
+  name: String!
+}
+
+type JwtUserInfo {
+  id: Int!
+  role: Role! # Type is provided by server schema
+  school: JwtSchool!
+}
+
 extend type Query {
   isLoggedIn: Boolean!
+  userInfo: JwtUserInfo
 }

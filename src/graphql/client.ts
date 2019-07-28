@@ -4,7 +4,11 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 
-const loggedIn = () => !!localStorage.getItem('token');
+import jwtDecode from 'jwt-decode';
+import { JwtUserInfo } from '../generated/graphql';
+
+const getToken = () => localStorage.getItem('token');
+const loggedIn = () => !!getToken();
 
 export const client = new ApolloClient({
   link: ApolloLink.from([
@@ -25,6 +29,16 @@ export const client = new ApolloClient({
     Query: {
       isLoggedIn() {
         return loggedIn();
+      },
+      userInfo() {
+        const token = getToken();
+        if (!token) return null;
+
+        const data = jwtDecode(token);
+        return {
+          __typename: 'JwtUserInfo',
+          ...data,
+        };
       },
     },
   },

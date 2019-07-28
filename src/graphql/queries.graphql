@@ -1,3 +1,9 @@
 query IsLoggedIn {
   isLoggedIn @client
 }
+
+query GetUserRole {
+  userInfo @client {
+    role
+  }
+}

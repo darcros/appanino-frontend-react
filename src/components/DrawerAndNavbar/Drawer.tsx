@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
 import { Divider, List, Hidden, Drawer } from '@material-ui/core';
@@ -6,6 +6,7 @@ import { Restaurant, ShoppingCart, AttachMoney, RestaurantMenu, Fastfood, School
 
 import { ToolbarSpacer } from '../ToolbarSpacer';
 import { DrawerListItem } from './DrawerListItem';
+import { GetUserRoleComponent, Role } from '../../generated/graphql';
 
 const drawerWidth = 240;
 
@@ -31,7 +32,7 @@ interface SideDrawerProps {
 export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) => {
   const classes = useStyles();
 
-  const drawer = (
+  const drawerContent = (
     <div>
       <ToolbarSpacer />
       <Divider />
@@ -42,13 +43,28 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
         <DrawerListItem title="Your orders" icon={ShoppingCart} page="#" />
         <DrawerListItem title="Transactions" icon={AttachMoney} page="#" />
       </List>
-      <Divider />
-      <List>
-        <DrawerListItem title="Orders" icon={RestaurantMenu} page="#" />
-        <DrawerListItem title="Products" icon={Fastfood} page="#" />
-        <DrawerListItem title="Schools" icon={School} page="#" />
-        <DrawerListItem title="Settings" icon={Settings} page="#" />
-      </List>
+
+      <GetUserRoleComponent>
+        {({ data }) => {
+          const isAdmin =
+            data &&
+            data.userInfo &&
+            // FIXME: toUpperCase() comparison because role in JWT is UPPERCASE and role in graphql is PascalCase
+            data.userInfo.role.toUpperCase() !== Role.User.toUpperCase();
+
+          return isAdmin ? (
+            <Fragment>
+              <Divider />
+              <List>
+                <DrawerListItem title="Orders" icon={RestaurantMenu} page="#" />
+                <DrawerListItem title="Products" icon={Fastfood} page="#" />
+                <DrawerListItem title="Schools" icon={School} page="#" />
+                <DrawerListItem title="Settings" icon={Settings} page="#" />
+              </List>
+            </Fragment>
+          ) : null;
+        }}
+      </GetUserRoleComponent>
     </div>
   );
 
@@ -67,7 +83,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          {drawer}
+          {drawerContent}
         </Drawer>
       </Hidden>
 
@@ -80,7 +96,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
           variant="permanent"
           open
         >
-          {drawer}
+          {drawerContent}
         </Drawer>
       </Hidden>
     </nav>
