@@ -12,7 +12,7 @@ export const DrawerAndNavbar: React.FC = () => {
   return (
     <IsLoggedInComponent>
       {({ data }) => {
-        const loggedIn = !!(data && data.isLoggedIn);
+        const loggedIn = data ? data.isLoggedIn : false;
         console.log(loggedIn);
 
         return (

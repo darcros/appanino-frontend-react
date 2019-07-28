@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { LoggedInRoute } from './components/LoggedInRoute';
 
 import { ApolloProvider } from 'react-apollo';
 import { client } from './graphql/client';
@@ -11,6 +12,7 @@ import theme from './theme';
 
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
+import { ShopPage } from './pages/Shop/ShopPage';
 
 import { DrawerAndNavbar } from './components/DrawerAndNavbar';
 
@@ -34,8 +36,10 @@ const App: React.FC = () => {
           <Router>
             <DrawerAndNavbar />
 
-            <Route path="/" exact component={HomePage} />
-            <Route path="/login" exact component={LoginPage} />
+            <LoggedInRoute loggedOut redirect="/shop" path="/" exact component={HomePage} />
+            <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
+
+            <LoggedInRoute path="/shop" component={ShopPage} />
           </Router>
         </ThemeProvider>
       </ApolloProvider>
