@@ -5,7 +5,6 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 
 import jwtDecode from 'jwt-decode';
-import { JwtUserInfo } from '../generated/graphql';
 
 const getToken = () => localStorage.getItem('token');
 const loggedIn = () => !!getToken();
