@@ -46,11 +46,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
 
       <GetUserRoleComponent>
         {({ data }) => {
-          const isAdmin =
-            data &&
-            data.userInfo &&
-            // FIXME: toUpperCase() comparison because role in JWT is UPPERCASE and role in graphql is PascalCase
-            data.userInfo.role.toUpperCase() !== Role.User.toUpperCase();
+          const isAdmin = data && data.userInfo && data.userInfo.role !== Role.User;
+          console.log(data && data.userInfo && data.userInfo.role, Role.User);
 
           return isAdmin ? (
             <Fragment>
