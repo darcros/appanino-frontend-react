@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { LoggedInRoute } from './components/LoggedInRoute';
 
 import { ApolloProvider } from 'react-apollo';
@@ -36,7 +36,7 @@ const App: React.FC = () => {
           <Router>
             <DrawerAndNavbar />
 
-            <LoggedInRoute loggedOut redirect="/shop" path="/" exact component={HomePage} />
+            <Route path="/" exact component={HomePage} />
             <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
 
             <LoggedInRoute path="/shop" component={ShopPage} />
