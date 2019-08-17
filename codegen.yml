@@ -9,3 +9,8 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+    config:
+      # Enable React hooks
+      withHooks: true
+      # Disable Higher Order Components
+      withHOC: false

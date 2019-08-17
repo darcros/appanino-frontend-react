@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import * as ReactApollo from 'react-apollo';
 import * as React from 'react';
+import * as ReactApolloHooks from 'react-apollo-hooks';
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -162,26 +163,12 @@ export const DoLoginComponent = (props: DoLoginComponentProps) => (
   <ReactApollo.Mutation<DoLoginMutation, DoLoginMutationVariables> mutation={DoLoginDocument} {...props} />
 );
 
-export type DoLoginProps<TChildProps = {}> = Partial<
-  ReactApollo.MutateProps<DoLoginMutation, DoLoginMutationVariables>
-> &
-  TChildProps;
-export function withDoLogin<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    DoLoginMutation,
-    DoLoginMutationVariables,
-    DoLoginProps<TChildProps>
-  >,
+export function useDoLoginMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<DoLoginMutation, DoLoginMutationVariables>,
 ) {
-  return ReactApollo.withMutation<TProps, DoLoginMutation, DoLoginMutationVariables, DoLoginProps<TChildProps>>(
-    DoLoginDocument,
-    {
-      alias: 'withDoLogin',
-      ...operationOptions,
-    },
-  );
+  return ReactApolloHooks.useMutation<DoLoginMutation, DoLoginMutationVariables>(DoLoginDocument, baseOptions);
 }
+export type DoLoginMutationHookResult = ReturnType<typeof useDoLoginMutation>;
 export const IsLoggedInDocument = gql`
   query IsLoggedIn {
     isLoggedIn @client
@@ -193,26 +180,10 @@ export const IsLoggedInComponent = (props: IsLoggedInComponentProps) => (
   <ReactApollo.Query<IsLoggedInQuery, IsLoggedInQueryVariables> query={IsLoggedInDocument} {...props} />
 );
 
-export type IsLoggedInProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IsLoggedInQuery, IsLoggedInQueryVariables>
-> &
-  TChildProps;
-export function withIsLoggedIn<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    IsLoggedInQuery,
-    IsLoggedInQueryVariables,
-    IsLoggedInProps<TChildProps>
-  >,
-) {
-  return ReactApollo.withQuery<TProps, IsLoggedInQuery, IsLoggedInQueryVariables, IsLoggedInProps<TChildProps>>(
-    IsLoggedInDocument,
-    {
-      alias: 'withIsLoggedIn',
-      ...operationOptions,
-    },
-  );
+export function useIsLoggedInQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<IsLoggedInQueryVariables>) {
+  return ReactApolloHooks.useQuery<IsLoggedInQuery, IsLoggedInQueryVariables>(IsLoggedInDocument, baseOptions);
 }
+export type IsLoggedInQueryHookResult = ReturnType<typeof useIsLoggedInQuery>;
 export const GetUserRoleDocument = gql`
   query GetUserRole {
     userInfo @client {
@@ -229,23 +200,7 @@ export const GetUserRoleComponent = (props: GetUserRoleComponentProps) => (
   <ReactApollo.Query<GetUserRoleQuery, GetUserRoleQueryVariables> query={GetUserRoleDocument} {...props} />
 );
 
-export type GetUserRoleProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<GetUserRoleQuery, GetUserRoleQueryVariables>
-> &
-  TChildProps;
-export function withGetUserRole<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    GetUserRoleQuery,
-    GetUserRoleQueryVariables,
-    GetUserRoleProps<TChildProps>
-  >,
-) {
-  return ReactApollo.withQuery<TProps, GetUserRoleQuery, GetUserRoleQueryVariables, GetUserRoleProps<TChildProps>>(
-    GetUserRoleDocument,
-    {
-      alias: 'withGetUserRole',
-      ...operationOptions,
-    },
-  );
+export function useGetUserRoleQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<GetUserRoleQueryVariables>) {
+  return ReactApolloHooks.useQuery<GetUserRoleQuery, GetUserRoleQueryVariables>(GetUserRoleDocument, baseOptions);
 }
+export type GetUserRoleQueryHookResult = ReturnType<typeof useGetUserRoleQuery>;

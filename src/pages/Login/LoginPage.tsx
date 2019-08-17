@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import { makeStyles, Avatar, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
-import { DoLoginComponent } from '../../generated/graphql';
+import { useDoLoginMutation } from '../../generated/graphql';
 import { PageContainer } from '../../components/PageContainer';
 import { LoginForm } from './components/LoginForm';
 
@@ -22,6 +22,24 @@ const useStyles = makeStyles(theme => ({
 
 export const LoginPage: React.FC = () => {
   const classes = useStyles();
+  const [doLogin, { data, called, loading, error }] = useDoLoginMutation({
+    update: (cache, { data, errors }) => {
+      if (data && !errors) {
+        // Save token
+        localStorage.setItem('token', data.login);
+        cache.writeData({
+          data: { isLoggedIn: true },
+        });
+
+        return;
+      }
+
+      console.log(errors);
+      cache.writeData({
+        data: { isLoggedIn: false },
+      });
+    },
+  });
 
   return (
     <PageContainer maxWidth="xs">
@@ -32,43 +50,17 @@ export const LoginPage: React.FC = () => {
         <Typography component="h1" variant="h5">
           Login to Appanino
         </Typography>
-        <DoLoginComponent
-          update={(cache, { data, errors }) => {
-            if (data && !errors) {
-              // Save token
-              localStorage.setItem('token', data.login);
-              cache.writeData({
-                data: { isLoggedIn: true },
-              });
 
-              return;
-            }
-
-            console.log(errors);
-            cache.writeData({
-              data: { isLoggedIn: false },
-            });
+        <LoginForm
+          loading={loading}
+          errorMessage={error && error.graphQLErrors[0].message}
+          onSubmit={({ email, password }) => {
+            doLogin({ variables: { email, password } });
           }}
-        >
-          {(login, { data, called, loading, error }) => {
-            console.log(data);
+        />
 
-            // Redirect to home page after login
-            if (called && data) {
-              return <Redirect to="/" />;
-            }
-
-            return (
-              <LoginForm
-                loading={loading}
-                errorMessage={error && error.graphQLErrors[0].message}
-                onSubmit={({ email, password }) => {
-                  login({ variables: { email, password } });
-                }}
-              />
-            );
-          }}
-        </DoLoginComponent>
+        {/* Redirect to home page after login */}
+        {called && data && <Redirect to="/" />}
       </div>
     </PageContainer>
   );

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { LoggedInRoute } from './components/LoggedInRoute';
 
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { client } from './graphql/client';
 
 import 'typeface-roboto';
@@ -30,18 +31,20 @@ const App: React.FC = () => {
   return (
     <div className={classes.root}>
       <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+        <ApolloHooksProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
 
-          <Router>
-            <DrawerAndNavbar />
+            <Router>
+              <DrawerAndNavbar />
 
-            <Route path="/" exact component={HomePage} />
-            <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
+              <Route path="/" exact component={HomePage} />
+              <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
 
-            <LoggedInRoute path="/shop" component={ShopPage} />
-          </Router>
-        </ThemeProvider>
+              <LoggedInRoute path="/shop" component={ShopPage} />
+            </Router>
+          </ThemeProvider>
+        </ApolloHooksProvider>
       </ApolloProvider>
     </div>
   );
