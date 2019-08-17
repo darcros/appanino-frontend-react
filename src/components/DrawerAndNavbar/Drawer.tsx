@@ -37,11 +37,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
       <ToolbarSpacer />
       <Divider />
       <List>
-        <DrawerListItem title="Shop" icon={Restaurant} page="/shop" />
+        <DrawerListItem onSelected={onClose} title="Shop" icon={Restaurant} page="/shop" />
 
         {/* TODO: create pages */}
-        <DrawerListItem title="Your orders" icon={ShoppingCart} page="#" />
-        <DrawerListItem title="Transactions" icon={AttachMoney} page="#" />
+        <DrawerListItem onSelected={onClose} title="Your orders" icon={ShoppingCart} page="#" />
+        <DrawerListItem onSelected={onClose} title="Transactions" icon={AttachMoney} page="#" />
       </List>
 
       <GetUserRoleComponent>
@@ -53,10 +53,10 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
             <Fragment>
               <Divider />
               <List>
-                <DrawerListItem title="Orders" icon={RestaurantMenu} page="#" />
-                <DrawerListItem title="Products" icon={Fastfood} page="#" />
-                <DrawerListItem title="Schools" icon={School} page="#" />
-                <DrawerListItem title="Settings" icon={Settings} page="#" />
+                <DrawerListItem onSelected={onClose} title="Orders" icon={RestaurantMenu} page="#" />
+                <DrawerListItem onSelected={onClose} title="Products" icon={Fastfood} page="#" />
+                <DrawerListItem onSelected={onClose} title="Schools" icon={School} page="#" />
+                <DrawerListItem onSelected={onClose} title="Settings" icon={Settings} page="#" />
               </List>
             </Fragment>
           ) : null;
@@ -66,7 +66,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
   );
 
   return (
-    <nav className={classes.drawer} aria-label="Mailbox folders">
+    <nav className={classes.drawer} aria-label="Navigation drawer">
       {/* Mobile drawer */}
       <Hidden smUp implementation="js">
         <Drawer

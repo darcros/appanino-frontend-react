@@ -8,12 +8,13 @@ interface DrawerListItemProps {
   page: string;
   title: string;
   icon: React.ComponentType;
+  onSelected: () => void;
 }
 
 type props = DrawerListItemProps & RouteComponentProps;
 
-const DrawerListItemInternal: React.FC<props> = ({ title, icon: Icon, page, location }) => (
-  <ListItem button component={RouterLink} to={page} selected={location.pathname.startsWith(page)}>
+const DrawerListItemInternal: React.FC<props> = ({ title, icon: Icon, page, location, onSelected }) => (
+  <ListItem button onClick={onSelected} component={RouterLink} to={page} selected={location.pathname.startsWith(page)}>
     <ListItemIcon>
       <Icon />
     </ListItemIcon>
