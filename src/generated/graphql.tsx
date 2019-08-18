@@ -13,6 +13,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  products: Array<Product>;
+};
+
 export type JwtSchool = {
   __typename?: 'JwtSchool';
   id: Scalars['ID'];
@@ -59,6 +66,7 @@ export type NewProductDataInput = {
   name: Scalars['String'];
   price: Scalars['Float'];
   schoolIds: Array<Scalars['ID']>;
+  categoryId: Scalars['ID'];
 };
 
 export type Order = {
@@ -75,10 +83,13 @@ export type Product = {
   name: Scalars['String'];
   price: Scalars['Float'];
   schools: Array<School>;
+  category: Category;
 };
 
 export type Query = {
   __typename?: 'Query';
+  self: User;
+  categories: Array<Category>;
   orders: Array<Order>;
   /** Returns a list of products */
   products: Array<Product>;
