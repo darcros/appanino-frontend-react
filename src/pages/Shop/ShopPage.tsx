@@ -11,14 +11,16 @@ export const ShopPage: React.FC = () => {
   return (
     <PageContainer breadcrumbs maxWidth="md">
       <GetShopProductsComponent>
-        {({ data, error, loading }) => {
+        {({ data, error, loading, refetch }) => {
           if (error) {
             return (
               <Center>
                 <Typography variant="h6" color="error">
                   Error. Retry Later.
                 </Typography>
-                <Button color="primary">Retry</Button>
+                <Button onClick={() => refetch()} color="primary">
+                  Retry
+                </Button>
               </Center>
             );
           }
