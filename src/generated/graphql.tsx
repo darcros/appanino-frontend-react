@@ -159,6 +159,20 @@ export type GetUserRoleQuery = { __typename?: 'Query' } & {
   userInfo: Maybe<{ __typename?: 'JwtUserInfo' } & Pick<JwtUserInfo, 'role'>>;
 };
 
+export type GetShopProductsQueryVariables = {};
+
+export type GetShopProductsQuery = { __typename?: 'Query' } & {
+  self: { __typename?: 'User' } & {
+    school: { __typename?: 'School' } & {
+      products: Array<
+        { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
+            category: { __typename?: 'Category' } & Pick<Category, 'name'>;
+          }
+      >;
+    };
+  };
+};
+
 export const DoLoginDocument = gql`
   mutation DoLogin($email: String!, $password: String!) {
     login(email: $email, password: $password)
@@ -215,3 +229,37 @@ export function useGetUserRoleQuery(baseOptions?: ReactApolloHooks.QueryHookOpti
   return ReactApolloHooks.useQuery<GetUserRoleQuery, GetUserRoleQueryVariables>(GetUserRoleDocument, baseOptions);
 }
 export type GetUserRoleQueryHookResult = ReturnType<typeof useGetUserRoleQuery>;
+export const GetShopProductsDocument = gql`
+  query GetShopProducts {
+    self {
+      school {
+        products {
+          id
+          name
+          price
+          category {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+export type GetShopProductsComponentProps = Omit<
+  ReactApollo.QueryProps<GetShopProductsQuery, GetShopProductsQueryVariables>,
+  'query'
+>;
+
+export const GetShopProductsComponent = (props: GetShopProductsComponentProps) => (
+  <ReactApollo.Query<GetShopProductsQuery, GetShopProductsQueryVariables> query={GetShopProductsDocument} {...props} />
+);
+
+export function useGetShopProductsQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<GetShopProductsQueryVariables>,
+) {
+  return ReactApolloHooks.useQuery<GetShopProductsQuery, GetShopProductsQueryVariables>(
+    GetShopProductsDocument,
+    baseOptions,
+  );
+}
+export type GetShopProductsQueryHookResult = ReturnType<typeof useGetShopProductsQuery>;

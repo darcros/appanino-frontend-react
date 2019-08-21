@@ -7,3 +7,18 @@ query GetUserRole {
     role
   }
 }
+
+query GetShopProducts {
+  self {
+    school{
+      products{
+				id
+        name
+        price
+        category {
+          name
+        }
+      }
+    }
+  }
+}
