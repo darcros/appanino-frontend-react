@@ -38,7 +38,7 @@ export type Mutation = {
   /** Returns a jwt to use for authentication */
   login: Scalars['String'];
   /** creates a new user */
-  register: Scalars['Boolean'];
+  register: User;
   /** Creates a new product */
   addProduct: Product;
   /** Deletes a products given its ID */
