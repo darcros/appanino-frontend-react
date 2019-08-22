@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-// TODO: move to global components folder
 export const Center: React.FC = ({ children }) => {
   const classes = useStyles();
 
