@@ -22,3 +22,20 @@ query GetShopProducts {
     }
   }
 }
+
+query userSettingsPageQuery {
+  self {
+    firstname
+    lastname
+    email
+    school {
+      id
+      name
+    }
+  }
+  
+  schools {
+    id
+    name
+  }
+}

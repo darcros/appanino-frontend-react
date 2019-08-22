@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { Box, Breadcrumbs as MaterialBreadcrumbs } from '@material-ui/core';
-import { Home, Restaurant } from '@material-ui/icons/';
+import { Home, Restaurant, AccountCircle } from '@material-ui/icons/';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
 import { BreadcrumbsItem } from './BreadcrumbsItem';
@@ -11,6 +11,10 @@ const breadcrumbsMap: { [key: string]: { icon: React.ComponentType<SvgIconProps>
   '/shop': {
     title: 'Shop',
     icon: Restaurant,
+  },
+  '/user': {
+    title: 'User Settings',
+    icon: AccountCircle,
   },
 };
 

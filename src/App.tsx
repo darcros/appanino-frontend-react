@@ -16,6 +16,7 @@ import { LoginPage } from './pages/Login/LoginPage';
 import { ShopPage } from './pages/Shop/ShopPage';
 
 import { DrawerAndNavbar } from './components/DrawerAndNavbar';
+import { UserSettingsPage } from './pages/UserSettings/UserSettingsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +42,7 @@ const App: React.FC = () => {
               <Route path="/" exact component={HomePage} />
               <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
 
+              <LoggedInRoute path="/user" exact component={UserSettingsPage} />
               <LoggedInRoute path="/shop" component={ShopPage} />
             </Router>
           </ThemeProvider>

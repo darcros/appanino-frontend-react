@@ -51,12 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
           Appanino
         </Typography>
         {loggedIn ? (
-          <IconButton
-            // TODO: connect to account page
-            edge="end"
-            color="inherit"
-            aria-label="Account"
-          >
+          <IconButton component={RouterLink} to="/user/" edge="end" color="inherit" aria-label="Account">
             <AccountCircleIcon />
           </IconButton>
         ) : (

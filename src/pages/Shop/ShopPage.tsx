@@ -4,8 +4,8 @@ import { CircularProgress, Typography, Button } from '@material-ui/core';
 import { GetShopProductsComponent } from '../../generated/graphql';
 
 import { PageContainer } from '../../components/PageContainer';
+import { Center } from '../../components/Center';
 import { ProductList } from './components/ProductList';
-import { Center } from './components/Center';
 
 export const ShopPage: React.FC = () => {
   return (

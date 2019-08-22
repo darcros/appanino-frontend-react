@@ -73,7 +73,6 @@ export type Order = {
   __typename?: 'Order';
   id: Scalars['ID'];
   totalPrice: Scalars['Float'];
-  userId: Scalars['ID'];
   user: User;
 };
 
@@ -130,7 +129,6 @@ export type User = {
   lastname: Scalars['String'];
   email: Scalars['String'];
   role: Role;
-  schoolId: Scalars['ID'];
   school: School;
   orders: Array<Order>;
 };
@@ -171,6 +169,15 @@ export type GetShopProductsQuery = { __typename?: 'Query' } & {
       >;
     };
   };
+};
+
+export type UserSettingsPageQueryQueryVariables = {};
+
+export type UserSettingsPageQueryQuery = { __typename?: 'Query' } & {
+  self: { __typename?: 'User' } & Pick<User, 'firstname' | 'lastname' | 'email'> & {
+      school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
+    };
+  schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
 };
 
 export const DoLoginDocument = gql`
@@ -263,3 +270,41 @@ export function useGetShopProductsQuery(
   );
 }
 export type GetShopProductsQueryHookResult = ReturnType<typeof useGetShopProductsQuery>;
+export const UserSettingsPageQueryDocument = gql`
+  query userSettingsPageQuery {
+    self {
+      firstname
+      lastname
+      email
+      school {
+        id
+        name
+      }
+    }
+    schools {
+      id
+      name
+    }
+  }
+`;
+export type UserSettingsPageQueryComponentProps = Omit<
+  ReactApollo.QueryProps<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>,
+  'query'
+>;
+
+export const UserSettingsPageQueryComponent = (props: UserSettingsPageQueryComponentProps) => (
+  <ReactApollo.Query<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>
+    query={UserSettingsPageQueryDocument}
+    {...props}
+  />
+);
+
+export function useUserSettingsPageQueryQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<UserSettingsPageQueryQueryVariables>,
+) {
+  return ReactApolloHooks.useQuery<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>(
+    UserSettingsPageQueryDocument,
+    baseOptions,
+  );
+}
+export type UserSettingsPageQueryQueryHookResult = ReturnType<typeof useUserSettingsPageQueryQuery>;
