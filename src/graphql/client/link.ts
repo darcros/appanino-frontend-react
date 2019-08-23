@@ -3,20 +3,36 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 
-import { getToken } from './token';
+import { client } from './index';
+import { getToken, removeToken } from './token';
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI,
   credentials: 'same-origin',
 });
 
-// TODO: log user out on authentication error
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+const errorLink = onError(({ graphQLErrors, networkError, }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+      console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+
+      if (!extensions) return;
+      switch (extensions.code) {
+        case 'UNAUTHENTICATED':
+        case 'FORBIDDEN':
+          console.error('Token in probably expired: logging out');
+          removeToken();
+          client.writeData({
+            data: {
+              isLoggedIn: false,
+            },
+          });
+          break;
+      }
+    });
+  }
+
+  if (networkError) console.error(`[Network error]: ${networkError}`);
 });
 
 const authLink = setContext((_, { headers }) => {
