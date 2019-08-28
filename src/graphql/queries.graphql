@@ -10,12 +10,15 @@ query GetUserRole {
 
 query GetShopProducts {
   self {
-    school{
-      products{
+    id
+    school {
+      id
+      products {
 				id
         name
         price
         category {
+          id
           name
         }
       }
@@ -25,6 +28,7 @@ query GetShopProducts {
 
 query userSettingsPageQuery {
   self {
+    id
     firstname
     lastname
     email
@@ -33,7 +37,7 @@ query userSettingsPageQuery {
       name
     }
   }
-  
+
   schools {
     id
     name

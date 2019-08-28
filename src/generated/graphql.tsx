@@ -39,6 +39,10 @@ export type Mutation = {
   login: Scalars['String'];
   /** creates a new user */
   register: User;
+  /** Update data on the current user */
+  updateSelf: User;
+  /** Update the password of the current user */
+  updatePassword: User;
   /** Creates a new product */
   addProduct: Product;
   /** Deletes a products given its ID */
@@ -52,6 +56,14 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   userRegistrationData: UserRegistrationDataInput;
+};
+
+export type MutationUpdateSelfArgs = {
+  updateData: UserUpdateInput;
+};
+
+export type MutationUpdatePasswordArgs = {
+  updateData: PasswordUpdateInput;
 };
 
 export type MutationAddProductArgs = {
@@ -74,6 +86,11 @@ export type Order = {
   id: Scalars['ID'];
   totalPrice: Scalars['Float'];
   user: User;
+};
+
+export type PasswordUpdateInput = {
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
 };
 
 export type Product = {
@@ -140,12 +157,28 @@ export type UserRegistrationDataInput = {
   password: Scalars['String'];
   schoolId: Scalars['ID'];
 };
+
+export type UserUpdateInput = {
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  schoolId?: Maybe<Scalars['ID']>;
+};
 export type DoLoginMutationVariables = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
 export type DoLoginMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'login'>;
+
+export type DoPasswordUpdateMutationVariables = {
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+};
+
+export type DoPasswordUpdateMutation = { __typename?: 'Mutation' } & {
+  updatePassword: { __typename?: 'User' } & Pick<User, 'id'>;
+};
 
 export type IsLoggedInQueryVariables = {};
 
@@ -160,21 +193,21 @@ export type GetUserRoleQuery = { __typename?: 'Query' } & {
 export type GetShopProductsQueryVariables = {};
 
 export type GetShopProductsQuery = { __typename?: 'Query' } & {
-  self: { __typename?: 'User' } & {
-    school: { __typename?: 'School' } & {
-      products: Array<
-        { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
-            category: { __typename?: 'Category' } & Pick<Category, 'name'>;
-          }
-      >;
+  self: { __typename?: 'User' } & Pick<User, 'id'> & {
+      school: { __typename?: 'School' } & Pick<School, 'id'> & {
+          products: Array<
+            { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
+                category: { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>;
+              }
+          >;
+        };
     };
-  };
 };
 
 export type UserSettingsPageQueryQueryVariables = {};
 
 export type UserSettingsPageQueryQuery = { __typename?: 'Query' } & {
-  self: { __typename?: 'User' } & Pick<User, 'firstname' | 'lastname' | 'email'> & {
+  self: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname' | 'email'> & {
       school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
     };
   schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
@@ -201,6 +234,38 @@ export function useDoLoginMutation(
   return ReactApolloHooks.useMutation<DoLoginMutation, DoLoginMutationVariables>(DoLoginDocument, baseOptions);
 }
 export type DoLoginMutationHookResult = ReturnType<typeof useDoLoginMutation>;
+export const DoPasswordUpdateDocument = gql`
+  mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
+    updatePassword(updateData: { oldPassword: $oldPassword, newPassword: $newPassword }) {
+      id
+    }
+  }
+`;
+export type DoPasswordUpdateMutationFn = ReactApollo.MutationFn<
+  DoPasswordUpdateMutation,
+  DoPasswordUpdateMutationVariables
+>;
+export type DoPasswordUpdateComponentProps = Omit<
+  ReactApollo.MutationProps<DoPasswordUpdateMutation, DoPasswordUpdateMutationVariables>,
+  'mutation'
+>;
+
+export const DoPasswordUpdateComponent = (props: DoPasswordUpdateComponentProps) => (
+  <ReactApollo.Mutation<DoPasswordUpdateMutation, DoPasswordUpdateMutationVariables>
+    mutation={DoPasswordUpdateDocument}
+    {...props}
+  />
+);
+
+export function useDoPasswordUpdateMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<DoPasswordUpdateMutation, DoPasswordUpdateMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<DoPasswordUpdateMutation, DoPasswordUpdateMutationVariables>(
+    DoPasswordUpdateDocument,
+    baseOptions,
+  );
+}
+export type DoPasswordUpdateMutationHookResult = ReturnType<typeof useDoPasswordUpdateMutation>;
 export const IsLoggedInDocument = gql`
   query IsLoggedIn {
     isLoggedIn @client
@@ -239,12 +304,15 @@ export type GetUserRoleQueryHookResult = ReturnType<typeof useGetUserRoleQuery>;
 export const GetShopProductsDocument = gql`
   query GetShopProducts {
     self {
+      id
       school {
+        id
         products {
           id
           name
           price
           category {
+            id
             name
           }
         }
@@ -273,6 +341,7 @@ export type GetShopProductsQueryHookResult = ReturnType<typeof useGetShopProduct
 export const UserSettingsPageQueryDocument = gql`
   query userSettingsPageQuery {
     self {
+      id
       firstname
       lastname
       email
