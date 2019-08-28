@@ -2,7 +2,9 @@ overwrite: true
 schema: 
   - "http://localhost:4000/graphql"
   - "./src/graphql/local-schema.graphql"
-documents: "src/graphql/**/*.graphql"
+documents:
+  - "src/graphql/mutations.graphql"
+  - "src/graphql/queries.graphql"
 generates:
   src/generated/graphql.tsx:
     plugins:
