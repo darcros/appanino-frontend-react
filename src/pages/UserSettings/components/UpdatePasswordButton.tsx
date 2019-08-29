@@ -1,15 +1,14 @@
 import React from 'react';
 import useForm from 'react-hook-form';
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContentText,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+
 import { getErrorMessage } from '../../../util/form';
 import { mapErrorToMessage } from '../../../util/graphql';
 import { useDoPasswordUpdateMutation } from '../../../generated/graphql';

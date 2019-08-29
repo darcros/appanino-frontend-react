@@ -1,7 +1,10 @@
 import React from 'react';
-import { IconButton, Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { AddShoppingCart, Add, Remove } from '@material-ui/icons';
+import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
+import Add from '@material-ui/icons/Add';
+import Remove from '@material-ui/icons/Remove';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

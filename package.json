@@ -69,7 +69,28 @@
     "extends": [
       "react-app",
       "plugin:prettier/recommended"
-    ]
+    ],
+    "rules": {
+      "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "@material-ui/core",
+              "message": "Import single components from the submodules instead."
+            },
+            {
+              "name": "@material-ui/icons",
+              "message": "Import single icons from submodules instead."
+            },
+            {
+              "name": "@material-ui/styles",
+              "message": "Import from @material-ui/core/styles instead."
+            }
+          ]
+        }
+      ]
+    }
   },
   "prettier": {
     "semi": true,

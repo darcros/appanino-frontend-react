@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+
 import { PageContainer } from '../../components/PageContainer';
 
 export const HomePage: React.FC = () => {

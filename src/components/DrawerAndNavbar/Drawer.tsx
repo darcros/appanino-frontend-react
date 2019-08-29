@@ -1,8 +1,17 @@
 import React, { Fragment } from 'react';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import { Divider, List, Hidden, Drawer } from '@material-ui/core';
-import { Restaurant, ShoppingCart, AttachMoney, RestaurantMenu, Fastfood, School, Settings } from '@material-ui/icons/';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@material-ui/core/Drawer';
+
+import Restaurant from '@material-ui/icons/Restaurant';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import AttachMoney from '@material-ui/icons/AttachMoney';
+import RestaurantMenu from '@material-ui/icons/RestaurantMenu';
+import Fastfood from '@material-ui/icons/Fastfood';
+import School from '@material-ui/icons/School';
+import Settings from '@material-ui/icons/Settings';
 
 import { ToolbarSpacer } from '../ToolbarSpacer';
 import { DrawerListItem } from './DrawerListItem';
