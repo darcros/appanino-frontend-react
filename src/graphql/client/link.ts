@@ -11,7 +11,7 @@ const httpLink = new HttpLink({
   credentials: 'same-origin',
 });
 
-const errorLink = onError(({ graphQLErrors, networkError, }) => {
+const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
       console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
