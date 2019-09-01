@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, CircularProgress, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { Theme, createStyles } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { PageContainer } from '../../components/PageContainer';
 import { Center } from '../../components/Center';

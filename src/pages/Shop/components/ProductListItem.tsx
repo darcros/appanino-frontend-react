@@ -1,5 +1,10 @@
 import React from 'react';
-import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Typography } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { QuantityInput } from './QuantityInput';

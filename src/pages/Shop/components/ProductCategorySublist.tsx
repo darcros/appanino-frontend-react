@@ -1,5 +1,6 @@
 import React from 'react';
-import { ListSubheader, Typography } from '@material-ui/core';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>

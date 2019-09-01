@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Box, Breadcrumbs as MaterialBreadcrumbs } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import MaterialBreadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Home, Restaurant, AccountCircle } from '@material-ui/icons/';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 

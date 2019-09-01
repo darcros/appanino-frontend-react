@@ -2,7 +2,9 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 interface DrawerListItemProps {
   page: string;

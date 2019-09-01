@@ -7,8 +7,8 @@ import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { client } from './graphql/client';
 
 import 'typeface-roboto';
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
-import { Theme, createStyles, CssBaseline } from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles, Theme, createStyles, MuiThemeProvider as ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
 import { HomePage } from './pages/Home/HomePage';

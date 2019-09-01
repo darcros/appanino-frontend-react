@@ -1,19 +1,25 @@
 import React from 'react';
 import useForm from 'react-hook-form';
-import { TextField, FormControlLabel, Checkbox, makeStyles, Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { LoadingButton } from '../../../components/LoadingButton';
 import { getErrorMessage } from '../../../util/form';
 
-const useStyles = makeStyles(theme => ({
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+  }),
+);
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

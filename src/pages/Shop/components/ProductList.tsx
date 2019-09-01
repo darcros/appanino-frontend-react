@@ -1,6 +1,6 @@
 import React from 'react';
 import groupBy from 'lodash.groupby';
-import { List } from '@material-ui/core';
+import List from '@material-ui/core/List';
 
 import { ProductCategory } from './ProductCategorySublist';
 import { ProductListItem } from './ProductListItem';
