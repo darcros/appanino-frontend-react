@@ -9,6 +9,8 @@ const useStyles = makeStyles<Theme, { fullWidth: boolean }>(theme => ({
   wrapper: {
     margin: theme.spacing(1),
     position: 'relative',
+    width: props => (props.fullWidth ? 'auto' : 'fit-content'),
+    height: 'fit-content',
   },
   buttonProgress: {
     color: green[500],
