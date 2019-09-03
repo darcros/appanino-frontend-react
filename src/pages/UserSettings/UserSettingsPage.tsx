@@ -9,6 +9,7 @@ import { Center } from '../../components/Center';
 import { UserSettingsPageQueryComponent } from '../../generated/graphql';
 import { UserInfo } from './components/UserInfo';
 import { UpdatePasswordButton } from './components/UpdatePasswordButton';
+import { LogoutButton } from './components/LogoutButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +55,7 @@ export const UserSettingsPage: React.FC = () => {
             <React.Fragment>
               <UserInfo userData={data.self} />
               <UpdatePasswordButton />
+              <LogoutButton />
             </React.Fragment>
           );
         }}

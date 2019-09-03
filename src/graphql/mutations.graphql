@@ -16,3 +16,7 @@ mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
     id
   }
 }
+
+mutation DoLogout {
+  logOut @client
+}

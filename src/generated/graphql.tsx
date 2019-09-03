@@ -196,6 +196,10 @@ export type DoPasswordUpdateMutation = { __typename?: 'Mutation' } & {
   updatePassword: { __typename?: 'User' } & Pick<User, 'id'>;
 };
 
+export type DoLogoutMutationVariables = {};
+
+export type DoLogoutMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logOut'>;
+
 export type IsLoggedInQueryVariables = {};
 
 export type IsLoggedInQuery = { __typename?: 'Query' } & Pick<Query, 'isLoggedIn'>;
@@ -306,6 +310,27 @@ export function useDoPasswordUpdateMutation(
   );
 }
 export type DoPasswordUpdateMutationHookResult = ReturnType<typeof useDoPasswordUpdateMutation>;
+export const DoLogoutDocument = gql`
+  mutation DoLogout {
+    logOut @client
+  }
+`;
+export type DoLogoutMutationFn = ReactApollo.MutationFn<DoLogoutMutation, DoLogoutMutationVariables>;
+export type DoLogoutComponentProps = Omit<
+  ReactApollo.MutationProps<DoLogoutMutation, DoLogoutMutationVariables>,
+  'mutation'
+>;
+
+export const DoLogoutComponent = (props: DoLogoutComponentProps) => (
+  <ReactApollo.Mutation<DoLogoutMutation, DoLogoutMutationVariables> mutation={DoLogoutDocument} {...props} />
+);
+
+export function useDoLogoutMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<DoLogoutMutation, DoLogoutMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<DoLogoutMutation, DoLogoutMutationVariables>(DoLogoutDocument, baseOptions);
+}
+export type DoLogoutMutationHookResult = ReturnType<typeof useDoLogoutMutation>;
 export const IsLoggedInDocument = gql`
   query IsLoggedIn {
     isLoggedIn @client
