@@ -13,3 +13,8 @@ extend type Query {
   isLoggedIn: Boolean!
   userInfo: JwtUserInfo
 }
+
+extend type Mutation {
+  saveToken(token: String!): Boolean
+  logOut: Boolean
+}

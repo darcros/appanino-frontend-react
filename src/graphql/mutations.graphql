@@ -2,6 +2,10 @@ mutation DoLogin($email: String!, $password: String!) {
   login(email: $email, password: $password)
 }
 
+mutation DoSaveToken($token: String!) {
+  saveToken(token: $token) @client
+}
+
 mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
   updatePassword(
     updateData: {
