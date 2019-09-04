@@ -28,7 +28,6 @@ const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut'> = {
     });
     return null;
   },
-  // TODO: actually use this mutation
   logOut: (_root, _variables, { cache }) => {
     removeToken();
     cache.writeData({
