@@ -1,13 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
 import { useDoLoginMutation, DoLoginMutationVariables, useDoSaveTokenMutation } from '../../generated/graphql';
 import { PageContainer } from '../../components/PageContainer';
+import { AvatarHeader } from '../../components/AvatarHeader';
 import { LoginForm } from './components/LoginForm';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -17,10 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
     },
   }),
 );
@@ -42,12 +36,7 @@ export const LoginPage: React.FC = () => {
   return (
     <PageContainer maxWidth="xs">
       <div className={classes.container}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login to Appanino
-        </Typography>
+        <AvatarHeader title="Login to Appanino" icon={LockOutlinedIcon} />
 
         <LoginForm
           loading={loading}
