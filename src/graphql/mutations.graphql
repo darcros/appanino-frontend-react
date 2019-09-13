@@ -20,3 +20,25 @@ mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
 mutation DoLogout {
   logOut @client
 }
+
+mutation DoUserInfoUpdate(
+  $firstname: String
+  $lastname: String
+  $schoolId: ID
+) {
+  updateSelf(
+    updateData: {
+      firstname: $firstname
+      lastname: $lastname
+      schoolId: $schoolId
+    }
+  ) {
+    id
+    firstname
+    lastname
+    school {
+      id
+      name
+    }
+  }
+}

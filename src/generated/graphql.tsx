@@ -24,6 +24,10 @@ export type Category = {
   products: Array<Product>;
 };
 
+export type EmailUpdateInput = {
+  newEmail: Scalars['String'];
+};
+
 export type JwtSchool = {
   __typename?: 'JwtSchool';
   id: Scalars['ID'];
@@ -45,6 +49,8 @@ export type Mutation = {
   register: User;
   /** Update data on the current user */
   updateSelf: User;
+  /** Update the email of the current user */
+  updateEmail: User;
   /** Update the password of the current user */
   updatePassword: User;
   /** Creates a new product */
@@ -66,6 +72,10 @@ export type MutationRegisterArgs = {
 
 export type MutationUpdateSelfArgs = {
   updateData: UserUpdateInput;
+};
+
+export type MutationUpdateEmailArgs = {
+  updateData: EmailUpdateInput;
 };
 
 export type MutationUpdatePasswordArgs = {
@@ -171,7 +181,6 @@ export type UserRegistrationDataInput = {
 export type UserUpdateInput = {
   firstname: Maybe<Scalars['String']>;
   lastname: Maybe<Scalars['String']>;
-  email: Maybe<Scalars['String']>;
   schoolId: Maybe<Scalars['ID']>;
 };
 export type DoLoginMutationVariables = {
@@ -200,6 +209,18 @@ export type DoLogoutMutationVariables = {};
 
 export type DoLogoutMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logOut'>;
 
+export type DoUserInfoUpdateMutationVariables = {
+  firstname: Maybe<Scalars['String']>;
+  lastname: Maybe<Scalars['String']>;
+  schoolId: Maybe<Scalars['ID']>;
+};
+
+export type DoUserInfoUpdateMutation = { __typename?: 'Mutation' } & {
+  updateSelf: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname'> & {
+      school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
+    };
+};
+
 export type IsLoggedInQueryVariables = {};
 
 export type IsLoggedInQuery = { __typename?: 'Query' } & Pick<Query, 'isLoggedIn'>;
@@ -224,10 +245,10 @@ export type GetShopProductsQuery = { __typename?: 'Query' } & {
     };
 };
 
-export type UserSettingsPageQueryQueryVariables = {};
+export type UserSettingsQueryVariables = {};
 
-export type UserSettingsPageQueryQuery = { __typename?: 'Query' } & {
-  self: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname' | 'email'> & {
+export type UserSettingsQuery = { __typename?: 'Query' } & {
+  self: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname'> & {
       school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
     };
   schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
@@ -331,6 +352,44 @@ export function useDoLogoutMutation(
   return ReactApolloHooks.useMutation<DoLogoutMutation, DoLogoutMutationVariables>(DoLogoutDocument, baseOptions);
 }
 export type DoLogoutMutationHookResult = ReturnType<typeof useDoLogoutMutation>;
+export const DoUserInfoUpdateDocument = gql`
+  mutation DoUserInfoUpdate($firstname: String, $lastname: String, $schoolId: ID) {
+    updateSelf(updateData: { firstname: $firstname, lastname: $lastname, schoolId: $schoolId }) {
+      id
+      firstname
+      lastname
+      school {
+        id
+        name
+      }
+    }
+  }
+`;
+export type DoUserInfoUpdateMutationFn = ReactApollo.MutationFn<
+  DoUserInfoUpdateMutation,
+  DoUserInfoUpdateMutationVariables
+>;
+export type DoUserInfoUpdateComponentProps = Omit<
+  ReactApollo.MutationProps<DoUserInfoUpdateMutation, DoUserInfoUpdateMutationVariables>,
+  'mutation'
+>;
+
+export const DoUserInfoUpdateComponent = (props: DoUserInfoUpdateComponentProps) => (
+  <ReactApollo.Mutation<DoUserInfoUpdateMutation, DoUserInfoUpdateMutationVariables>
+    mutation={DoUserInfoUpdateDocument}
+    {...props}
+  />
+);
+
+export function useDoUserInfoUpdateMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<DoUserInfoUpdateMutation, DoUserInfoUpdateMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<DoUserInfoUpdateMutation, DoUserInfoUpdateMutationVariables>(
+    DoUserInfoUpdateDocument,
+    baseOptions,
+  );
+}
+export type DoUserInfoUpdateMutationHookResult = ReturnType<typeof useDoUserInfoUpdateMutation>;
 export const IsLoggedInDocument = gql`
   query IsLoggedIn {
     isLoggedIn @client
@@ -403,13 +462,12 @@ export function useGetShopProductsQuery(
   );
 }
 export type GetShopProductsQueryHookResult = ReturnType<typeof useGetShopProductsQuery>;
-export const UserSettingsPageQueryDocument = gql`
-  query userSettingsPageQuery {
+export const UserSettingsDocument = gql`
+  query UserSettings {
     self {
       id
       firstname
       lastname
-      email
       school {
         id
         name
@@ -421,27 +479,19 @@ export const UserSettingsPageQueryDocument = gql`
     }
   }
 `;
-export type UserSettingsPageQueryComponentProps = Omit<
-  ReactApollo.QueryProps<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>,
+export type UserSettingsComponentProps = Omit<
+  ReactApollo.QueryProps<UserSettingsQuery, UserSettingsQueryVariables>,
   'query'
 >;
 
-export const UserSettingsPageQueryComponent = (props: UserSettingsPageQueryComponentProps) => (
-  <ReactApollo.Query<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>
-    query={UserSettingsPageQueryDocument}
-    {...props}
-  />
+export const UserSettingsComponent = (props: UserSettingsComponentProps) => (
+  <ReactApollo.Query<UserSettingsQuery, UserSettingsQueryVariables> query={UserSettingsDocument} {...props} />
 );
 
-export function useUserSettingsPageQueryQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<UserSettingsPageQueryQueryVariables>,
-) {
-  return ReactApolloHooks.useQuery<UserSettingsPageQueryQuery, UserSettingsPageQueryQueryVariables>(
-    UserSettingsPageQueryDocument,
-    baseOptions,
-  );
+export function useUserSettingsQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<UserSettingsQueryVariables>) {
+  return ReactApolloHooks.useQuery<UserSettingsQuery, UserSettingsQueryVariables>(UserSettingsDocument, baseOptions);
 }
-export type UserSettingsPageQueryQueryHookResult = ReturnType<typeof useUserSettingsPageQueryQuery>;
+export type UserSettingsQueryHookResult = ReturnType<typeof useUserSettingsQuery>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -512,6 +562,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   UserRegistrationDataInput: UserRegistrationDataInput;
   UserUpdateInput: UserUpdateInput;
+  EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
   NewProductDataInput: NewProductDataInput;
 };
@@ -535,6 +586,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   UserRegistrationDataInput: UserRegistrationDataInput;
   UserUpdateInput: UserUpdateInput;
+  EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
   NewProductDataInput: NewProductDataInput;
 };
@@ -560,6 +612,7 @@ export type MutationResolvers<ContextType = Context, ParentType = ResolversParen
   login: Resolver<ResolversTypes['String'], ParentType, ContextType, MutationLoginArgs>;
   register: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationRegisterArgs>;
   updateSelf: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateSelfArgs>;
+  updateEmail: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateEmailArgs>;
   updatePassword: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdatePasswordArgs>;
   addProduct: Resolver<ResolversTypes['Product'], ParentType, ContextType, MutationAddProductArgs>;
   deleteProduct: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, MutationDeleteProductArgs>;

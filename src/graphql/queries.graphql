@@ -26,12 +26,11 @@ query GetShopProducts {
   }
 }
 
-query userSettingsPageQuery {
+query UserSettings {
   self {
     id
     firstname
     lastname
-    email
     school {
       id
       name
