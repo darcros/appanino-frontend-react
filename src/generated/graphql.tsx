@@ -221,6 +221,14 @@ export type DoUserInfoUpdateMutation = { __typename?: 'Mutation' } & {
     };
 };
 
+export type DoEmailUpdateMutationVariables = {
+  newEmail: Scalars['String'];
+};
+
+export type DoEmailUpdateMutation = { __typename?: 'Mutation' } & {
+  updateEmail: { __typename?: 'User' } & Pick<User, 'id' | 'email'>;
+};
+
 export type IsLoggedInQueryVariables = {};
 
 export type IsLoggedInQuery = { __typename?: 'Query' } & Pick<Query, 'isLoggedIn'>;
@@ -390,6 +398,36 @@ export function useDoUserInfoUpdateMutation(
   );
 }
 export type DoUserInfoUpdateMutationHookResult = ReturnType<typeof useDoUserInfoUpdateMutation>;
+export const DoEmailUpdateDocument = gql`
+  mutation DoEmailUpdate($newEmail: String!) {
+    updateEmail(updateData: { newEmail: $newEmail }) {
+      id
+      email
+    }
+  }
+`;
+export type DoEmailUpdateMutationFn = ReactApollo.MutationFn<DoEmailUpdateMutation, DoEmailUpdateMutationVariables>;
+export type DoEmailUpdateComponentProps = Omit<
+  ReactApollo.MutationProps<DoEmailUpdateMutation, DoEmailUpdateMutationVariables>,
+  'mutation'
+>;
+
+export const DoEmailUpdateComponent = (props: DoEmailUpdateComponentProps) => (
+  <ReactApollo.Mutation<DoEmailUpdateMutation, DoEmailUpdateMutationVariables>
+    mutation={DoEmailUpdateDocument}
+    {...props}
+  />
+);
+
+export function useDoEmailUpdateMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<DoEmailUpdateMutation, DoEmailUpdateMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<DoEmailUpdateMutation, DoEmailUpdateMutationVariables>(
+    DoEmailUpdateDocument,
+    baseOptions,
+  );
+}
+export type DoEmailUpdateMutationHookResult = ReturnType<typeof useDoEmailUpdateMutation>;
 export const IsLoggedInDocument = gql`
   query IsLoggedIn {
     isLoggedIn @client

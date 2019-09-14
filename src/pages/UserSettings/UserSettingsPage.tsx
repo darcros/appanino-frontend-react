@@ -12,6 +12,7 @@ import { UserSettingsComponent } from '../../generated/graphql';
 import { LogoutButton } from './components/LogoutButton';
 import { UpdatePasswordButton } from './components/UpdatePasswordButton';
 import { UserSettingsForm } from './components/UserSettingsForm';
+import { UpdateEmailButton } from './components/UpdateEmailButton';
 
 export const UserSettingsPage: React.FC = () => {
   return (
@@ -43,6 +44,7 @@ export const UserSettingsPage: React.FC = () => {
           return <UserSettingsForm userQuery={data} />;
         }}
       </UserSettingsComponent>
+      <UpdateEmailButton />
       <UpdatePasswordButton />
       <LogoutButton />
     </PageContainer>

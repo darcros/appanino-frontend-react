@@ -42,3 +42,10 @@ mutation DoUserInfoUpdate(
     }
   }
 }
+
+mutation DoEmailUpdate($newEmail: String!) {
+  updateEmail(updateData: { newEmail: $newEmail }) {
+    id
+    email
+  }
+}

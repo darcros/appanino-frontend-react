@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { LoadingButton } from '../../../components/LoadingButton';
-import { getErrorMessage } from '../../../util/form';
+import { emailRegex, getErrorMessage } from '../../../util/form';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,8 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 interface LoginFormState {
   email: string;
