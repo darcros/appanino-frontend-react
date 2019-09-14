@@ -1,24 +1,32 @@
-import { GraphQLError } from 'graphql';
+import { ApolloError } from 'apollo-client';
 
-// TODO: support network errors
 /**
  * A helper to return an error message based on the error code.
  * If the error does not have an error code the default message will be returned.
+ * Also returns default messages for network errors.
  *
- * @param err The graphql error
- * @param messages A object that maps error codes to messages
+ * @param err The Apollo Error
+ * @param messages An object that maps graphql error codes to messages
  * @param defaultMessage The default message to return if an appropriate message cannot be found in `messages`
  */
 export const mapErrorToMessage = (
-  err: GraphQLError | null | undefined,
-  messages: { [code: string]: string },
+  err: ApolloError | null | undefined,
+  messages: { [errorCode: string]: string },
   defaultMessage: string = 'An error occurred. Please retry later.',
 ): string | null => {
   if (!err) return null;
+  const { networkError, graphQLErrors } = err;
 
-  const { extensions } = err;
-  if (!extensions) return defaultMessage;
+  if (networkError) {
+    return 'Connection error. Please retry later.';
+  }
 
-  const message = messages[extensions.code];
-  return message ? message : defaultMessage;
+  for (const graphQLError of graphQLErrors) {
+    if (graphQLError.extensions) {
+      const message = messages[graphQLError.extensions.code];
+      if (message) return message;
+    }
+  }
+
+  return defaultMessage;
 };

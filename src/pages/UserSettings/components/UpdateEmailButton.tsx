@@ -30,9 +30,7 @@ export const UpdateEmailButton: React.FC = () => {
     doEmailUpdate({ variables: formData }).then(() => handleClose(true));
   };
 
-  const errorMessage = error
-    ? mapErrorToMessage(error.graphQLErrors[0], { NONEXISTENT_EMAIL: "That email addres doesn't exist" })
-    : null;
+  const errorMessage = mapErrorToMessage(error, { NONEXISTENT_EMAIL: "That email addres doesn't exist" });
 
   return (
     <React.Fragment>

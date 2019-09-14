@@ -35,7 +35,7 @@ export const UpdatePasswordButton: React.FC = () => {
     doPasswordUpdate({ variables: formData }).then(() => handleClose(true));
   };
 
-  const errorMessage = error ? mapErrorToMessage(error.graphQLErrors[0], { WRONG_PASSWORD: 'Wrong password' }) : null;
+  const errorMessage = mapErrorToMessage(error, { WRONG_PASSWORD: 'Wrong password' });
 
   return (
     <React.Fragment>
