@@ -13,7 +13,7 @@ const httpLink = new HttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+    graphQLErrors.forEach(async ({ message, locations, path, extensions }) => {
       console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
 
       if (!extensions) return;
@@ -22,6 +22,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         case 'FORBIDDEN':
           console.error('Token in probably expired: logging out');
           removeToken();
+          await client.resetStore();
           client.writeData({
             data: {
               isLoggedIn: false,

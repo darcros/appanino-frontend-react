@@ -28,8 +28,9 @@ const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut'> = {
     });
     return null;
   },
-  logOut: (_root, _variables, { cache }) => {
+  logOut: async (_root, _variables, { cache }) => {
     removeToken();
+    await cache.reset();
     cache.writeData({
       data: { isLoggedIn: false },
     });
