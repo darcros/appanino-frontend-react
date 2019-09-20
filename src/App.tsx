@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { LoggedInRoute } from './components/LoggedInRoute';
 
 import { ApolloProvider } from 'react-apollo';
@@ -14,6 +14,7 @@ import theme from './theme';
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { ShopPage } from './pages/Shop/ShopPage';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 
 import { DrawerAndNavbar } from './components/DrawerAndNavbar';
 import { UserSettingsPage } from './pages/UserSettings/UserSettingsPage';
@@ -39,11 +40,15 @@ const App: React.FC = () => {
             <Router>
               <DrawerAndNavbar />
 
-              <Route path="/" exact component={HomePage} />
-              <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
+              <Switch>
+                <Route path="/" exact component={HomePage} />
+                <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
 
-              <LoggedInRoute path="/user" exact component={UserSettingsPage} />
-              <LoggedInRoute path="/shop" component={ShopPage} />
+                <LoggedInRoute path="/user" exact component={UserSettingsPage} />
+                <LoggedInRoute path="/shop" component={ShopPage} />
+
+                <Route component={NotFoundPage} />
+              </Switch>
             </Router>
           </ThemeProvider>
         </ApolloHooksProvider>
