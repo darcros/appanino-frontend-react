@@ -1,4 +1,5 @@
 {
+  "appanino": "Appanino",
   "page": {
     "home": {
       "breadcrumb": "Home",
@@ -14,6 +15,13 @@
   "component": {
     "breadcrumbs": {
       "aria-label": "breadcrumbs"
+    },
+    "navbar": {
+      "menu-aria-label": "menu",
+      "account-button-aria-label": "account"
     }
+  },
+  "action": {
+    "login": "login"
   }
 }

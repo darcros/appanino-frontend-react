@@ -41,15 +41,16 @@ const App: React.FC = () => {
             <CssBaseline />
 
             <Router>
-              <DrawerAndNavbar />
-
               <React.Suspense
+                // TODO: add an actual splash screen
                 fallback={
                   <Center>
                     <CircularProgress />
                   </Center>
                 }
               >
+                <DrawerAndNavbar />
+
                 <Switch>
                   <Route path="/" exact component={HomePage} />
                   <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
