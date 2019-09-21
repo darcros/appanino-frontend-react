@@ -6,10 +6,29 @@
       "title": "Homepage"
     },
     "shop": {
-      "breadcrumb": "Shop"
+      "breadcrumb": "Shop",
+      "drawer-entry": "Shop"
     },
     "user-settings": {
       "breadcrumb": "User Settings"
+    },
+    "user-orders": {
+      "drawer-entry": "Your orders"
+    },
+    "transactions": {
+      "drawer-entry": "Transactions"
+    },
+    "orders": {
+      "drawer-entry": "Orders"
+    },
+    "products": {
+      "drawer-entry": "Products"
+    },
+    "schools": {
+      "drawer-entry": "Schools"
+    },
+    "settings": {
+      "drawer-entry": "Settings"
     }
   },
   "component": {
@@ -19,6 +38,9 @@
     "navbar": {
       "menu-aria-label": "menu",
       "account-button-aria-label": "account"
+    },
+    "drawer": {
+      "drawer-aria-label": "navigation drawer"
     }
   },
   "action": {

@@ -6,10 +6,29 @@
       "title": "Pagina principale"
     },
     "shop": {
-      "breadcrumb": "Negozio"
+      "breadcrumb": "Negozio",
+      "drawer-entry": "Negozio"
     },
     "user-settings": {
       "breadcrumb": "Impostazioni Utente"
+    },
+    "user-orders": {
+      "drawer-entry": "Le tue ordinazioni"
+    },
+    "transactions": {
+      "drawer-entry": "Transazioni"
+    },
+    "orders": {
+      "drawer-entry": "Ordinazioni"
+    },
+    "products": {
+      "drawer-entry": "Prodotti"
+    },
+    "schools": {
+      "drawer-entry": "Scuole"
+    },
+    "settings": {
+      "drawer-entry": "Impostazioni"
     }
   },
   "component": {
@@ -19,6 +38,9 @@
     "navbar": {
       "menu-aria-label": "menu",
       "account-button-aria-label": "account"
+    },
+    "drawer": {
+      "drawer-aria-label": "navigazione laterale"
     }
   },
   "action": {
