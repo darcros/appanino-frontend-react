@@ -1,7 +1,19 @@
 {
   "page": {
     "home": {
+      "breadcrumb": "Home",
       "title": "Pagina principale"
+    },
+    "shop": {
+      "breadcrumb": "Negozio"
+    },
+    "user-settings": {
+      "breadcrumb": "Impostazioni Utente"
+    }
+  },
+  "component": {
+    "breadcrumbs": {
+      "aria-label": "percorso di navigazione"
     }
   }
 }

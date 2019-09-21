@@ -1,7 +1,19 @@
 {
   "page": {
     "home": {
+      "breadcrumb": "Home",
       "title": "Homepage"
+    },
+    "shop": {
+      "breadcrumb": "Shop"
+    },
+    "user-settings": {
+      "breadcrumb": "User Settings"
+    }
+  },
+  "component": {
+    "breadcrumbs": {
+      "aria-label": "breadcrumbs"
     }
   }
 }

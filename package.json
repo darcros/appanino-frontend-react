@@ -90,6 +90,7 @@
             "^/"
           ],
           "ignoreCallee": [
+            "t",
             "createStyles"
           ]
         }
