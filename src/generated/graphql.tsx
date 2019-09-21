@@ -6,8 +6,6 @@ import { GraphQLResolveInfo } from 'graphql';
 import { Context } from '../graphql/client/context.interface';
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
-  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -87,7 +85,7 @@ export type MutationAddProductArgs = {
 };
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 export type MutationSaveTokenArgs = {
@@ -127,7 +125,7 @@ export type Query = {
   self: User;
   categories: Array<Category>;
   orders: Array<Order>;
-  /** Returns a list of products */
+  /** Returns all products */
   products: Array<Product>;
   /** Returns a product given its ID */
   product: Maybe<Product>;
@@ -137,12 +135,8 @@ export type Query = {
   userInfo: Maybe<JwtUserInfo>;
 };
 
-export type QueryProductsArgs = {
-  getAll?: Maybe<Scalars['Boolean']>;
-};
-
 export type QueryProductArgs = {
-  id: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 export enum Role {
@@ -676,12 +670,7 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversParentTy
   self: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   categories: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType>;
   orders: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType>;
-  products: Resolver<
-    Array<ResolversTypes['Product']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryProductsArgs, 'getAll'>
-  >;
+  products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
   product: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, QueryProductArgs>;
   schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
   users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
