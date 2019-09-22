@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 // load i18n config to get it bundled
 import './i18n';
 
+// eslint-disable-next-line i18next/no-literal-string
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
