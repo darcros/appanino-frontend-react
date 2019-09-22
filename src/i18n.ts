@@ -14,6 +14,7 @@ i18n
   // init i18next
   .init({
     // Language to fall back to if the user language is not available
+    // eslint-disable-next-line i18next/no-literal-string
     fallbackLng: 'it',
 
     // Enable debugging when not in production
