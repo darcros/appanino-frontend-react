@@ -24,6 +24,7 @@ export const ProductList: React.FC<ProductListProps> = ({ products }) => {
         text={name}
         price={price}
         // TODO: get image from API or remove image completely
+        // eslint-disable-next-line i18next/no-literal-string
         imageUrl="https://www.gustissimo.it/articoli/ricette/panini-e-tramezzini/panino-con-mortadella-e-provola-affumicata.jpg"
       />
     ));

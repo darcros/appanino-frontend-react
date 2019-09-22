@@ -7,7 +7,11 @@
     },
     "shop": {
       "breadcrumb": "Shop",
-      "drawer-entry": "Shop"
+      "drawer-entry": "Shop",
+      "add-to-cart": "add to cart",
+      "add": "add",
+      "remove": "remove",
+      "product-image": "product image: {{productName}}"
     },
     "user-settings": {
       "breadcrumb": "User Settings"
@@ -47,6 +51,11 @@
     }
   },
   "action": {
-    "login": "login"
+    "login": "login",
+    "retry": "retry"
+  },
+  "error": {
+    "generic": "Error. $t(error.retry-later)",
+    "retry-later": "Retry later."
   }
 }
