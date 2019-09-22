@@ -29,6 +29,9 @@
     },
     "settings": {
       "drawer-entry": "Impostazioni"
+    },
+    "not-found": {
+      "page-not-found": "Pagina non trovata"
     }
   },
   "component": {
