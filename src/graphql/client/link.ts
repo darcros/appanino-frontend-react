@@ -1,3 +1,5 @@
+/* eslint-disable i18next/no-literal-string */
+
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
