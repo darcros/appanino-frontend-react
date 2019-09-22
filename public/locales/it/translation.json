@@ -5,6 +5,9 @@
       "breadcrumb": "Home",
       "title": "Pagina principale"
     },
+    "login": {
+      "header": "Esegui l'accesso ad $t(appanino)"
+    },
     "shop": {
       "breadcrumb": "Negozio",
       "drawer-entry": "Negozio",
@@ -48,6 +51,20 @@
     },
     "drawer": {
       "drawer-aria-label": "navigazione laterale"
+    }
+  },
+  "form": {
+    "email": {
+      "label": "Indirizzo Email",
+      "required": "Email richiesta",
+      "invalid": "Email non valida"
+    },
+    "password": {
+      "label": "Password",
+      "required": "Password richiesta"
+    },
+    "remember": {
+      "label": "Ricorda credenziali"
     }
   },
   "action": {

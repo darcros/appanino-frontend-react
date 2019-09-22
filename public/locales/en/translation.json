@@ -5,6 +5,9 @@
       "breadcrumb": "Home",
       "title": "Homepage"
     },
+    "login": {
+      "header": "Login to $t(appanino)"
+    },
     "shop": {
       "breadcrumb": "Shop",
       "drawer-entry": "Shop",
@@ -48,6 +51,20 @@
     },
     "drawer": {
       "drawer-aria-label": "navigation drawer"
+    }
+  },
+  "form": {
+    "email": {
+      "label": "Email Address",
+      "required": "Email required",
+      "invalid": "Invalid email"
+    },
+    "password": {
+      "label": "Password",
+      "required": "Password required"
+    },
+    "remember": {
+      "label": "Remember Me"
     }
   },
   "action": {
