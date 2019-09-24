@@ -113,9 +113,14 @@
   },
   "error": {
     "generic": "È avvenuto un errore. $t(error.retry-later)",
+    "connection": "Impossibile connettersi al server. $t(error.retry-later)",
     "user-settings": "Impossibile caricare i dettagli dell'utente. $t(error.retry-later)",
     "retry-later": "Perfavore riprova più tardi.",
     "same-password": "La nuova password deve essere diversa da quella vecchia",
-    "wrong-password": "Password sbagliata"
+    "wrong-password": "Password sbagliata",
+    "graphql": {
+      "NONEXISTENT_EMAIL": "Quell'email non esiste",
+      "WRONG_PASSWORD": "$t(error.wrong-password)"
+    }
   }
 }

@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { emailRegex, getErrorMessage } from '../../../util/form';
-import { mapErrorToMessage } from '../../../util/graphql';
+import { errorToMessage } from '../../../util/graphql';
 import { useDoEmailUpdateMutation, DoEmailUpdateMutationVariables } from '../../../generated/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
 
@@ -20,6 +20,7 @@ export const UpdateEmailButton: React.FC = () => {
   const [emailModalOpen, setEmailModalOpen] = React.useState(false);
   const { register, handleSubmit, reset, errors } = useForm<DoEmailUpdateMutationVariables>();
   const [doEmailUpdate, { loading, error }] = useDoEmailUpdateMutation();
+  const errorMessage = errorToMessage(error);
 
   const handleClose = (forceClose: boolean = false) => {
     if (!forceClose && loading) return;
@@ -31,8 +32,6 @@ export const UpdateEmailButton: React.FC = () => {
   const onSubmit = (formData: DoEmailUpdateMutationVariables) => {
     doEmailUpdate({ variables: formData }).then(() => handleClose(true));
   };
-
-  const errorMessage = mapErrorToMessage(error, { NONEXISTENT_EMAIL: "That email addres doesn't exist" });
 
   return (
     <React.Fragment>

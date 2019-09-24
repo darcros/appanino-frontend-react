@@ -113,9 +113,14 @@
   },
   "error": {
     "generic": "An error occurred. $t(error.retry-later)",
+    "connection": "Connection error. $t(error.retry-later)",
     "user-settings": "Cannot load user settings. $t(error.retry-later)",
     "retry-later": "Please retry later.",
     "same-password": "The new password must be different from the old one",
-    "wrong-password": "Wrong password"
+    "wrong-password": "Wrong password",
+    "graphql": {
+      "NONEXISTENT_EMAIL": "That email addres doesn't exist",
+      "WRONG_PASSWORD": "$t(error.wrong-password)"
+    }
   }
 }

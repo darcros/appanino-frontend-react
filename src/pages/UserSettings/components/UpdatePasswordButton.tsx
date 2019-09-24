@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { getErrorMessage } from '../../../util/form';
-import { mapErrorToMessage } from '../../../util/graphql';
+import { errorToMessage } from '../../../util/graphql';
 import { useDoPasswordUpdateMutation } from '../../../generated/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
 
@@ -25,6 +25,7 @@ export const UpdatePasswordButton: React.FC = () => {
   const [passwordModalOpen, setPasswordModalOpen] = React.useState(false);
   const { register, handleSubmit, errors, getValues, reset } = useForm<UpdatePasswordFormState>();
   const [doPasswordUpdate, { loading, error }] = useDoPasswordUpdateMutation();
+  const errorMessage = errorToMessage(error);
 
   const handleClose = (forceClose: boolean = false) => {
     if (!forceClose && loading) return;
@@ -36,8 +37,6 @@ export const UpdatePasswordButton: React.FC = () => {
   const onSubmit = (formData: UpdatePasswordFormState) => {
     doPasswordUpdate({ variables: formData }).then(() => handleClose(true));
   };
-
-  const errorMessage = mapErrorToMessage(error, { WRONG_PASSWORD: 'Wrong password' });
 
   return (
     <React.Fragment>
