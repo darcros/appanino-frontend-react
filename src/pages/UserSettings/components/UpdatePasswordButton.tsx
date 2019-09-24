@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useForm from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,6 +21,7 @@ interface UpdatePasswordFormState {
 }
 
 export const UpdatePasswordButton: React.FC = () => {
+  const { t } = useTranslation();
   const [passwordModalOpen, setPasswordModalOpen] = React.useState(false);
   const { register, handleSubmit, errors, getValues, reset } = useForm<UpdatePasswordFormState>();
   const [doPasswordUpdate, { loading, error }] = useDoPasswordUpdateMutation();
@@ -40,23 +42,23 @@ export const UpdatePasswordButton: React.FC = () => {
   return (
     <React.Fragment>
       <Button onClick={() => setPasswordModalOpen(true)} color="primary">
-        Change password
+        {t('dialog.update-password.button')}
       </Button>
 
       <Dialog open={passwordModalOpen} onClose={() => handleClose()} aria-labelledby="password-update-dialog-title">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle id="password-update-dialog-title">Change password</DialogTitle>
+          <DialogTitle id="password-update-dialog-title">{t('dialog.update-password.title')}</DialogTitle>
           <DialogContent>
-            <DialogContentText>Type your current password and the new password that you wish to use.</DialogContentText>
+            <DialogContentText>{t('dialog.update-password.instructions')}</DialogContentText>
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
               name="oldPassword"
-              label="Current Password"
+              label={t('dialog.update-password.old-password.label')}
               type="password"
               autoComplete="current-password"
-              inputRef={register({ required: 'Current password required' })}
+              inputRef={register({ required: t('dialog.update-password.old-password.required') })}
               error={!!errors.oldPassword}
               helperText={errors.oldPassword ? getErrorMessage(errors.oldPassword) : null}
               disabled={loading}
@@ -66,15 +68,15 @@ export const UpdatePasswordButton: React.FC = () => {
               margin="normal"
               fullWidth
               name="newPassword"
-              label="New Password"
+              label={t('dialog.update-password.new-password.label')}
               type="password"
               autoComplete="new-password"
               inputRef={register({
-                required: 'New password required',
+                required: t('dialog.update-password.new-password.required'),
                 validate: (value: string) => {
                   const { oldPassword } = getValues();
                   if (value === oldPassword) {
-                    return 'The new password must be different from the old one';
+                    return t('error.same-password');
                   }
                 },
               })}
@@ -90,10 +92,10 @@ export const UpdatePasswordButton: React.FC = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => handleClose()} disabled={loading} color="secondary">
-              Cancel
+              {t('action.cancel')}
             </Button>
             <LoadingButton loading={loading} type="submit" color="primary">
-              Change password
+              {t('action.confirm')}
             </LoadingButton>
           </DialogActions>
         </form>

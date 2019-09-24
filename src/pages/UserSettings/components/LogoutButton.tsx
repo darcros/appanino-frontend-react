@@ -2,8 +2,10 @@ import React from 'react';
 
 import { useDoLogoutMutation } from '../../../generated/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
+import { useTranslation } from 'react-i18next';
 
 export const LogoutButton: React.FC = () => {
+  const { t } = useTranslation();
   const [doLogout, { loading }] = useDoLogoutMutation();
 
   return (
@@ -15,7 +17,7 @@ export const LogoutButton: React.FC = () => {
         doLogout();
       }}
     >
-      Logout
+      {t('action.logout')}
     </LoadingButton>
   );
 };

@@ -17,7 +17,8 @@
       "product-image": "immagine del prodotto: {{productName}}"
     },
     "user-settings": {
-      "breadcrumb": "Impostazioni Utente"
+      "breadcrumb": "Impostazioni Utente",
+      "header": "Impostazioni utente"
     },
     "user-orders": {
       "drawer-entry": "Le tue ordinazioni"
@@ -53,6 +54,30 @@
       "drawer-aria-label": "navigazione laterale"
     }
   },
+  "dialog": {
+    "update-email": {
+      "button": "aggiorna email",
+      "title": "Cambia email",
+      "instructions": "Inserisci la tua nuova email",
+      "new-email": {
+        "label": "Nuova Email",
+        "required": "Nuova email richiesta"
+      }
+    },
+    "update-password": {
+      "button": "aggiorna password",
+      "title": "Cambia password",
+      "instructions": "Inserisci la tua password corrente e la nuova password che desideri utilizzare.",
+      "old-password": {
+        "label": "Password Corrente",
+        "required": "Password corrente richiesta"
+      },
+      "new-password": {
+        "label": "Nuova Password",
+        "required": "Nuova password richiesta"
+      }
+    }
+  },
   "form": {
     "email": {
       "label": "Indirizzo Email",
@@ -65,14 +90,32 @@
     },
     "remember": {
       "label": "Ricorda credenziali"
+    },
+    "first-name": {
+      "label": "Nome",
+      "required": "Nome richiesto"
+    },
+    "last-name": {
+      "label": "Cognome",
+      "required": "Cognome richiesto"
+    },
+    "school": {
+      "label": "Scuola"
     }
   },
   "action": {
     "login": "login",
-    "retry": "riprova"
+    "logout": "logout",
+    "retry": "riprova",
+    "save": "salva le modifiche",
+    "confirm": "conferma",
+    "cancel": "annulla"
   },
   "error": {
-    "generic": "Errore. $t(error.retry-later)",
-    "retry-later": "Riprova più tardi."
+    "generic": "È avvenuto un errore. $t(error.retry-later)",
+    "user-settings": "Impossibile caricare i dettagli dell'utente. $t(error.retry-later)",
+    "retry-later": "Perfavore riprova più tardi.",
+    "same-password": "La nuova password deve essere diversa da quella vecchia",
+    "wrong-password": "Password sbagliata"
   }
 }

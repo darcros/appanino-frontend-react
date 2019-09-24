@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -15,19 +16,21 @@ import { UserSettingsForm } from './components/UserSettingsForm';
 import { UpdateEmailButton } from './components/UpdateEmailButton';
 
 export const UserSettingsPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <PageContainer breadcrumbs>
-      <AvatarHeader title="User Settings" icon={AccountCircleIcon} />
+      <AvatarHeader title={t('page.user-settings.header')} icon={AccountCircleIcon} />
       <UserSettingsComponent>
         {({ data, error, loading, refetch }) => {
           if (error) {
             return (
               <Center>
                 <Typography variant="h6" color="error">
-                  Cannot load user settings. Please retry later.
+                  {t('error.user-settings')}
                 </Typography>
                 <Button onClick={() => refetch()} color="primary">
-                  Retry
+                  {t('action.retry')}
                 </Button>
               </Center>
             );

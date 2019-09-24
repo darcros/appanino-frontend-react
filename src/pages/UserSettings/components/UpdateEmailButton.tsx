@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useForm from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,6 +16,7 @@ import { useDoEmailUpdateMutation, DoEmailUpdateMutationVariables } from '../../
 import { LoadingButton } from '../../../components/LoadingButton';
 
 export const UpdateEmailButton: React.FC = () => {
+  const { t } = useTranslation();
   const [emailModalOpen, setEmailModalOpen] = React.useState(false);
   const { register, handleSubmit, reset, errors } = useForm<DoEmailUpdateMutationVariables>();
   const [doEmailUpdate, { loading, error }] = useDoEmailUpdateMutation();
@@ -35,24 +37,24 @@ export const UpdateEmailButton: React.FC = () => {
   return (
     <React.Fragment>
       <Button onClick={() => setEmailModalOpen(true)} color="primary">
-        Change email
+        {t('dialog.update-email.button')}
       </Button>
 
       <Dialog open={emailModalOpen} onClose={() => handleClose()} aria-labelledby="email-update-dialog-title">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle id="email-update-dialog-title">Change email</DialogTitle>
+          <DialogTitle id="email-update-dialog-title">{t('dialog.update-email.title')}</DialogTitle>
           <DialogContent>
-            <DialogContentText>Type in your new email</DialogContentText>
+            <DialogContentText>{t('dialog.update-email.instructions')}</DialogContentText>
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
               name="newEmail"
-              label="New Email"
+              label={t('dialog.update-email.new-email.label')}
               autoComplete="email"
               inputRef={register({
-                required: 'New email required',
-                pattern: { value: emailRegex, message: 'Invalid email' },
+                required: t('dialog.update-email.new-email.required'),
+                pattern: { value: emailRegex, message: t('form.email.invalid') },
               })}
               error={!!errors.newEmail}
               helperText={errors.newEmail ? getErrorMessage(errors.newEmail) : null}
@@ -66,10 +68,10 @@ export const UpdateEmailButton: React.FC = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => handleClose()} disabled={loading} color="secondary">
-              Cancel
+              {t('action.cancel')}
             </Button>
             <LoadingButton loading={loading} type="submit" color="primary">
-              Change email
+              {t('action.confirm')}
             </LoadingButton>
           </DialogActions>
         </form>
