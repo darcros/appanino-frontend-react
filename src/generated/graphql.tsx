@@ -65,7 +65,7 @@ export type MutationLoginArgs = {
 };
 
 export type MutationRegisterArgs = {
-  userRegistrationData: UserRegistrationDataInput;
+  userRegistrationData: UserRegistrationInput;
 };
 
 export type MutationUpdateSelfArgs = {
@@ -81,7 +81,7 @@ export type MutationUpdatePasswordArgs = {
 };
 
 export type MutationAddProductArgs = {
-  newProductData: NewProductDataInput;
+  newProductData: NewProductInput;
 };
 
 export type MutationDeleteProductArgs = {
@@ -92,7 +92,7 @@ export type MutationSaveTokenArgs = {
   token: Scalars['String'];
 };
 
-export type NewProductDataInput = {
+export type NewProductInput = {
   name: Scalars['String'];
   price: Scalars['Float'];
   schoolIds: Array<Scalars['ID']>;
@@ -164,7 +164,7 @@ export type User = {
   orders: Array<Order>;
 };
 
-export type UserRegistrationDataInput = {
+export type UserRegistrationInput = {
   firstname: Scalars['String'];
   lastname: Scalars['String'];
   email: Scalars['String'];
@@ -592,11 +592,11 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JwtSchool: ResolverTypeWrapper<JwtSchool>;
   Mutation: ResolverTypeWrapper<{}>;
-  UserRegistrationDataInput: UserRegistrationDataInput;
+  UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
   EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
-  NewProductDataInput: NewProductDataInput;
+  NewProductInput: NewProductInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -616,11 +616,11 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   JwtSchool: JwtSchool;
   Mutation: {};
-  UserRegistrationDataInput: UserRegistrationDataInput;
+  UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
   EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
-  NewProductDataInput: NewProductDataInput;
+  NewProductInput: NewProductInput;
 };
 
 export type CategoryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Category']> = {
