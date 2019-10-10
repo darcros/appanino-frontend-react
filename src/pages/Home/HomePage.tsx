@@ -12,7 +12,7 @@ export const HomePage: React.FC = () => {
     <PageContainer maxWidth="xl">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
-          {t('page.home.title')}
+          {t('page.home.header')}
         </Typography>
       </Box>
     </PageContainer>

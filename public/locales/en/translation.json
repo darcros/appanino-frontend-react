@@ -3,7 +3,7 @@
   "page": {
     "home": {
       "breadcrumb": "Home",
-      "title": "Homepage"
+      "header": "Homepage"
     },
     "login": {
       "header": "Login to $t(appanino)"

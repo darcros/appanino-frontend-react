@@ -3,7 +3,7 @@
   "page": {
     "home": {
       "breadcrumb": "Home",
-      "title": "Pagina principale"
+      "header": "Pagina principale"
     },
     "login": {
       "header": "Esegui l'accesso ad $t(appanino)"
