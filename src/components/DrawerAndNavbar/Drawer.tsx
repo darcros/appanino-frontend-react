@@ -69,7 +69,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
       <GetUserRoleComponent>
         {({ data }) => {
           const isAdmin = data && data.userInfo && data.userInfo.role !== Role.User;
-          console.log(data && data.userInfo && data.userInfo.role, Role.User);
 
           return isAdmin ? (
             <Fragment>

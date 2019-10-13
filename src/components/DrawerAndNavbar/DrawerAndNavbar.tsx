@@ -13,7 +13,6 @@ export const DrawerAndNavbar: React.FC = () => {
     <IsLoggedInComponent>
       {({ data }) => {
         const loggedIn = data ? data.isLoggedIn : false;
-        console.log(loggedIn);
 
         return (
           <Fragment>

@@ -83,6 +83,16 @@
       "i18next"
     ],
     "rules": {
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "error",
+            "warn",
+            "info"
+          ]
+        }
+      ],
       "i18next/no-literal-string": [
         "warn",
         {

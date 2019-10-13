@@ -6,9 +6,6 @@ import { supportedLanguages } from '../../../i18n';
 export const LanguageSelect: React.FC = () => {
   const { t, i18n } = useTranslation();
 
-  console.log(i18n.language);
-  console.log(i18n.languages);
-
   return (
     <OutlinedSelect
       inputName="language-select"
