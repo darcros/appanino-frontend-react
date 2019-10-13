@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -10,6 +11,8 @@ import { Center } from '../../components/Center';
 import { ProductList } from './components/ProductList';
 
 export const ShopPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <PageContainer breadcrumbs maxWidth="md">
       <GetShopProductsComponent>
@@ -18,10 +21,10 @@ export const ShopPage: React.FC = () => {
             return (
               <Center>
                 <Typography variant="h6" color="error">
-                  Error. Retry Later.
+                  {t('error.generic')}
                 </Typography>
                 <Button onClick={() => refetch()} color="primary">
-                  Retry
+                  {t('action.retry')}
                 </Button>
               </Center>
             );

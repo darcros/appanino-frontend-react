@@ -1,0 +1,127 @@
+{
+  "appanino": "Appanino",
+  "page": {
+    "home": {
+      "breadcrumb": "Home",
+      "header": "Homepage"
+    },
+    "login": {
+      "header": "Login to $t(appanino)"
+    },
+    "shop": {
+      "breadcrumb": "Shop",
+      "drawer-entry": "Shop",
+      "add-to-cart": "add to cart",
+      "add": "add",
+      "remove": "remove",
+      "product-image": "product image: {{productName}}"
+    },
+    "user-settings": {
+      "breadcrumb": "User Settings",
+      "header": "User settings",
+      "language": "Language"
+    },
+    "user-orders": {
+      "drawer-entry": "Your orders"
+    },
+    "transactions": {
+      "drawer-entry": "Transactions"
+    },
+    "orders": {
+      "drawer-entry": "Orders"
+    },
+    "products": {
+      "drawer-entry": "Products"
+    },
+    "schools": {
+      "drawer-entry": "Schools"
+    },
+    "settings": {
+      "drawer-entry": "Settings"
+    },
+    "not-found": {
+      "page-not-found": "Page not found"
+    }
+  },
+  "component": {
+    "breadcrumbs": {
+      "aria-label": "breadcrumbs"
+    },
+    "navbar": {
+      "menu-aria-label": "menu",
+      "account-button-aria-label": "account"
+    },
+    "drawer": {
+      "drawer-aria-label": "navigation drawer"
+    }
+  },
+  "dialog": {
+    "update-email": {
+      "button": "update email",
+      "title": "Change email",
+      "instructions": "Type in your new email",
+      "new-email": {
+        "label": "New Email",
+        "required": "New email required"
+      }
+    },
+    "update-password": {
+      "button": "update password",
+      "title": "Change password",
+      "instructions": "Type your current password and the new password that you wish to use.",
+      "old-password": {
+        "label": "Current Password",
+        "required": "Current password required"
+      },
+      "new-password": {
+        "label": "New Password",
+        "required": "New password required"
+      }
+    }
+  },
+  "form": {
+    "email": {
+      "label": "Email Address",
+      "required": "Email required",
+      "invalid": "Invalid email"
+    },
+    "password": {
+      "label": "Password",
+      "required": "Password required"
+    },
+    "remember": {
+      "label": "Remember Me"
+    },
+    "first-name": {
+      "label": "First Name",
+      "required": "First name required"
+    },
+    "last-name": {
+      "label": "Last Name",
+      "required": "Last name required"
+    },
+    "school": {
+      "label": "School"
+    }
+  },
+  "action": {
+    "login": "login",
+    "logout": "logout",
+    "retry": "retry",
+    "save": "save changes",
+    "confirm": "confirm",
+    "cancel": "cancel"
+  },
+  "error": {
+    "generic": "An error occurred. $t(error.retry-later)",
+    "connection": "Connection error. $t(error.retry-later)",
+    "user-settings": "Cannot load user settings. $t(error.retry-later)",
+    "retry-later": "Please retry later.",
+    "same-password": "The new password must be different from the old one",
+    "wrong-password": "Wrong password",
+    "graphql": {
+      "NONEXISTENT_EMAIL": "That email addres doesn't exist",
+      "WRONG_PASSWORD": "$t(error.wrong-password)"
+    }
+  }
+}

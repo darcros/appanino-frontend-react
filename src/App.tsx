@@ -11,6 +11,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, Theme, createStyles, MuiThemeProvider as ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
+import { Center } from './components/Center';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { ShopPage } from './pages/Shop/ShopPage';
@@ -38,17 +41,26 @@ const App: React.FC = () => {
             <CssBaseline />
 
             <Router>
-              <DrawerAndNavbar />
+              <React.Suspense
+                // TODO: add an actual splash screen
+                fallback={
+                  <Center>
+                    <CircularProgress />
+                  </Center>
+                }
+              >
+                <DrawerAndNavbar />
 
-              <Switch>
-                <Route path="/" exact component={HomePage} />
-                <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
+                <Switch>
+                  <Route path="/" exact component={HomePage} />
+                  <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
 
-                <LoggedInRoute path="/user" exact component={UserSettingsPage} />
-                <LoggedInRoute path="/shop" component={ShopPage} />
+                  <LoggedInRoute path="/user" exact component={UserSettingsPage} />
+                  <LoggedInRoute path="/shop" component={ShopPage} />
 
-                <Route component={NotFoundPage} />
-              </Switch>
+                  <Route component={NotFoundPage} />
+                </Switch>
+              </React.Suspense>
             </Router>
           </ThemeProvider>
         </ApolloHooksProvider>

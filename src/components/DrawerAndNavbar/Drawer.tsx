@@ -16,12 +16,14 @@ import Settings from '@material-ui/icons/Settings';
 import { ToolbarSpacer } from '../ToolbarSpacer';
 import { DrawerListItem } from './DrawerListItem';
 import { GetUserRoleComponent, Role } from '../../generated/graphql';
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
+      // eslint-disable-next-line i18next/no-literal-string
       [theme.breakpoints.up('sm')]: {
         width: drawerWidth,
         flexShrink: 0,
@@ -39,6 +41,7 @@ interface SideDrawerProps {
 }
 
 export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const drawerContent = (
@@ -46,11 +49,21 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
       <ToolbarSpacer />
       <Divider />
       <List>
-        <DrawerListItem onSelected={onClose} title="Shop" icon={Restaurant} page="/shop" />
+        <DrawerListItem onSelected={onClose} title={t('page.shop.drawer-entry')} icon={Restaurant} page="/shop" />
 
         {/* TODO: create pages */}
-        <DrawerListItem onSelected={onClose} title="Your orders" icon={ShoppingCart} page="#" />
-        <DrawerListItem onSelected={onClose} title="Transactions" icon={AttachMoney} page="#" />
+        <DrawerListItem
+          onSelected={onClose}
+          title={t('page.user-orders.drawer-entry')}
+          icon={ShoppingCart}
+          page="/my-orders"
+        />
+        <DrawerListItem
+          onSelected={onClose}
+          title={t('page.transactions.drawer-entry')}
+          icon={AttachMoney}
+          page="/transactions"
+        />
       </List>
 
       <GetUserRoleComponent>
@@ -62,10 +75,30 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
             <Fragment>
               <Divider />
               <List>
-                <DrawerListItem onSelected={onClose} title="Orders" icon={RestaurantMenu} page="#" />
-                <DrawerListItem onSelected={onClose} title="Products" icon={Fastfood} page="#" />
-                <DrawerListItem onSelected={onClose} title="Schools" icon={School} page="#" />
-                <DrawerListItem onSelected={onClose} title="Settings" icon={Settings} page="#" />
+                <DrawerListItem
+                  onSelected={onClose}
+                  title={t('page.orders.drawer-entry')}
+                  icon={RestaurantMenu}
+                  page="/orders"
+                />
+                <DrawerListItem
+                  onSelected={onClose}
+                  title={t('page.products.drawer-entry')}
+                  icon={Fastfood}
+                  page="/products"
+                />
+                <DrawerListItem
+                  onSelected={onClose}
+                  title={t('page.schools.drawer-entry')}
+                  icon={School}
+                  page="/drawer"
+                />
+                <DrawerListItem
+                  onSelected={onClose}
+                  title={t('page.settings.drawer-entry')}
+                  icon={Settings}
+                  page="/settings"
+                />
               </List>
             </Fragment>
           ) : null;
@@ -75,7 +108,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
   );
 
   return (
-    <nav className={classes.drawer} aria-label="Navigation drawer">
+    <nav className={classes.drawer} aria-label={t('component.drawer.drawer-aria-label')}>
       {/* Mobile drawer */}
       <Hidden smUp implementation="js">
         <Drawer

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -36,6 +37,8 @@ interface ProductListItemProps {
 }
 
 export const ProductListItem: React.FC<ProductListItemProps> = ({ text, imageUrl, price }) => {
+  const { t } = useTranslation();
+
   // TODO: use Apollo to store cart items
   const [items, setItems] = React.useState(0);
   const classes = useStyles({ isQuantityInputExpanded: items > 0 });
@@ -43,7 +46,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({ text, imageUrl
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar className={classes.avatar} alt="Image of product" src={imageUrl} />
+        <Avatar className={classes.avatar} alt={t('page.shop.product-image', { productName: text })} src={imageUrl} />
       </ListItemAvatar>
       <ListItemText
         classes={{ root: classes.ListItemTextRoot }}

@@ -26,6 +26,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.4",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-i18next": "^2.3.0",
     "eslint-plugin-prettier": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
@@ -43,6 +44,9 @@
     "apollo-link-http": "^1.5.15",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
+    "i18next": "^17.0.16",
+    "i18next-browser-languagedetector": "^3.0.3",
+    "i18next-xhr-backend": "^3.1.2",
     "jwt-decode": "^2.2.0",
     "lodash.groupby": "^4.6.0",
     "react": "^16.8.6",
@@ -50,6 +54,7 @@
     "react-apollo-hooks": "^0.5.0",
     "react-dom": "^16.8.6",
     "react-hook-form": "^3.18.13",
+    "react-i18next": "^10.12.5",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typeface-roboto": "^0.0.75",
@@ -67,11 +72,30 @@
     "analyze": "source-map-explorer build/static/js/*.js"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
     "extends": [
       "react-app",
       "plugin:prettier/recommended"
     ],
+    "plugins": [
+      "i18next"
+    ],
     "rules": {
+      "i18next/no-literal-string": [
+        "warn",
+        {
+          "ignore": [
+            "^/"
+          ],
+          "ignoreCallee": [
+            "t",
+            "createStyles",
+            "createMuiTheme"
+          ]
+        }
+      ],
       "no-restricted-imports": [
         "error",
         {
@@ -91,7 +115,17 @@
           ]
         }
       ]
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.test.{js,jsx,ts,tsx}"
+        ],
+        "rules": {
+          "i18next/no-literal-string": "off"
+        }
+      }
+    ]
   },
   "prettier": {
     "semi": true,

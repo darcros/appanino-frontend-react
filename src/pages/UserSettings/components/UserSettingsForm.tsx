@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useForm from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +19,7 @@ interface UserSettingsFormProps {
 }
 
 export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery }) => {
+  const { t } = useTranslation();
   const { register, handleSubmit, errors } = useForm<DoUserInfoUpdateMutationVariables>();
   const [doUserInfoUpdate, { loading, hasError }] = useDoUserInfoUpdateMutation();
 
@@ -37,11 +39,11 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
             variant="outlined"
             fullWidth
             id="firstname-textField"
-            label="First Name"
+            label={t('form.first-name.label')}
             defaultValue={userQuery.self.firstname}
             helperText={errors.firstname ? getErrorMessage(errors.firstname) : null}
             inputRef={register({
-              required: 'First name required',
+              required: t('form.first-name.required'),
             })}
           />
         </Grid>
@@ -52,11 +54,11 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
             variant="outlined"
             fullWidth
             id="lastname-textField"
-            label="Last Name"
+            label={t('form.last-name.label')}
             defaultValue={userQuery.self.lastname}
             helperText={errors.lastname ? getErrorMessage(errors.lastname) : null}
             inputRef={register({
-              required: 'Last name required',
+              required: t('form.first-name.required'),
             })}
           />
         </Grid>
@@ -64,7 +66,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
           <OutlinedSelect
             defaultValue={userQuery.self.school.id}
             inputRef={register}
-            label="School"
+            label={t('form.school.label')}
             inputName="schoolId"
           >
             {userQuery.schools.map(school => (
@@ -76,11 +78,11 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
         </Grid>
         <Grid item xs={12}>
           <LoadingButton type="submit" fullWidth variant="contained" color="primary" loading={loading}>
-            Save changes
+            {t('action.save')}
           </LoadingButton>
           {hasError && (
             <Typography color="error" align="center" component="h3" variant="subtitle2">
-              An error occured. Please retry later.
+              {t('error.generic')}
             </Typography>
           )}
         </Grid>

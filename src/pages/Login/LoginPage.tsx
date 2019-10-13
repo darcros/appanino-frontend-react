@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const LoginPage: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [doLogin, { loading, error }] = useDoLoginMutation();
   const [doSaveToken, { data, called }] = useDoSaveTokenMutation();
@@ -36,7 +38,7 @@ export const LoginPage: React.FC = () => {
   return (
     <PageContainer maxWidth="xs">
       <div className={classes.container}>
-        <AvatarHeader title="Login to Appanino" icon={LockOutlinedIcon} />
+        <AvatarHeader title={t('page.login.header')} icon={LockOutlinedIcon} />
 
         <LoginForm
           loading={loading}

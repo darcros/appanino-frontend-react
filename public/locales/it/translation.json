@@ -1,0 +1,127 @@
+{
+  "appanino": "Appanino",
+  "page": {
+    "home": {
+      "breadcrumb": "Home",
+      "header": "Pagina principale"
+    },
+    "login": {
+      "header": "Esegui l'accesso ad $t(appanino)"
+    },
+    "shop": {
+      "breadcrumb": "Negozio",
+      "drawer-entry": "Negozio",
+      "add-to-cart": "aggiungi al carrello",
+      "add": "aggiungi",
+      "remove": "rimuovi",
+      "product-image": "immagine del prodotto: {{productName}}"
+    },
+    "user-settings": {
+      "breadcrumb": "Impostazioni Utente",
+      "header": "Impostazioni utente",
+      "language": "Lingua"
+    },
+    "user-orders": {
+      "drawer-entry": "Le tue ordinazioni"
+    },
+    "transactions": {
+      "drawer-entry": "Transazioni"
+    },
+    "orders": {
+      "drawer-entry": "Ordinazioni"
+    },
+    "products": {
+      "drawer-entry": "Prodotti"
+    },
+    "schools": {
+      "drawer-entry": "Scuole"
+    },
+    "settings": {
+      "drawer-entry": "Impostazioni"
+    },
+    "not-found": {
+      "page-not-found": "Pagina non trovata"
+    }
+  },
+  "component": {
+    "breadcrumbs": {
+      "aria-label": "percorso di navigazione"
+    },
+    "navbar": {
+      "menu-aria-label": "menu",
+      "account-button-aria-label": "account"
+    },
+    "drawer": {
+      "drawer-aria-label": "navigazione laterale"
+    }
+  },
+  "dialog": {
+    "update-email": {
+      "button": "aggiorna email",
+      "title": "Cambia email",
+      "instructions": "Inserisci la tua nuova email",
+      "new-email": {
+        "label": "Nuova Email",
+        "required": "Nuova email richiesta"
+      }
+    },
+    "update-password": {
+      "button": "aggiorna password",
+      "title": "Cambia password",
+      "instructions": "Inserisci la tua password corrente e la nuova password che desideri utilizzare.",
+      "old-password": {
+        "label": "Password Corrente",
+        "required": "Password corrente richiesta"
+      },
+      "new-password": {
+        "label": "Nuova Password",
+        "required": "Nuova password richiesta"
+      }
+    }
+  },
+  "form": {
+    "email": {
+      "label": "Indirizzo Email",
+      "required": "Email richiesta",
+      "invalid": "Email non valida"
+    },
+    "password": {
+      "label": "Password",
+      "required": "Password richiesta"
+    },
+    "remember": {
+      "label": "Ricorda credenziali"
+    },
+    "first-name": {
+      "label": "Nome",
+      "required": "Nome richiesto"
+    },
+    "last-name": {
+      "label": "Cognome",
+      "required": "Cognome richiesto"
+    },
+    "school": {
+      "label": "Scuola"
+    }
+  },
+  "action": {
+    "login": "login",
+    "logout": "logout",
+    "retry": "riprova",
+    "save": "salva le modifiche",
+    "confirm": "conferma",
+    "cancel": "annulla"
+  },
+  "error": {
+    "generic": "È avvenuto un errore. $t(error.retry-later)",
+    "connection": "Impossibile connettersi al server. $t(error.retry-later)",
+    "user-settings": "Impossibile caricare i dettagli dell'utente. $t(error.retry-later)",
+    "retry-later": "Perfavore riprova più tardi.",
+    "same-password": "La nuova password deve essere diversa da quella vecchia",
+    "wrong-password": "Password sbagliata",
+    "graphql": {
+      "NONEXISTENT_EMAIL": "Quell'email non esiste",
+      "WRONG_PASSWORD": "$t(error.wrong-password)"
+    }
+  }
+}

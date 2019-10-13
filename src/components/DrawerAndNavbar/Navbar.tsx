@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
 
       // Hide when showing fixed drawer on big screens
+      // eslint-disable-next-line i18next/no-literal-string
       [theme.breakpoints.up('sm')]: {
         display: 'none',
       },
@@ -37,6 +39,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   return (
@@ -48,21 +51,27 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="Menu"
+            aria-label={t('component.navbar.menu-aria-label')}
           >
             <MenuIcon />
           </IconButton>
         )}
         <Typography variant="h6" className={classes.title}>
-          Appanino
+          {t('appanino')}
         </Typography>
         {loggedIn ? (
-          <IconButton component={RouterLink} to="/user/" edge="end" color="inherit" aria-label="Account">
+          <IconButton
+            component={RouterLink}
+            to="/user/"
+            edge="end"
+            color="inherit"
+            aria-label={t('component.navbar.account-button-aria-label')}
+          >
             <AccountCircleIcon />
           </IconButton>
         ) : (
           <Button component={RouterLink} to="/login/" color="inherit">
-            Login
+            {t('action.login')}
           </Button>
         )}
       </Toolbar>
