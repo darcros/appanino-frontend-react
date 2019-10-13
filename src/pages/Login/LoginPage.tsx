@@ -4,7 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useDoLoginMutation, DoLoginMutationVariables, useDoSaveTokenMutation } from '../../generated/graphql';
+import {
+  useDoLoginMutation,
+  DoLoginMutationVariables,
+  useDoSaveTokenMutation,
+  UserRoleDocument,
+} from '../../generated/graphql';
 import { PageContainer } from '../../components/PageContainer';
 import { AvatarHeader } from '../../components/AvatarHeader';
 import { LoginForm } from './components/LoginForm';
@@ -32,6 +37,7 @@ export const LoginPage: React.FC = () => {
 
     return doSaveToken({
       variables: { token: data.login },
+      refetchQueries: [{ query: UserRoleDocument }],
     });
   }
 

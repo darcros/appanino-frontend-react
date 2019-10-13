@@ -1,9 +1,6 @@
-query IsLoggedIn {
-  isLoggedIn @client
-}
-
-query GetUserRole {
-  userInfo @client {
+query UserRole {
+  self {
+		id
     role
   }
 }

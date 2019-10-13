@@ -15,7 +15,6 @@ import Settings from '@material-ui/icons/Settings';
 
 import { ToolbarSpacer } from '../ToolbarSpacer';
 import { DrawerListItem } from './DrawerListItem';
-import { GetUserRoleComponent, Role } from '../../generated/graphql';
 import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
@@ -36,11 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SideDrawerProps {
+  isAdmin: boolean;
   mobileOpen: boolean;
   onClose: () => void;
 }
 
-export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) => {
+export const SideDrawer: React.FC<SideDrawerProps> = ({ isAdmin, mobileOpen, onClose }) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -65,44 +65,32 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ mobileOpen, onClose }) =
           page="/transactions"
         />
       </List>
-
-      <GetUserRoleComponent>
-        {({ data }) => {
-          const isAdmin = data && data.userInfo && data.userInfo.role !== Role.User;
-
-          return isAdmin ? (
-            <Fragment>
-              <Divider />
-              <List>
-                <DrawerListItem
-                  onSelected={onClose}
-                  title={t('page.orders.drawer-entry')}
-                  icon={RestaurantMenu}
-                  page="/orders"
-                />
-                <DrawerListItem
-                  onSelected={onClose}
-                  title={t('page.products.drawer-entry')}
-                  icon={Fastfood}
-                  page="/products"
-                />
-                <DrawerListItem
-                  onSelected={onClose}
-                  title={t('page.schools.drawer-entry')}
-                  icon={School}
-                  page="/drawer"
-                />
-                <DrawerListItem
-                  onSelected={onClose}
-                  title={t('page.settings.drawer-entry')}
-                  icon={Settings}
-                  page="/settings"
-                />
-              </List>
-            </Fragment>
-          ) : null;
-        }}
-      </GetUserRoleComponent>
+      {isAdmin && (
+        <Fragment>
+          <Divider />
+          <List>
+            <DrawerListItem
+              onSelected={onClose}
+              title={t('page.orders.drawer-entry')}
+              icon={RestaurantMenu}
+              page="/orders"
+            />
+            <DrawerListItem
+              onSelected={onClose}
+              title={t('page.products.drawer-entry')}
+              icon={Fastfood}
+              page="/products"
+            />
+            <DrawerListItem onSelected={onClose} title={t('page.schools.drawer-entry')} icon={School} page="/drawer" />
+            <DrawerListItem
+              onSelected={onClose}
+              title={t('page.settings.drawer-entry')}
+              icon={Settings}
+              page="/settings"
+            />
+          </List>
+        </Fragment>
+      )}
     </div>
   );
 

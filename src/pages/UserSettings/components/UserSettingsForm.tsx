@@ -40,7 +40,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
             fullWidth
             id="firstname-textField"
             label={t('form.first-name.label')}
-            defaultValue={userQuery.self.firstname}
+            defaultValue={userQuery.self!.firstname}
             helperText={errors.firstname ? getErrorMessage(errors.firstname) : null}
             inputRef={register({
               required: t('form.first-name.required'),
@@ -55,7 +55,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
             fullWidth
             id="lastname-textField"
             label={t('form.last-name.label')}
-            defaultValue={userQuery.self.lastname}
+            defaultValue={userQuery.self!.lastname}
             helperText={errors.lastname ? getErrorMessage(errors.lastname) : null}
             inputRef={register({
               required: t('form.first-name.required'),
@@ -64,7 +64,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery })
         </Grid>
         <Grid item xs={12}>
           <OutlinedSelect
-            defaultValue={userQuery.self.school.id}
+            defaultValue={userQuery.self!.school.id}
             inputRef={register}
             label={t('form.school.label')}
             inputName="schoolId"

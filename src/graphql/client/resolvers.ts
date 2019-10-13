@@ -1,24 +1,7 @@
-import jwtDecode from 'jwt-decode';
 import { Resolvers } from 'apollo-client';
 
-import { getToken, loggedIn, saveToken as saveTokenToLocalStorage, removeToken } from './token';
-import { QueryResolvers, MutationResolvers, JwtUserInfo } from '../../generated/graphql';
-
-const Query: Pick<QueryResolvers, 'isLoggedIn' | 'userInfo'> = {
-  isLoggedIn: () => {
-    return loggedIn();
-  },
-  userInfo: () => {
-    const token = getToken();
-    if (!token) return null;
-
-    const data = jwtDecode<JwtUserInfo>(token);
-    return {
-      __typename: 'JwtUserInfo',
-      ...data,
-    };
-  },
-};
+import { saveToken as saveTokenToLocalStorage, removeToken } from './token';
+import { MutationResolvers } from '../../generated/graphql';
 
 const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut'> = {
   saveToken: (_root, { token }, { cache }) => {
@@ -39,6 +22,6 @@ const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut'> = {
 };
 
 export const resolvers: Resolvers = {
-  Query,
+  Query: {},
   Mutation,
 };

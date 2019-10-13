@@ -26,19 +26,6 @@ export type EmailUpdateInput = {
   newEmail: Scalars['String'];
 };
 
-export type JwtSchool = {
-  __typename?: 'JwtSchool';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type JwtUserInfo = {
-  __typename?: 'JwtUserInfo';
-  id: Scalars['Int'];
-  role: Role;
-  school: JwtSchool;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Returns a jwt to use for authentication */
@@ -122,7 +109,7 @@ export type Product = {
 
 export type Query = {
   __typename?: 'Query';
-  self: User;
+  self: Maybe<User>;
   categories: Array<Category>;
   orders: Array<Order>;
   /** Returns all products */
@@ -131,8 +118,6 @@ export type Query = {
   product: Maybe<Product>;
   schools: Array<School>;
   users: Array<User>;
-  isLoggedIn: Scalars['Boolean'];
-  userInfo: Maybe<JwtUserInfo>;
 };
 
 export type QueryProductArgs = {
@@ -223,36 +208,36 @@ export type DoEmailUpdateMutation = { __typename?: 'Mutation' } & {
   updateEmail: { __typename?: 'User' } & Pick<User, 'id' | 'email'>;
 };
 
-export type IsLoggedInQueryVariables = {};
+export type UserRoleQueryVariables = {};
 
-export type IsLoggedInQuery = { __typename?: 'Query' } & Pick<Query, 'isLoggedIn'>;
-
-export type GetUserRoleQueryVariables = {};
-
-export type GetUserRoleQuery = { __typename?: 'Query' } & {
-  userInfo: Maybe<{ __typename?: 'JwtUserInfo' } & Pick<JwtUserInfo, 'role'>>;
+export type UserRoleQuery = { __typename?: 'Query' } & {
+  self: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'role'>>;
 };
 
 export type GetShopProductsQueryVariables = {};
 
 export type GetShopProductsQuery = { __typename?: 'Query' } & {
-  self: { __typename?: 'User' } & Pick<User, 'id'> & {
-      school: { __typename?: 'School' } & Pick<School, 'id'> & {
-          products: Array<
-            { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
-                category: { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>;
-              }
-          >;
-        };
-    };
+  self: Maybe<
+    { __typename?: 'User' } & Pick<User, 'id'> & {
+        school: { __typename?: 'School' } & Pick<School, 'id'> & {
+            products: Array<
+              { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
+                  category: { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>;
+                }
+            >;
+          };
+      }
+  >;
 };
 
 export type UserSettingsQueryVariables = {};
 
 export type UserSettingsQuery = { __typename?: 'Query' } & {
-  self: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname'> & {
-      school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
-    };
+  self: Maybe<
+    { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname'> & {
+        school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
+      }
+  >;
   schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
 };
 
@@ -422,41 +407,24 @@ export function useDoEmailUpdateMutation(
   );
 }
 export type DoEmailUpdateMutationHookResult = ReturnType<typeof useDoEmailUpdateMutation>;
-export const IsLoggedInDocument = gql`
-  query IsLoggedIn {
-    isLoggedIn @client
-  }
-`;
-export type IsLoggedInComponentProps = Omit<ReactApollo.QueryProps<IsLoggedInQuery, IsLoggedInQueryVariables>, 'query'>;
-
-export const IsLoggedInComponent = (props: IsLoggedInComponentProps) => (
-  <ReactApollo.Query<IsLoggedInQuery, IsLoggedInQueryVariables> query={IsLoggedInDocument} {...props} />
-);
-
-export function useIsLoggedInQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<IsLoggedInQueryVariables>) {
-  return ReactApolloHooks.useQuery<IsLoggedInQuery, IsLoggedInQueryVariables>(IsLoggedInDocument, baseOptions);
-}
-export type IsLoggedInQueryHookResult = ReturnType<typeof useIsLoggedInQuery>;
-export const GetUserRoleDocument = gql`
-  query GetUserRole {
-    userInfo @client {
+export const UserRoleDocument = gql`
+  query UserRole {
+    self {
+      id
       role
     }
   }
 `;
-export type GetUserRoleComponentProps = Omit<
-  ReactApollo.QueryProps<GetUserRoleQuery, GetUserRoleQueryVariables>,
-  'query'
->;
+export type UserRoleComponentProps = Omit<ReactApollo.QueryProps<UserRoleQuery, UserRoleQueryVariables>, 'query'>;
 
-export const GetUserRoleComponent = (props: GetUserRoleComponentProps) => (
-  <ReactApollo.Query<GetUserRoleQuery, GetUserRoleQueryVariables> query={GetUserRoleDocument} {...props} />
+export const UserRoleComponent = (props: UserRoleComponentProps) => (
+  <ReactApollo.Query<UserRoleQuery, UserRoleQueryVariables> query={UserRoleDocument} {...props} />
 );
 
-export function useGetUserRoleQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<GetUserRoleQueryVariables>) {
-  return ReactApolloHooks.useQuery<GetUserRoleQuery, GetUserRoleQueryVariables>(GetUserRoleDocument, baseOptions);
+export function useUserRoleQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<UserRoleQueryVariables>) {
+  return ReactApolloHooks.useQuery<UserRoleQuery, UserRoleQueryVariables>(UserRoleDocument, baseOptions);
 }
-export type GetUserRoleQueryHookResult = ReturnType<typeof useGetUserRoleQuery>;
+export type UserRoleQueryHookResult = ReturnType<typeof useUserRoleQuery>;
 export const GetShopProductsDocument = gql`
   query GetShopProducts {
     self {
@@ -587,16 +555,13 @@ export type ResolversTypes = {
   Float: ResolverTypeWrapper<Scalars['Float']>;
   Category: ResolverTypeWrapper<Category>;
   Order: ResolverTypeWrapper<Order>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  JwtUserInfo: ResolverTypeWrapper<JwtUserInfo>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  JwtSchool: ResolverTypeWrapper<JwtSchool>;
   Mutation: ResolverTypeWrapper<{}>;
   UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
   EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
   NewProductInput: NewProductInput;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -611,33 +576,19 @@ export type ResolversParentTypes = {
   Float: Scalars['Float'];
   Category: Category;
   Order: Order;
-  Boolean: Scalars['Boolean'];
-  JwtUserInfo: JwtUserInfo;
-  Int: Scalars['Int'];
-  JwtSchool: JwtSchool;
   Mutation: {};
   UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
   EmailUpdateInput: EmailUpdateInput;
   PasswordUpdateInput: PasswordUpdateInput;
   NewProductInput: NewProductInput;
+  Boolean: Scalars['Boolean'];
 };
 
 export type CategoryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Category']> = {
   id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
-};
-
-export type JwtSchoolResolvers<ContextType = Context, ParentType = ResolversParentTypes['JwtSchool']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-};
-
-export type JwtUserInfoResolvers<ContextType = Context, ParentType = ResolversParentTypes['JwtUserInfo']> = {
-  id: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  role: Resolver<ResolversTypes['Role'], ParentType, ContextType>;
-  school: Resolver<ResolversTypes['JwtSchool'], ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = Context, ParentType = ResolversParentTypes['Mutation']> = {
@@ -667,15 +618,13 @@ export type ProductResolvers<ContextType = Context, ParentType = ResolversParent
 };
 
 export type QueryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Query']> = {
-  self: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  self: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   categories: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType>;
   orders: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType>;
   products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
   product: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, QueryProductArgs>;
   schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
   users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  isLoggedIn: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  userInfo: Resolver<Maybe<ResolversTypes['JwtUserInfo']>, ParentType, ContextType>;
 };
 
 export type SchoolResolvers<ContextType = Context, ParentType = ResolversParentTypes['School']> = {
@@ -697,8 +646,6 @@ export type UserResolvers<ContextType = Context, ParentType = ResolversParentTyp
 
 export type Resolvers<ContextType = Context> = {
   Category: CategoryResolvers<ContextType>;
-  JwtSchool: JwtSchoolResolvers<ContextType>;
-  JwtUserInfo: JwtUserInfoResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Order: OrderResolvers<ContextType>;
   Product: ProductResolvers<ContextType>;

@@ -38,7 +38,7 @@ export const ShopPage: React.FC = () => {
             );
           }
 
-          const mappedProducts = data.self.school.products.map(p => ({
+          const mappedProducts = data.self!.school.products.map(p => ({
             id: p.id,
             name: p.name,
             categoryName: p.category.name,

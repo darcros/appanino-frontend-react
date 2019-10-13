@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { IsLoggedInComponent } from '../generated/graphql';
+import { useUserRoleQuery } from '../generated/graphql';
 
 interface LoggedInRouteProps extends RouteProps {
   component: React.ComponentType;
@@ -13,18 +13,10 @@ export const LoggedInRoute: React.FC<LoggedInRouteProps> = ({
   loggedOut = false,
   redirect = '/',
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={() => (
-      <IsLoggedInComponent>
-        {({ data }) => {
-          const isLoggedIn = data ? data.isLoggedIn : false;
-          const condition = loggedOut ? !isLoggedIn : isLoggedIn;
+}) => {
+  const { data } = useUserRoleQuery();
+  const isLoggedIn = !!(data && data.self);
+  const canSee = loggedOut ? !isLoggedIn : isLoggedIn;
 
-          return condition ? <Component /> : <Redirect to={redirect} />;
-        }}
-      </IsLoggedInComponent>
-    )}
-  />
-);
+  return <Route {...rest} render={() => (canSee ? <Component /> : <Redirect to={redirect} />)} />;
+};
