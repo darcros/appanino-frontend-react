@@ -14,7 +14,7 @@ export const OutlinedSelect: React.FC<OutlinedSelectProps> = ({ label, inputName
   const [labelWidth, setLabelWidth] = React.useState(0);
   React.useEffect(() => {
     setLabelWidth(inputLabel.current!.offsetWidth);
-  }, []);
+  }, [label]);
 
   return (
     <FormControl variant="outlined">
