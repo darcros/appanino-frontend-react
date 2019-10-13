@@ -18,7 +18,8 @@
     },
     "user-settings": {
       "breadcrumb": "User Settings",
-      "header": "User settings"
+      "header": "User settings",
+      "language": "Language"
     },
     "user-orders": {
       "drawer-entry": "Your orders"

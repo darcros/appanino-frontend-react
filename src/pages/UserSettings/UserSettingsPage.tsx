@@ -14,6 +14,7 @@ import { LogoutButton } from './components/LogoutButton';
 import { UpdatePasswordButton } from './components/UpdatePasswordButton';
 import { UserSettingsForm } from './components/UserSettingsForm';
 import { UpdateEmailButton } from './components/UpdateEmailButton';
+import { LanguageSelect } from './components/LanguageSelect';
 
 export const UserSettingsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -49,6 +50,8 @@ export const UserSettingsPage: React.FC = () => {
       </UserSettingsComponent>
       <UpdateEmailButton />
       <UpdatePasswordButton />
+      <br />
+      <LanguageSelect />
       <LogoutButton />
     </PageContainer>
   );
