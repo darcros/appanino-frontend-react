@@ -6,7 +6,18 @@
       "header": "Homepage"
     },
     "login": {
-      "header": "Login to $t(appanino)"
+      "header": "Login to $t(appanino)",
+      "signUp-link": [
+        "Don't have an account?",
+        "$t(action.signUp)"
+      ]
+    },
+    "signUp": {
+      "header": "Signup",
+      "login-link": [
+        "Already have an account?",
+        "$t(action.login)"
+      ]
     },
     "shop": {
       "breadcrumb": "Shop",
@@ -105,12 +116,13 @@
     }
   },
   "action": {
-    "login": "login",
-    "logout": "logout",
-    "retry": "retry",
-    "save": "save changes",
-    "confirm": "confirm",
-    "cancel": "cancel"
+    "login": "Login",
+    "signUp": "Sign up",
+    "logout": "Logout",
+    "retry": "Retry",
+    "save": "Save changes",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "error": {
     "generic": "An error occurred. $t(error.retry-later)",

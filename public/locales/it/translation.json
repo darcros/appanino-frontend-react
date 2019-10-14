@@ -6,7 +6,18 @@
       "header": "Pagina principale"
     },
     "login": {
-      "header": "Esegui l'accesso ad $t(appanino)"
+      "header": "Esegui l'accesso ad $t(appanino)",
+      "signUp-link": [
+        "Non hai un account?",
+        "$t(action.signUp)"
+      ]
+    },
+    "signUp": {
+      "header": "Registrati",
+      "login-link": [
+        "Hai già un account?",
+        "Effettua l'accesso"
+      ]
     },
     "shop": {
       "breadcrumb": "Negozio",
@@ -105,12 +116,13 @@
     }
   },
   "action": {
-    "login": "login",
-    "logout": "logout",
-    "retry": "riprova",
-    "save": "salva le modifiche",
-    "confirm": "conferma",
-    "cancel": "annulla"
+    "login": "Login",
+    "signUp": "Registrati",
+    "logout": "Logout",
+    "retry": "Riprova",
+    "save": "Salva le modifiche",
+    "confirm": "Conferma",
+    "cancel": "Annulla"
   },
   "error": {
     "generic": "È avvenuto un errore. $t(error.retry-later)",

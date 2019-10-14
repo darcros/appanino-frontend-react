@@ -16,11 +16,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { HomePage } from './pages/Home/HomePage';
 import { LoginPage } from './pages/Login/LoginPage';
+import { SignUpPage } from './pages/SignUp/SignUpPage';
+import { UserSettingsPage } from './pages/UserSettings/UserSettingsPage';
 import { ShopPage } from './pages/Shop/ShopPage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 
 import { DrawerAndNavbar } from './components/DrawerAndNavbar';
-import { UserSettingsPage } from './pages/UserSettings/UserSettingsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +55,7 @@ const App: React.FC = () => {
                 <Switch>
                   <Route path="/" exact component={HomePage} />
                   <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
+                  <LoggedInRoute loggedOut path="/sign-up" exact component={SignUpPage} />
 
                   <LoggedInRoute path="/user" exact component={UserSettingsPage} />
                   <LoggedInRoute path="/shop" component={ShopPage} />

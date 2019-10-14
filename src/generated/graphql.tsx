@@ -31,7 +31,7 @@ export type Mutation = {
   /** Returns a jwt to use for authentication */
   login: Scalars['String'];
   /** creates a new user */
-  register: User;
+  registerUser: User;
   /** Update data on the current user */
   updateSelf: User;
   /** Update the email of the current user */
@@ -51,7 +51,7 @@ export type MutationLoginArgs = {
   email: Scalars['String'];
 };
 
-export type MutationRegisterArgs = {
+export type MutationRegisterUserArgs = {
   userRegistrationData: UserRegistrationInput;
 };
 
@@ -206,6 +206,20 @@ export type DoEmailUpdateMutationVariables = {
 
 export type DoEmailUpdateMutation = { __typename?: 'Mutation' } & {
   updateEmail: { __typename?: 'User' } & Pick<User, 'id' | 'email'>;
+};
+
+export type RegisterAndLoginMutationVariables = {
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  schoolId: Scalars['ID'];
+};
+
+export type RegisterAndLoginMutation = { __typename?: 'Mutation' } & { token: Mutation['login'] } & {
+  registerUser: { __typename?: 'User' } & Pick<User, 'id' | 'firstname' | 'lastname' | 'email' | 'role'> & {
+      school: { __typename?: 'School' } & Pick<School, 'id' | 'name'>;
+    };
 };
 
 export type UserRoleQueryVariables = {};
@@ -407,6 +421,61 @@ export function useDoEmailUpdateMutation(
   );
 }
 export type DoEmailUpdateMutationHookResult = ReturnType<typeof useDoEmailUpdateMutation>;
+export const RegisterAndLoginDocument = gql`
+  mutation RegisterAndLogin(
+    $firstname: String!
+    $lastname: String!
+    $email: String!
+    $password: String!
+    $schoolId: ID!
+  ) {
+    registerUser(
+      userRegistrationData: {
+        firstname: $firstname
+        lastname: $lastname
+        email: $email
+        password: $password
+        schoolId: $schoolId
+      }
+    ) {
+      id
+      firstname
+      lastname
+      email
+      role
+      school {
+        id
+        name
+      }
+    }
+    token: login(email: $email, password: $password)
+  }
+`;
+export type RegisterAndLoginMutationFn = ReactApollo.MutationFn<
+  RegisterAndLoginMutation,
+  RegisterAndLoginMutationVariables
+>;
+export type RegisterAndLoginComponentProps = Omit<
+  ReactApollo.MutationProps<RegisterAndLoginMutation, RegisterAndLoginMutationVariables>,
+  'mutation'
+>;
+
+export const RegisterAndLoginComponent = (props: RegisterAndLoginComponentProps) => (
+  <ReactApollo.Mutation<RegisterAndLoginMutation, RegisterAndLoginMutationVariables>
+    mutation={RegisterAndLoginDocument}
+    {...props}
+  />
+);
+
+export function useRegisterAndLoginMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<RegisterAndLoginMutation, RegisterAndLoginMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<RegisterAndLoginMutation, RegisterAndLoginMutationVariables>(
+    RegisterAndLoginDocument,
+    baseOptions,
+  );
+}
+export type RegisterAndLoginMutationHookResult = ReturnType<typeof useRegisterAndLoginMutation>;
 export const UserRoleDocument = gql`
   query UserRole {
     self {
@@ -593,7 +662,7 @@ export type CategoryResolvers<ContextType = Context, ParentType = ResolversParen
 
 export type MutationResolvers<ContextType = Context, ParentType = ResolversParentTypes['Mutation']> = {
   login: Resolver<ResolversTypes['String'], ParentType, ContextType, MutationLoginArgs>;
-  register: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationRegisterArgs>;
+  registerUser: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationRegisterUserArgs>;
   updateSelf: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateSelfArgs>;
   updateEmail: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateEmailArgs>;
   updatePassword: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdatePasswordArgs>;

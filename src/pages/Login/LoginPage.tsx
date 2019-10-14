@@ -1,9 +1,11 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { Redirect, Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import {
   useDoLoginMutation,
   DoLoginMutationVariables,
@@ -53,6 +55,13 @@ export const LoginPage: React.FC = () => {
             loginAndSaveToken({ email, password });
           }}
         />
+
+        <Typography>
+          {t('page.login.signUp-link.0')}{' '}
+          <Link component={RouterLink} to={'/sign-up'}>
+            {t('page.login.signUp-link.1')}
+          </Link>
+        </Typography>
 
         {/* Redirect to home page after login */}
         {called && data && <Redirect to="/" />}
