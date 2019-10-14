@@ -6,7 +6,18 @@
       "header": "Pagina principale"
     },
     "login": {
-      "header": "Esegui l'accesso ad $t(appanino)"
+      "header": "Esegui l'accesso ad $t(appanino)",
+      "signUp-link": [
+        "Non hai un account?",
+        "$t(action.signUp)"
+      ]
+    },
+    "signUp": {
+      "header": "Registrati",
+      "login-link": [
+        "Hai già un account?",
+        "effettua l'accesso"
+      ]
     },
     "shop": {
       "breadcrumb": "Negozio",
@@ -106,6 +117,7 @@
   },
   "action": {
     "login": "login",
+    "signUp": "registrati",
     "logout": "logout",
     "retry": "riprova",
     "save": "salva le modifiche",

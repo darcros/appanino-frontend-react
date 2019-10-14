@@ -6,7 +6,18 @@
       "header": "Homepage"
     },
     "login": {
-      "header": "Login to $t(appanino)"
+      "header": "Login to $t(appanino)",
+      "signUp-link": [
+        "Don't have an account?",
+        "$t(action.signUp)"
+      ]
+    },
+    "signUp": {
+      "header": "Signup",
+      "login-link": [
+        "Already have an account?",
+        "$t(action.login)"
+      ]
     },
     "shop": {
       "breadcrumb": "Shop",
@@ -106,6 +117,7 @@
   },
   "action": {
     "login": "login",
+    "signUp": "sign up",
     "logout": "logout",
     "retry": "retry",
     "save": "save changes",
