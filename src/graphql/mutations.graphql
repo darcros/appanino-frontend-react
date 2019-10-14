@@ -49,3 +49,33 @@ mutation DoEmailUpdate($newEmail: String!) {
     email
   }
 }
+
+mutation RegisterAndLogin(
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $password: String!
+  $schoolId: ID!
+) {
+  registerUser(
+    userRegistrationData: {
+      firstname: $firstname
+      lastname: $lastname
+      email: $email
+      password: $password
+      schoolId: $schoolId
+    }
+  ) {
+    id
+    firstname
+    lastname
+    email
+    role
+    school {
+      id
+      name
+    }
+  }
+
+  token: login(email: $email, password: $password)
+}
