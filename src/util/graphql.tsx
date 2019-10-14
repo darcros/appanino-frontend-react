@@ -8,8 +8,8 @@ import i18n from '../i18n';
  *
  * @param err The Apollo Error
  */
-export const errorToMessage = (err: ApolloError | null | undefined): string | null => {
-  if (!err) return null;
+export const errorToMessage = (err: ApolloError | null | undefined): string | undefined => {
+  if (!err) return;
   const { networkError, graphQLErrors } = err;
 
   if (networkError) {
