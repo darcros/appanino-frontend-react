@@ -16,7 +16,7 @@
       "header": "Registrati",
       "login-link": [
         "Hai già un account?",
-        "effettua l'accesso"
+        "Effettua l'accesso"
       ]
     },
     "shop": {
@@ -116,13 +116,13 @@
     }
   },
   "action": {
-    "login": "login",
-    "signUp": "registrati",
-    "logout": "logout",
-    "retry": "riprova",
-    "save": "salva le modifiche",
-    "confirm": "conferma",
-    "cancel": "annulla"
+    "login": "Login",
+    "signUp": "Registrati",
+    "logout": "Logout",
+    "retry": "Riprova",
+    "save": "Salva le modifiche",
+    "confirm": "Conferma",
+    "cancel": "Annulla"
   },
   "error": {
     "generic": "È avvenuto un errore. $t(error.retry-later)",
