@@ -255,6 +255,12 @@ export type UserSettingsQuery = { __typename?: 'Query' } & {
   schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
 };
 
+export type SchoolsQueryVariables = {};
+
+export type SchoolsQuery = { __typename?: 'Query' } & {
+  schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
+};
+
 export const DoLoginDocument = gql`
   mutation DoLogin($email: String!, $password: String!) {
     login(email: $email, password: $password)
@@ -561,6 +567,24 @@ export function useUserSettingsQuery(baseOptions?: ReactApolloHooks.QueryHookOpt
   return ReactApolloHooks.useQuery<UserSettingsQuery, UserSettingsQueryVariables>(UserSettingsDocument, baseOptions);
 }
 export type UserSettingsQueryHookResult = ReturnType<typeof useUserSettingsQuery>;
+export const SchoolsDocument = gql`
+  query Schools {
+    schools {
+      id
+      name
+    }
+  }
+`;
+export type SchoolsComponentProps = Omit<ReactApollo.QueryProps<SchoolsQuery, SchoolsQueryVariables>, 'query'>;
+
+export const SchoolsComponent = (props: SchoolsComponentProps) => (
+  <ReactApollo.Query<SchoolsQuery, SchoolsQueryVariables> query={SchoolsDocument} {...props} />
+);
+
+export function useSchoolsQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<SchoolsQueryVariables>) {
+  return ReactApolloHooks.useQuery<SchoolsQuery, SchoolsQueryVariables>(SchoolsDocument, baseOptions);
+}
+export type SchoolsQueryHookResult = ReturnType<typeof useSchoolsQuery>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
