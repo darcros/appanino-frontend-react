@@ -14,7 +14,7 @@ export const ShopPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <PageContainer breadcrumbs maxWidth="md">
+    <PageContainer maxWidth="md">
       <GetShopProductsComponent>
         {({ data, error, loading, refetch }) => {
           if (error) {

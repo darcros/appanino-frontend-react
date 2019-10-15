@@ -20,7 +20,7 @@ export const UserSettingsPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <PageContainer breadcrumbs>
+    <PageContainer>
       <AvatarHeader title={t('page.user-settings.header')} icon={AccountCircleIcon} />
       <UserSettingsComponent>
         {({ data, error, loading, refetch }) => {
