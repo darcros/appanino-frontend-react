@@ -112,7 +112,8 @@
       "required": "Last name required"
     },
     "school": {
-      "label": "School"
+      "label": "School",
+      "loading": "Loading schools..."
     }
   },
   "action": {

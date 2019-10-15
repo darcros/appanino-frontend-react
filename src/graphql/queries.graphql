@@ -39,3 +39,10 @@ query UserSettings {
     name
   }
 }
+
+query Schools {
+  schools {
+    id
+    name
+  }
+}

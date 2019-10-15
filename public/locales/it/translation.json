@@ -112,7 +112,8 @@
       "required": "Cognome richiesto"
     },
     "school": {
-      "label": "Scuola"
+      "label": "Scuola",
+      "loading": "Caricamento scuole..."
     }
   },
   "action": {
