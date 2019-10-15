@@ -53,9 +53,9 @@ const App: React.FC = () => {
                 <DrawerAndNavbar />
 
                 <Switch>
-                  <Route path="/" exact component={HomePage} />
-                  <LoggedInRoute loggedOut path="/login" exact component={LoginPage} />
-                  <LoggedInRoute loggedOut path="/sign-up" exact component={SignUpPage} />
+                  <LoggedInRoute loggedOut path="/" redirect="/shop" exact component={HomePage} />
+                  <LoggedInRoute loggedOut path="/login" redirect="/shop" exact component={LoginPage} />
+                  <LoggedInRoute loggedOut path="/sign-up" redirect="/shop" exact component={SignUpPage} />
 
                   <LoggedInRoute path="/user" exact component={UserSettingsPage} />
                   <LoggedInRoute path="/shop" component={ShopPage} />
