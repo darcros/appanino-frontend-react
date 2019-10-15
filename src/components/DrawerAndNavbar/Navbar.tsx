@@ -1,15 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
 
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,21 +43,35 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const location = useLocation();
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        {loggedIn && (
-          <IconButton
-            onClick={onMenuButtonClick}
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label={t('component.navbar.menu-aria-label')}
-          >
-            <MenuIcon />
-          </IconButton>
-        )}
+        <Slide direction="right" in={location.pathname !== '/'} mountOnEnter unmountOnExit>
+          {loggedIn ? (
+            <IconButton
+              onClick={onMenuButtonClick}
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label={t('component.navbar.menu-aria-label')}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              component={RouterLink}
+              to="/"
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label={t('component.navbar.back-button-aria-label')}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          )}
+        </Slide>
         <Typography variant="h6" className={classes.title}>
           {t('appanino')}
         </Typography>
