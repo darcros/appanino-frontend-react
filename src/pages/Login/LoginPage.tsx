@@ -64,7 +64,7 @@ export const LoginPage: React.FC = () => {
         </Typography>
 
         {/* Redirect to home page after login */}
-        {called && data && <Redirect to="/" />}
+        {called && data && <Redirect to="/shop" />}
       </div>
     </PageContainer>
   );
