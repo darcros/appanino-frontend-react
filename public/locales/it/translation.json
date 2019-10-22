@@ -60,7 +60,8 @@
     },
     "navbar": {
       "menu-aria-label": "menu",
-      "account-button-aria-label": "account"
+      "account-button-aria-label": "account",
+      "back-button-aria-label": "indietro"
     },
     "drawer": {
       "drawer-aria-label": "navigazione laterale"
