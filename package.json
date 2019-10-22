@@ -102,6 +102,12 @@
             "t",
             "createStyles",
             "createMuiTheme"
+          ],
+          "ignoreAttribute": [
+            "name",
+            "inputName",
+            "autoComplete",
+            "aria-labelledby"
           ]
         }
       ],
