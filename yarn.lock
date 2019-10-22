@@ -4224,10 +4224,10 @@ eslint-plugin-flowtype@2.50.1:
   dependencies:
     lodash "^4.17.10"
 
-eslint-plugin-i18next@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-i18next/-/eslint-plugin-i18next-2.3.0.tgz#ebe9b5e0a36f47f1c2dbca7bede016075f33c3df"
-  integrity sha512-oBivp7mjSzlDUUdsEBIfFTXIXfKABFf4jmRbbsA4PKRA6hj+acKgzKyPWgatxKw/FV5B5l91ROzHCgIa2Xek0A==
+eslint-plugin-i18next@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-i18next/-/eslint-plugin-i18next-3.2.0.tgz#59fbfdbc6df4ed4fb9cf324812ff0c6d619c4824"
+  integrity sha512-+r96KnrA2d41ar1OT3JPgtwXQX9e/l1AYJOP4ihRuPfRAJAX1VEvJNTDwWth0Oa8TOvtoqKGIZHTLONsjR8aXg==
   dependencies:
     requireindex "~1.1.0"
 
