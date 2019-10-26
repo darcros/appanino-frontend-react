@@ -27,6 +27,9 @@
       "remove": "remove",
       "product-image": "product image: {{productName}}"
     },
+    "cart": {
+      "header": "Shopping cart"
+    },
     "user-settings": {
       "breadcrumb": "User Settings",
       "header": "User settings",
@@ -60,6 +63,7 @@
     },
     "navbar": {
       "menu-aria-label": "menu",
+      "cart-button-aria-label": "shopping cart",
       "account-button-aria-label": "account",
       "back-button-aria-label": "back"
     },

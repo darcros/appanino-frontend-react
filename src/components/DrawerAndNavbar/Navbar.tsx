@@ -13,6 +13,7 @@ import Slide from '@material-ui/core/Slide';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,15 +77,26 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
           {t('appanino')}
         </Typography>
         {loggedIn ? (
-          <IconButton
-            component={RouterLink}
-            to="/user/"
-            edge="end"
-            color="inherit"
-            aria-label={t('component.navbar.account-button-aria-label')}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+          <React.Fragment>
+            <IconButton
+              component={RouterLink}
+              to="/cart/"
+              edge="end"
+              color="inherit"
+              aria-label={t('component.navbar.cart-button-aria-label')}
+            >
+              <ShoppingCartIcon />
+            </IconButton>
+            <IconButton
+              component={RouterLink}
+              to="/user/"
+              edge="end"
+              color="inherit"
+              aria-label={t('component.navbar.account-button-aria-label')}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          </React.Fragment>
         ) : (
           <Button component={RouterLink} to="/login/" color="inherit">
             {t('action.login')}

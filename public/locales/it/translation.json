@@ -27,6 +27,9 @@
       "remove": "rimuovi",
       "product-image": "immagine del prodotto: {{productName}}"
     },
+    "cart": {
+      "header": "Carrello della spesa"
+    },
     "user-settings": {
       "breadcrumb": "Impostazioni Utente",
       "header": "Impostazioni utente",
@@ -60,6 +63,7 @@
     },
     "navbar": {
       "menu-aria-label": "menu",
+      "cart-button-aria-label": "carrello della spesa",
       "account-button-aria-label": "account",
       "back-button-aria-label": "indietro"
     },
