@@ -15,6 +15,16 @@ export type Scalars = {
   Float: number;
 };
 
+export type Cart = {
+  __typename?: 'Cart';
+  items: Array<CartItem>;
+  productQuantity: Scalars['Int'];
+};
+
+export type CartProductQuantityArgs = {
+  productId: Scalars['ID'];
+};
+
 export type CartItem = {
   __typename?: 'CartItem';
   id: Scalars['ID'];
@@ -177,16 +187,11 @@ export type Query = {
   product: Maybe<Product>;
   schools: Array<School>;
   users: Array<User>;
-  cart: Array<CartItem>;
-  productQuantityInCart: Scalars['Int'];
+  cart: Cart;
 };
 
 export type QueryProductArgs = {
   id: Scalars['ID'];
-};
-
-export type QueryProductQuantityInCartArgs = {
-  productId: Scalars['ID'];
 };
 
 export enum Role {
@@ -341,27 +346,33 @@ export type SchoolsQuery = { __typename?: 'Query' } & {
 export type CartQueryVariables = {};
 
 export type CartQuery = { __typename?: 'Query' } & {
-  cart: Array<
-    { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
-        product: { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'>;
-      }
-  >;
+  cart: { __typename?: 'Cart' } & {
+    items: Array<
+      { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
+          product: { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'>;
+        }
+    >;
+  };
 };
 
 export type ProductQuantityQueryVariables = {
   productId: Scalars['ID'];
 };
 
-export type ProductQuantityQuery = { __typename?: 'Query' } & { quantity: Query['productQuantityInCart'] };
+export type ProductQuantityQuery = { __typename?: 'Query' } & {
+  cart: { __typename?: 'Cart' } & Pick<Cart, 'productQuantity'>;
+};
 
 export type Resolver_CartQueryVariables = {};
 
 export type Resolver_CartQuery = { __typename?: 'Query' } & {
-  cart: Array<
-    { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
-        product: { __typename?: 'Product' } & Pick<Product, 'id'>;
-      }
-  >;
+  cart: { __typename?: 'Cart' } & {
+    items: Array<
+      { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
+          product: { __typename?: 'Product' } & Pick<Product, 'id'>;
+        }
+    >;
+  };
 };
 
 export const DoLoginDocument = gql`
@@ -721,12 +732,14 @@ export type SchoolsQueryHookResult = ReturnType<typeof useSchoolsQuery>;
 export const CartDocument = gql`
   query Cart {
     cart @client {
-      id
-      quantity
-      product {
+      items {
         id
-        name
-        price
+        quantity
+        product {
+          id
+          name
+          price
+        }
       }
     }
   }
@@ -743,7 +756,9 @@ export function useCartQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<Car
 export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export const ProductQuantityDocument = gql`
   query ProductQuantity($productId: ID!) {
-    quantity: productQuantityInCart(productId: $productId) @client
+    cart @client {
+      productQuantity(productId: $productId)
+    }
   }
 `;
 export type ProductQuantityComponentProps = Omit<
@@ -768,10 +783,12 @@ export type ProductQuantityQueryHookResult = ReturnType<typeof useProductQuantit
 export const Resolver_CartDocument = gql`
   query Resolver_Cart {
     cart @client {
-      id
-      quantity
-      product {
+      items {
         id
+        quantity
+        product {
+          id
+        }
       }
     }
   }
@@ -856,6 +873,7 @@ export type ResolversTypes = {
   OrderStatus: OrderStatus;
   OrderItem: ResolverTypeWrapper<OrderItem>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Cart: ResolverTypeWrapper<Cart>;
   CartItem: ResolverTypeWrapper<CartItem>;
   Mutation: ResolverTypeWrapper<{}>;
   UserRegistrationInput: UserRegistrationInput;
@@ -884,6 +902,7 @@ export type ResolversParentTypes = {
   OrderStatus: OrderStatus;
   OrderItem: OrderItem;
   Int: Scalars['Int'];
+  Cart: Cart;
   CartItem: CartItem;
   Mutation: {};
   UserRegistrationInput: UserRegistrationInput;
@@ -894,6 +913,11 @@ export type ResolversParentTypes = {
   OrderItemInput: OrderItemInput;
   NewProductInput: NewProductInput;
   UpdateVisibilityInput: UpdateVisibilityInput;
+};
+
+export type CartResolvers<ContextType = Context, ParentType = ResolversParentTypes['Cart']> = {
+  items: Resolver<Array<ResolversTypes['CartItem']>, ParentType, ContextType>;
+  productQuantity: Resolver<ResolversTypes['Int'], ParentType, ContextType, CartProductQuantityArgs>;
 };
 
 export type CartItemResolvers<ContextType = Context, ParentType = ResolversParentTypes['CartItem']> = {
@@ -966,8 +990,7 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversParentTy
   product: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, QueryProductArgs>;
   schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
   users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  cart: Resolver<Array<ResolversTypes['CartItem']>, ParentType, ContextType>;
-  productQuantityInCart: Resolver<ResolversTypes['Int'], ParentType, ContextType, QueryProductQuantityInCartArgs>;
+  cart: Resolver<ResolversTypes['Cart'], ParentType, ContextType>;
 };
 
 export type SchoolResolvers<ContextType = Context, ParentType = ResolversParentTypes['School']> = {
@@ -988,6 +1011,7 @@ export type UserResolvers<ContextType = Context, ParentType = ResolversParentTyp
 };
 
 export type Resolvers<ContextType = Context> = {
+  Cart: CartResolvers<ContextType>;
   CartItem: CartItemResolvers<ContextType>;
   Category: CategoryResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;

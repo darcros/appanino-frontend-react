@@ -1,8 +1,10 @@
+/* eslint-disable i18next/no-literal-string */
+
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { link } from './link';
-import { resolvers } from './resolvers';
+import { resolvers, defaults } from './resolvers';
 
 export const client = new ApolloClient({
   link,
@@ -11,10 +13,10 @@ export const client = new ApolloClient({
   connectToDevTools: true,
 });
 
-// Pre-populate cache
-client.cache.writeData({
-  data: {
-    // initialize cart
-    cart: [],
-  },
-});
+const writeDefaults = () =>
+  client.cache.writeData({
+    data: { ...defaults },
+  });
+
+writeDefaults();
+client.onResetStore(async () => writeDefaults());

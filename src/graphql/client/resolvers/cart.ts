@@ -1,13 +1,28 @@
 /* eslint-disable i18next/no-literal-string */
 
 import gql from 'graphql-tag';
-import { Resolvers } from 'apollo-client';
+import {
+  MutationResolvers,
+  Resolver_CartDocument,
+  Resolver_CartQuery,
+  CartResolvers,
+} from '../../../generated/graphql';
 
-import { saveToken as saveTokenToLocalStorage, removeToken } from './token';
-import { QueryResolvers, MutationResolvers, Resolver_CartDocument, Resolver_CartQuery } from '../../generated/graphql';
+export const cartDefaults = {
+  cart: {
+    __typename: 'Cart',
+    items: [],
+  },
+};
 
-const Query: Pick<QueryResolvers, 'productQuantityInCart'> = {
-  productQuantityInCart: (_root, { productId }, { cache, getCacheKey }) => {
+export const CartBaseQueryResolvers = {
+  cart: () => ({
+    __typename: 'Cart',
+  }),
+};
+
+export const CartQueryResolvers: Pick<CartResolvers, 'productQuantity'> = {
+  productQuantity: (_root, { productId }, { cache, getCacheKey }) => {
     const itemId = getCacheKey({ __typename: 'CartItem', id: `for-product-${productId}` });
 
     // TODO: use code generator for types
@@ -24,22 +39,14 @@ const Query: Pick<QueryResolvers, 'productQuantityInCart'> = {
   },
 };
 
-const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut' | 'updateCartQuantity'> = {
-  saveToken: (_root, { token }, _context) => {
-    saveTokenToLocalStorage(token);
-    return null;
-  },
-  logOut: async (_root, _variables, { client }) => {
-    removeToken();
-    await client.resetStore();
-    return null;
-  },
+// TODO: split cart mutations in another type
+export const CartMutationResolvers: Pick<MutationResolvers, 'updateCartQuantity'> = {
   updateCartQuantity: async (_root, { productId, quantity: qty }, { cache, getCacheKey }) => {
     const quantity = Math.max(0, qty);
 
     // get cart
     const data = cache.readQuery<Resolver_CartQuery>({ query: Resolver_CartDocument });
-    const items = (data && data.cart) || [];
+    const items = (data && data.cart.items) || [];
 
     // update or create cart item
     const pos = items.findIndex(item => item.product.id === productId);
@@ -66,7 +73,12 @@ const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut' | 'updateCartQuan
     // save cart
     cache.writeQuery<Resolver_CartQuery>({
       query: Resolver_CartDocument,
-      data: { cart: filtered },
+      data: {
+        cart: {
+          __typename: 'Cart',
+          items: filtered,
+        },
+      },
     });
 
     // update item
@@ -90,9 +102,4 @@ const Mutation: Pick<MutationResolvers, 'saveToken' | 'logOut' | 'updateCartQuan
 
     return null;
   },
-};
-
-export const resolvers: Resolvers = {
-  Query,
-  Mutation,
 };

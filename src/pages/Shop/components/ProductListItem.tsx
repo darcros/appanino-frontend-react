@@ -48,7 +48,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({ productId, tex
     await refetch({ productId });
   };
 
-  const items = (data && data.quantity) || 0;
+  const items = (data && data.cart.productQuantity) || 0;
   const classes = useStyles({ isQuantityInputExpanded: items > 0 });
 
   return (

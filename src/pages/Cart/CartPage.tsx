@@ -17,7 +17,7 @@ export const CartPage: React.FC = () => {
           {t('page.cart.header')}
 
           {data &&
-            data.cart.map((item, i) => (
+            data.cart.items.map((item, i) => (
               <Typography key={i}>
                 {item.product.name}: {item.quantity}
               </Typography>

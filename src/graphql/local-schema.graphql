@@ -6,9 +6,15 @@ type CartItem {
 
 # TODO: Create Cart type that holds all cart queries 
 
+type Cart {
+  # Returns all items that are in cart
+  items: [CartItem!]!
+  # Returns quantity of a product (0 if the product is not in the cart)
+  productQuantity(productId: ID!): Int!
+}
+
 extend type Query {
-  cart: [CartItem!]!
-  productQuantityInCart(productId: ID!): Int!
+  cart: Cart!
 }
 
 extend type Mutation {

@@ -47,20 +47,25 @@ query Schools {
   }
 }
 
+
 query Cart {
   cart @client {
-    id
-    quantity
-    product {
+    items {
       id
-      name
-      price
+      quantity
+      product {
+        id
+        name
+        price
+      }
     }
   }
 }
 
 query ProductQuantity($productId: ID!) {
-  quantity: productQuantityInCart(productId: $productId) @client
+  cart @client {
+    productQuantity(productId: $productId)
+  }
 }
 
 # ---------------- #
@@ -71,10 +76,12 @@ query ProductQuantity($productId: ID!) {
 
 query Resolver_Cart {
   cart @client {
-    id
-    quantity
-    product {
+    items {
       id
+      quantity
+      product {
+        id
+      }
     }
   }
 }
