@@ -2,10 +2,10 @@
 
 import gql from 'graphql-tag';
 import {
-  MutationResolvers,
+  CartResolvers,
+  CartMutationsResolvers,
   Resolver_CartDocument,
   Resolver_CartQuery,
-  CartResolvers,
 } from '../../../generated/graphql';
 
 export const cartDefaults = {
@@ -13,12 +13,6 @@ export const cartDefaults = {
     __typename: 'Cart',
     items: [],
   },
-};
-
-export const CartBaseQueryResolvers = {
-  cart: () => ({
-    __typename: 'Cart',
-  }),
 };
 
 export const CartQueryResolvers: Pick<CartResolvers, 'productQuantity'> = {
@@ -39,9 +33,8 @@ export const CartQueryResolvers: Pick<CartResolvers, 'productQuantity'> = {
   },
 };
 
-// TODO: split cart mutations in another type
-export const CartMutationResolvers: Pick<MutationResolvers, 'updateCartQuantity'> = {
-  updateCartQuantity: async (_root, { productId, quantity: qty }, { cache, getCacheKey }) => {
+export const CartMutationResolvers: CartMutationsResolvers = {
+  updateProductQuantity: async (_root, { productId, quantity: qty }, { cache, getCacheKey }) => {
     const quantity = Math.max(0, qty);
 
     // get cart

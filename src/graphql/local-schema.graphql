@@ -4,12 +4,11 @@ type CartItem {
   product: Product!
 }
 
-# TODO: Create Cart type that holds all cart queries 
-
 type Cart {
   # Returns all items that are in cart
   items: [CartItem!]!
-  # Returns quantity of a product (0 if the product is not in the cart)
+  # Returns quantity of a product.
+  # Retunrns a quantity of 0 if the product is not in the cart.
   productQuantity(productId: ID!): Int!
 }
 
@@ -17,8 +16,18 @@ extend type Query {
   cart: Cart!
 }
 
-extend type Mutation {
+type CartMutations {
+  # Updates the quantity of a certain item in the cart.
+  # If the item did not exist it will be created.
+  updateProductQuantity(productId: ID!, quantity: Int!): Boolean
+}
+
+type AuthMutations {
   saveToken(token: String!): Boolean
   logOut: Boolean
-  updateCartQuantity(productId: ID!, quantity: Int!): Boolean
+}
+
+extend type Mutation {
+  cart: CartMutations!
+  auth: AuthMutations!
 }

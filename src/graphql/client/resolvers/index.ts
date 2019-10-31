@@ -2,20 +2,28 @@
 
 import { Resolvers } from 'apollo-client';
 
-import { cartDefaults, CartBaseQueryResolvers, CartQueryResolvers, CartMutationResolvers } from './cart';
+import { cartDefaults, CartQueryResolvers, CartMutationResolvers } from './cart';
 import { AuthMutationResolvers } from './auth';
 
 export const defaults = {
   ...cartDefaults,
 };
 
+const redirect = (typename: string) => {
+  return () => ({
+    __typename: typename,
+  });
+};
+
 export const resolvers: Resolvers = {
   Query: {
-    ...CartBaseQueryResolvers,
+    cart: redirect('Cart'),
   },
   Mutation: {
-    ...AuthMutationResolvers,
-    ...CartMutationResolvers,
+    cart: redirect('CartMutations'),
+    auth: redirect('AuthMutations'),
   },
   Cart: CartQueryResolvers,
+  CartMutations: CartMutationResolvers,
+  AuthMutations: AuthMutationResolvers,
 };

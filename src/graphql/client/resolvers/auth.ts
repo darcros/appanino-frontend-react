@@ -1,7 +1,7 @@
 import { saveToken as saveTokenToLocalStorage, removeToken } from '../token';
-import { MutationResolvers } from '../../../generated/graphql';
+import { AuthMutationsResolvers } from '../../../generated/graphql';
 
-export const AuthMutationResolvers: Pick<MutationResolvers, 'saveToken' | 'logOut'> = {
+export const AuthMutationResolvers: AuthMutationsResolvers = {
   saveToken: (_root, { token }, _context) => {
     saveTokenToLocalStorage(token);
     return null;
