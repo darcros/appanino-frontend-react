@@ -79,3 +79,7 @@ mutation RegisterAndLogin(
 
   token: login(email: $email, password: $password)
 }
+
+mutation UpdateCartQuantity($productId: ID!, $quantity: Int!) {
+  updateCartQuantity(productId: $productId, quantity: $quantity) @client
+}

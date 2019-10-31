@@ -46,3 +46,35 @@ query Schools {
     name
   }
 }
+
+query Cart {
+  cart @client {
+    id
+    quantity
+    product {
+      id
+      name
+      price
+    }
+  }
+}
+
+query ProductQuantity($productId: ID!) {
+  quantity: productQuantityInCart(productId: $productId) @client
+}
+
+# ---------------- #
+# RESOLVER QUERIES #
+# ---------------- #
+
+# TODO: move resolver queries into another file
+
+query Resolver_Cart {
+  cart @client {
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}

@@ -1,4 +1,18 @@
+type CartItem {
+  id: ID!
+  quantity: Int!
+  product: Product!
+}
+
+# TODO: Create Cart type that holds all cart queries 
+
+extend type Query {
+  cart: [CartItem!]!
+  productQuantityInCart(productId: ID!): Int!
+}
+
 extend type Mutation {
   saveToken(token: String!): Boolean
   logOut: Boolean
+  updateCartQuantity(productId: ID!, quantity: Int!): Boolean
 }

@@ -21,6 +21,7 @@ export const ProductList: React.FC<ProductListProps> = ({ products }) => {
     const productItems = products.map(({ id, name, price }) => (
       <ProductListItem
         key={id}
+        productId={id}
         text={name}
         price={price}
         // TODO: get image from API or remove image completely
