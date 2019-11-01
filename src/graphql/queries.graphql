@@ -68,6 +68,14 @@ query ProductQuantity($productId: ID!) {
   }
 }
 
+query CartQuantities {
+  cart @client {
+    items {
+      quantity
+    }
+  }
+}
+
 # ------------------------------ #
 # RESOLVER QUERIES AND FRAGMENTS #
 # ------------------------------ #

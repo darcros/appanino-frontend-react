@@ -379,6 +379,12 @@ export type ProductQuantityQuery = { __typename?: 'Query' } & {
   cart: { __typename?: 'Cart' } & Pick<Cart, 'productQuantity'>;
 };
 
+export type CartQuantitiesQueryVariables = {};
+
+export type CartQuantitiesQuery = { __typename?: 'Query' } & {
+  cart: { __typename?: 'Cart' } & { items: Array<{ __typename?: 'CartItem' } & Pick<CartItem, 'quantity'>> };
+};
+
 export type Resolver_CartQueryVariables = {};
 
 export type Resolver_CartQuery = { __typename?: 'Query' } & {
@@ -808,6 +814,31 @@ export function useProductQuantityQuery(
   );
 }
 export type ProductQuantityQueryHookResult = ReturnType<typeof useProductQuantityQuery>;
+export const CartQuantitiesDocument = gql`
+  query CartQuantities {
+    cart @client {
+      items {
+        quantity
+      }
+    }
+  }
+`;
+export type CartQuantitiesComponentProps = Omit<
+  ReactApollo.QueryProps<CartQuantitiesQuery, CartQuantitiesQueryVariables>,
+  'query'
+>;
+
+export const CartQuantitiesComponent = (props: CartQuantitiesComponentProps) => (
+  <ReactApollo.Query<CartQuantitiesQuery, CartQuantitiesQueryVariables> query={CartQuantitiesDocument} {...props} />
+);
+
+export function useCartQuantitiesQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<CartQuantitiesQueryVariables>) {
+  return ReactApolloHooks.useQuery<CartQuantitiesQuery, CartQuantitiesQueryVariables>(
+    CartQuantitiesDocument,
+    baseOptions,
+  );
+}
+export type CartQuantitiesQueryHookResult = ReturnType<typeof useCartQuantitiesQuery>;
 export const Resolver_CartDocument = gql`
   query Resolver_Cart {
     cart @client {
