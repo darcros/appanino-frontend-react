@@ -391,6 +391,12 @@ export type Resolver_CartQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type Resolver_CartItemQuantityFragment = { __typename?: 'CartItem' } & Pick<CartItem, 'quantity'>;
+export const Resolver_CartItemQuantityFragmentDoc = gql`
+  fragment Resolver_CartItemQuantity on CartItem {
+    quantity
+  }
+`;
 export const DoLoginDocument = gql`
   mutation DoLogin($email: String!, $password: String!) {
     login(email: $email, password: $password)

@@ -1,11 +1,12 @@
 /* eslint-disable i18next/no-literal-string */
 
-import gql from 'graphql-tag';
 import {
   CartResolvers,
   CartMutationsResolvers,
   Resolver_CartDocument,
   Resolver_CartQuery,
+  Resolver_CartItemQuantityFragment,
+  Resolver_CartItemQuantityFragmentDoc,
 } from '../../../generated/graphql';
 
 export const cartDefaults = {
@@ -19,14 +20,9 @@ export const CartQueryResolvers: Pick<CartResolvers, 'productQuantity'> = {
   productQuantity: (_root, { productId }, { cache, getCacheKey }) => {
     const itemId = getCacheKey({ __typename: 'CartItem', id: `for-product-${productId}` });
 
-    // TODO: use code generator for types
-    const data = cache.readFragment<{ __typename: 'CartItem'; quantity: number }>({
+    const data = cache.readFragment<Resolver_CartItemQuantityFragment>({
+      fragment: Resolver_CartItemQuantityFragmentDoc,
       id: itemId,
-      fragment: gql`
-        fragment CartItemQuantity on CartItem {
-          quantity
-        }
-      `,
     });
 
     return (data && data.quantity) || 0;
@@ -79,17 +75,13 @@ export const CartMutationResolvers: CartMutationsResolvers = {
     // retrieved by productQuantityInCart, so we need to ensure that it has the correct value
     if (pos > -1 && quantity === 0) {
       const id = getCacheKey({ __typename: 'CartItem', id: items[pos].id });
-      cache.writeFragment<{ __typename: 'CartItem'; quantity: number }>({
+      cache.writeFragment<Resolver_CartItemQuantityFragment>({
+        fragment: Resolver_CartItemQuantityFragmentDoc,
         id,
         data: {
           __typename: 'CartItem',
           quantity,
         },
-        fragment: gql`
-          fragment CartItemQuantity on CartItem {
-            quantity
-          }
-        `,
       });
     }
 

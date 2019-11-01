@@ -68,11 +68,11 @@ query ProductQuantity($productId: ID!) {
   }
 }
 
-# ---------------- #
-# RESOLVER QUERIES #
-# ---------------- #
+# ------------------------------ #
+# RESOLVER QUERIES AND FRAGMENTS #
+# ------------------------------ #
 
-# TODO: move resolver queries into another file
+# TODO: move resolver queries and fragments into another file
 
 query Resolver_Cart {
   cart @client {
@@ -84,4 +84,8 @@ query Resolver_Cart {
       }
     }
   }
+}
+
+fragment Resolver_CartItemQuantity on CartItem {
+  quantity
 }
