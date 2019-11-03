@@ -37,9 +37,10 @@ export const CartMutationResolvers: CartMutationsResolvers = {
     const data = cache.readQuery<Resolver_CartQuery>({ query: Resolver_CartDocument });
     const items = (data && data.cart.items) || [];
 
-    // update or create cart item
+    // find the CartItem associated with the productId
     const pos = items.findIndex(item => item.product.id === productId);
-    if (pos === -1 && quantity > 0) {
+
+    const insertItem = () => {
       items.push({
         __typename: 'CartItem',
         id: `for-product-${productId}`,
@@ -49,31 +50,18 @@ export const CartMutationResolvers: CartMutationsResolvers = {
           id: productId,
         },
       });
-    } else {
+    };
+
+    const updateItem = () => {
       items[pos] = {
         ...items[pos],
         quantity,
       };
-    }
+    };
 
-    // remove items with 0 quantity
-    const filtered = items.filter(item => item.quantity > 0);
-
-    // save cart
-    cache.writeQuery<Resolver_CartQuery>({
-      query: Resolver_CartDocument,
-      data: {
-        cart: {
-          __typename: 'Cart',
-          items: filtered,
-        },
-      },
-    });
-
-    // update item
-    // Even if the item is removed from the list it is still present in cache, and will be
-    // retrieved by productQuantityInCart, so we need to ensure that it has the correct value
-    if (pos > -1 && quantity === 0) {
+    const deleteItem = () => {
+      // Even if the item is removed from the list it is still present in cache, and will be
+      // retrieved by productQuantityInCart, so we need to ensure that it has the correct value
       const id = getCacheKey({ __typename: 'CartItem', id: items[pos].id });
       cache.writeFragment<Resolver_CartItemQuantityFragment>({
         fragment: Resolver_CartItemQuantityFragmentDoc,
@@ -83,7 +71,36 @@ export const CartMutationResolvers: CartMutationsResolvers = {
           quantity,
         },
       });
+
+      items.splice(pos, 1);
+    };
+
+    // delete item
+    if (quantity === 0) {
+      // no-op: delete item that doesn't exist
+      if (pos === -1) return null;
+
+      deleteItem();
     }
+    // update or create item
+    else {
+      if (pos === -1) {
+        insertItem();
+      } else {
+        updateItem();
+      }
+    }
+
+    // save cart
+    cache.writeQuery<Resolver_CartQuery>({
+      query: Resolver_CartDocument,
+      data: {
+        cart: {
+          __typename: 'Cart',
+          items,
+        },
+      },
+    });
 
     return null;
   },
