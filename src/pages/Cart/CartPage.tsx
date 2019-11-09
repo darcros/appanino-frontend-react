@@ -15,14 +15,14 @@ export const CartPage: React.FC = () => {
       <Box my={4}>
         <Typography variant="h4" component="h1">
           {t('page.cart.header')}
-
-          {data &&
-            data.cart.items.map((item, i) => (
-              <Typography key={i}>
-                {item.product.name}: {item.quantity}
-              </Typography>
-            ))}
         </Typography>
+
+        {data &&
+          data.cart.items.map((item, i) => (
+            <Typography key={i}>
+              {item.product.name}: {item.quantity}
+            </Typography>
+          ))}
       </Box>
     </PageContainer>
   );
