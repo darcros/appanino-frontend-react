@@ -28,7 +28,9 @@
       "product-image": "immagine del prodotto: {{productName}}"
     },
     "cart": {
-      "header": "Carrello della spesa"
+      "header": "Carrello della spesa",
+      "place-order": "Invia ordine",
+      "order-placed": "L'ordine è stato inviato"
     },
     "user-settings": {
       "breadcrumb": "Impostazioni Utente",
@@ -137,6 +139,7 @@
     "retry-later": "Perfavore riprova più tardi.",
     "same-password": "La nuova password deve essere diversa da quella vecchia",
     "wrong-password": "Password sbagliata",
+    "cannot-place-order": "Impossibile inviare l'ordine. $t(error.retry-later)",
     "graphql": {
       "NONEXISTENT_EMAIL": "Quell'email non esiste",
       "WRONG_PASSWORD": "$t(error.wrong-password)"

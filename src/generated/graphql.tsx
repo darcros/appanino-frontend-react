@@ -320,6 +320,14 @@ export type UpdateCartQuantityMutation = { __typename?: 'Mutation' } & {
   cart: { __typename?: 'CartMutations' } & Pick<CartMutations, 'updateProductQuantity'>;
 };
 
+export type PlaceOrderMutationVariables = {
+  items: Array<OrderItemInput>;
+};
+
+export type PlaceOrderMutation = { __typename?: 'Mutation' } & {
+  placeOrder: { __typename?: 'Order' } & Pick<Order, 'id'>;
+};
+
 export type UserRoleQueryVariables = {};
 
 export type UserRoleQuery = { __typename?: 'Query' } & {
@@ -662,6 +670,29 @@ export function useUpdateCartQuantityMutation(
   );
 }
 export type UpdateCartQuantityMutationHookResult = ReturnType<typeof useUpdateCartQuantityMutation>;
+export const PlaceOrderDocument = gql`
+  mutation PlaceOrder($items: [OrderItemInput!]!) {
+    placeOrder(orderData: { items: $items }) {
+      id
+    }
+  }
+`;
+export type PlaceOrderMutationFn = ReactApollo.MutationFn<PlaceOrderMutation, PlaceOrderMutationVariables>;
+export type PlaceOrderComponentProps = Omit<
+  ReactApollo.MutationProps<PlaceOrderMutation, PlaceOrderMutationVariables>,
+  'mutation'
+>;
+
+export const PlaceOrderComponent = (props: PlaceOrderComponentProps) => (
+  <ReactApollo.Mutation<PlaceOrderMutation, PlaceOrderMutationVariables> mutation={PlaceOrderDocument} {...props} />
+);
+
+export function usePlaceOrderMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<PlaceOrderMutation, PlaceOrderMutationVariables>,
+) {
+  return ReactApolloHooks.useMutation<PlaceOrderMutation, PlaceOrderMutationVariables>(PlaceOrderDocument, baseOptions);
+}
+export type PlaceOrderMutationHookResult = ReturnType<typeof usePlaceOrderMutation>;
 export const UserRoleDocument = gql`
   query UserRole {
     self {

@@ -89,3 +89,13 @@ mutation UpdateCartQuantity($productId: ID!, $quantity: Int!) {
     updateProductQuantity(productId: $productId, quantity: $quantity)
   }
 }
+
+mutation PlaceOrder($items: [OrderItemInput!]!) {
+  placeOrder(
+    orderData: {
+      items: $items
+    }
+  ) {
+    id
+  }
+}

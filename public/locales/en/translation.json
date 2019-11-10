@@ -28,7 +28,9 @@
       "product-image": "product image: {{productName}}"
     },
     "cart": {
-      "header": "Shopping cart"
+      "header": "Shopping cart",
+      "place-order": "Place order",
+      "order-placed": "Order has been placed"
     },
     "user-settings": {
       "breadcrumb": "User Settings",
@@ -137,6 +139,7 @@
     "retry-later": "Please retry later.",
     "same-password": "The new password must be different from the old one",
     "wrong-password": "Wrong password",
+    "cannot-place-order": "Cannot place order. $t(error.retry-later)",
     "graphql": {
       "NONEXISTENT_EMAIL": "That email addres doesn't exist",
       "WRONG_PASSWORD": "$t(error.wrong-password)"
