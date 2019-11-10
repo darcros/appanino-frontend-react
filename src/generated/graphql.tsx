@@ -365,7 +365,9 @@ export type CartQuery = { __typename?: 'Query' } & {
   cart: { __typename?: 'Cart' } & {
     items: Array<
       { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
-          product: { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'>;
+          product: { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
+              category: { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>;
+            };
         }
     >;
   };
@@ -773,6 +775,10 @@ export const CartDocument = gql`
           id
           name
           price
+          category {
+            id
+            name
+          }
         }
       }
     }

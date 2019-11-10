@@ -8,7 +8,7 @@ import { GetShopProductsComponent } from '../../generated/graphql';
 
 import { PageContainer } from '../../components/PageContainer';
 import { Center } from '../../components/Center';
-import { ProductList } from './components/ProductList';
+import { ProductList } from '../../components/ProductList/ProductList';
 
 export const ShopPage: React.FC = () => {
   const { t } = useTranslation();

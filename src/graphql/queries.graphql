@@ -47,7 +47,6 @@ query Schools {
   }
 }
 
-
 query Cart {
   cart @client {
     items {
@@ -57,6 +56,10 @@ query Cart {
         id
         name
         price
+        category {
+          id
+          name
+        }
       }
     }
   }
