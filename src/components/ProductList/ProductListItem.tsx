@@ -12,7 +12,6 @@ import { QuantityInput } from '../../pages/Shop/components/QuantityInput';
 import {
   useUpdateCartQuantityMutation,
   useProductQuantityQuery,
-  CartDocument,
   ProductQuantityDocument,
 } from '../../generated/graphql';
 
@@ -55,7 +54,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({ productId, tex
         {
           query: ProductQuantityDocument,
           variables: { productId },
-        }
+        },
       ],
     });
   };
