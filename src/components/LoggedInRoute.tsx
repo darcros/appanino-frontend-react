@@ -14,7 +14,7 @@ export const LoggedInRoute: React.FC<LoggedInRouteProps> = ({
   redirect = '/',
   ...rest
 }) => {
-  const { data } = useUserRoleQuery();
+  const { data } = useUserRoleQuery({ suspend: true });
   const isLoggedIn = !!(data && data.self);
   const canSee = loggedOut ? !isLoggedIn : isLoggedIn;
 
