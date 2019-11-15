@@ -25,33 +25,6 @@ export type AuthMutationsSaveTokenArgs = {
   token: Scalars['String'];
 };
 
-export type Cart = {
-  __typename?: 'Cart';
-  items: Array<CartItem>;
-  productQuantity: Scalars['Int'];
-};
-
-export type CartProductQuantityArgs = {
-  productId: Scalars['ID'];
-};
-
-export type CartItem = {
-  __typename?: 'CartItem';
-  id: Scalars['ID'];
-  quantity: Scalars['Int'];
-  product: Product;
-};
-
-export type CartMutations = {
-  __typename?: 'CartMutations';
-  updateProductQuantity: Maybe<Scalars['Boolean']>;
-};
-
-export type CartMutationsUpdateProductQuantityArgs = {
-  productId: Scalars['ID'];
-  quantity: Scalars['Int'];
-};
-
 export type Category = {
   __typename?: 'Category';
   id: Scalars['ID'];
@@ -84,7 +57,6 @@ export type Mutation = {
   addProduct: Product;
   /** Show or hide a product */
   updateProductVisibility: Product;
-  cart: CartMutations;
   auth: AuthMutations;
 };
 
@@ -197,7 +169,6 @@ export type Query = {
   product: Maybe<Product>;
   schools: Array<School>;
   users: Array<User>;
-  cart: Cart;
 };
 
 export type QueryProductArgs = {
@@ -311,15 +282,6 @@ export type RegisterAndLoginMutation = { __typename?: 'Mutation' } & { token: Mu
     };
 };
 
-export type UpdateCartQuantityMutationVariables = {
-  productId: Scalars['ID'];
-  quantity: Scalars['Int'];
-};
-
-export type UpdateCartQuantityMutation = { __typename?: 'Mutation' } & {
-  cart: { __typename?: 'CartMutations' } & Pick<CartMutations, 'updateProductQuantity'>;
-};
-
 export type PlaceOrderMutationVariables = {
   items: Array<OrderItemInput>;
 };
@@ -367,52 +329,6 @@ export type SchoolsQuery = { __typename?: 'Query' } & {
   schools: Array<{ __typename?: 'School' } & Pick<School, 'id' | 'name'>>;
 };
 
-export type CartQueryVariables = {};
-
-export type CartQuery = { __typename?: 'Query' } & {
-  cart: { __typename?: 'Cart' } & {
-    items: Array<
-      { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
-          product: { __typename?: 'Product' } & Pick<Product, 'id' | 'name' | 'price'> & {
-              category: { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>;
-            };
-        }
-    >;
-  };
-};
-
-export type ProductQuantityQueryVariables = {
-  productId: Scalars['ID'];
-};
-
-export type ProductQuantityQuery = { __typename?: 'Query' } & {
-  cart: { __typename?: 'Cart' } & Pick<Cart, 'productQuantity'>;
-};
-
-export type CartQuantitiesQueryVariables = {};
-
-export type CartQuantitiesQuery = { __typename?: 'Query' } & {
-  cart: { __typename?: 'Cart' } & { items: Array<{ __typename?: 'CartItem' } & Pick<CartItem, 'quantity'>> };
-};
-
-export type Resolver_CartQueryVariables = {};
-
-export type Resolver_CartQuery = { __typename?: 'Query' } & {
-  cart: { __typename?: 'Cart' } & {
-    items: Array<
-      { __typename?: 'CartItem' } & Pick<CartItem, 'id' | 'quantity'> & {
-          product: { __typename?: 'Product' } & Pick<Product, 'id'>;
-        }
-    >;
-  };
-};
-
-export type Resolver_CartItemQuantityFragment = { __typename?: 'CartItem' } & Pick<CartItem, 'quantity'>;
-export const Resolver_CartItemQuantityFragmentDoc = gql`
-  fragment Resolver_CartItemQuantity on CartItem {
-    quantity
-  }
-`;
 export const DoLoginDocument = gql`
   mutation DoLogin($email: String!, $password: String!) {
     login(email: $email, password: $password)
@@ -638,38 +554,6 @@ export function useRegisterAndLoginMutation(
   );
 }
 export type RegisterAndLoginMutationHookResult = ReturnType<typeof useRegisterAndLoginMutation>;
-export const UpdateCartQuantityDocument = gql`
-  mutation UpdateCartQuantity($productId: ID!, $quantity: Int!) {
-    cart @client {
-      updateProductQuantity(productId: $productId, quantity: $quantity)
-    }
-  }
-`;
-export type UpdateCartQuantityMutationFn = ReactApollo.MutationFn<
-  UpdateCartQuantityMutation,
-  UpdateCartQuantityMutationVariables
->;
-export type UpdateCartQuantityComponentProps = Omit<
-  ReactApollo.MutationProps<UpdateCartQuantityMutation, UpdateCartQuantityMutationVariables>,
-  'mutation'
->;
-
-export const UpdateCartQuantityComponent = (props: UpdateCartQuantityComponentProps) => (
-  <ReactApollo.Mutation<UpdateCartQuantityMutation, UpdateCartQuantityMutationVariables>
-    mutation={UpdateCartQuantityDocument}
-    {...props}
-  />
-);
-
-export function useUpdateCartQuantityMutation(
-  baseOptions?: ReactApolloHooks.MutationHookOptions<UpdateCartQuantityMutation, UpdateCartQuantityMutationVariables>,
-) {
-  return ReactApolloHooks.useMutation<UpdateCartQuantityMutation, UpdateCartQuantityMutationVariables>(
-    UpdateCartQuantityDocument,
-    baseOptions,
-  );
-}
-export type UpdateCartQuantityMutationHookResult = ReturnType<typeof useUpdateCartQuantityMutation>;
 export const PlaceOrderDocument = gql`
   mutation PlaceOrder($items: [OrderItemInput!]!) {
     placeOrder(orderData: { items: $items }) {
@@ -796,112 +680,6 @@ export function useSchoolsQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<
   return ReactApolloHooks.useQuery<SchoolsQuery, SchoolsQueryVariables>(SchoolsDocument, baseOptions);
 }
 export type SchoolsQueryHookResult = ReturnType<typeof useSchoolsQuery>;
-export const CartDocument = gql`
-  query Cart {
-    cart @client {
-      items {
-        id
-        quantity
-        product {
-          id
-          name
-          price
-          category {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
-export type CartComponentProps = Omit<ReactApollo.QueryProps<CartQuery, CartQueryVariables>, 'query'>;
-
-export const CartComponent = (props: CartComponentProps) => (
-  <ReactApollo.Query<CartQuery, CartQueryVariables> query={CartDocument} {...props} />
-);
-
-export function useCartQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<CartQueryVariables>) {
-  return ReactApolloHooks.useQuery<CartQuery, CartQueryVariables>(CartDocument, baseOptions);
-}
-export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
-export const ProductQuantityDocument = gql`
-  query ProductQuantity($productId: ID!) {
-    cart @client {
-      productQuantity(productId: $productId)
-    }
-  }
-`;
-export type ProductQuantityComponentProps = Omit<
-  ReactApollo.QueryProps<ProductQuantityQuery, ProductQuantityQueryVariables>,
-  'query'
-> &
-  ({ variables: ProductQuantityQueryVariables; skip?: false } | { skip: true });
-
-export const ProductQuantityComponent = (props: ProductQuantityComponentProps) => (
-  <ReactApollo.Query<ProductQuantityQuery, ProductQuantityQueryVariables> query={ProductQuantityDocument} {...props} />
-);
-
-export function useProductQuantityQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<ProductQuantityQueryVariables>,
-) {
-  return ReactApolloHooks.useQuery<ProductQuantityQuery, ProductQuantityQueryVariables>(
-    ProductQuantityDocument,
-    baseOptions,
-  );
-}
-export type ProductQuantityQueryHookResult = ReturnType<typeof useProductQuantityQuery>;
-export const CartQuantitiesDocument = gql`
-  query CartQuantities {
-    cart @client {
-      items {
-        quantity
-      }
-    }
-  }
-`;
-export type CartQuantitiesComponentProps = Omit<
-  ReactApollo.QueryProps<CartQuantitiesQuery, CartQuantitiesQueryVariables>,
-  'query'
->;
-
-export const CartQuantitiesComponent = (props: CartQuantitiesComponentProps) => (
-  <ReactApollo.Query<CartQuantitiesQuery, CartQuantitiesQueryVariables> query={CartQuantitiesDocument} {...props} />
-);
-
-export function useCartQuantitiesQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<CartQuantitiesQueryVariables>) {
-  return ReactApolloHooks.useQuery<CartQuantitiesQuery, CartQuantitiesQueryVariables>(
-    CartQuantitiesDocument,
-    baseOptions,
-  );
-}
-export type CartQuantitiesQueryHookResult = ReturnType<typeof useCartQuantitiesQuery>;
-export const Resolver_CartDocument = gql`
-  query Resolver_Cart {
-    cart @client {
-      items {
-        id
-        quantity
-        product {
-          id
-        }
-      }
-    }
-  }
-`;
-export type Resolver_CartComponentProps = Omit<
-  ReactApollo.QueryProps<Resolver_CartQuery, Resolver_CartQueryVariables>,
-  'query'
->;
-
-export const Resolver_CartComponent = (props: Resolver_CartComponentProps) => (
-  <ReactApollo.Query<Resolver_CartQuery, Resolver_CartQueryVariables> query={Resolver_CartDocument} {...props} />
-);
-
-export function useResolver_CartQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<Resolver_CartQueryVariables>) {
-  return ReactApolloHooks.useQuery<Resolver_CartQuery, Resolver_CartQueryVariables>(Resolver_CartDocument, baseOptions);
-}
-export type Resolver_CartQueryHookResult = ReturnType<typeof useResolver_CartQuery>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -969,8 +747,6 @@ export type ResolversTypes = {
   OrderStatus: OrderStatus;
   OrderItem: ResolverTypeWrapper<OrderItem>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Cart: ResolverTypeWrapper<Cart>;
-  CartItem: ResolverTypeWrapper<CartItem>;
   Mutation: ResolverTypeWrapper<{}>;
   UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
@@ -980,7 +756,6 @@ export type ResolversTypes = {
   OrderItemInput: OrderItemInput;
   NewProductInput: NewProductInput;
   UpdateVisibilityInput: UpdateVisibilityInput;
-  CartMutations: ResolverTypeWrapper<CartMutations>;
   AuthMutations: ResolverTypeWrapper<AuthMutations>;
 };
 
@@ -1000,8 +775,6 @@ export type ResolversParentTypes = {
   OrderStatus: OrderStatus;
   OrderItem: OrderItem;
   Int: Scalars['Int'];
-  Cart: Cart;
-  CartItem: CartItem;
   Mutation: {};
   UserRegistrationInput: UserRegistrationInput;
   UserUpdateInput: UserUpdateInput;
@@ -1011,33 +784,12 @@ export type ResolversParentTypes = {
   OrderItemInput: OrderItemInput;
   NewProductInput: NewProductInput;
   UpdateVisibilityInput: UpdateVisibilityInput;
-  CartMutations: CartMutations;
   AuthMutations: AuthMutations;
 };
 
 export type AuthMutationsResolvers<ContextType = Context, ParentType = ResolversParentTypes['AuthMutations']> = {
   saveToken: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, AuthMutationsSaveTokenArgs>;
   logOut: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-};
-
-export type CartResolvers<ContextType = Context, ParentType = ResolversParentTypes['Cart']> = {
-  items: Resolver<Array<ResolversTypes['CartItem']>, ParentType, ContextType>;
-  productQuantity: Resolver<ResolversTypes['Int'], ParentType, ContextType, CartProductQuantityArgs>;
-};
-
-export type CartItemResolvers<ContextType = Context, ParentType = ResolversParentTypes['CartItem']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  quantity: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  product: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
-};
-
-export type CartMutationsResolvers<ContextType = Context, ParentType = ResolversParentTypes['CartMutations']> = {
-  updateProductQuantity: Resolver<
-    Maybe<ResolversTypes['Boolean']>,
-    ParentType,
-    ContextType,
-    CartMutationsUpdateProductQuantityArgs
-  >;
 };
 
 export type CategoryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Category']> = {
@@ -1062,7 +814,6 @@ export type MutationResolvers<ContextType = Context, ParentType = ResolversParen
     ContextType,
     MutationUpdateProductVisibilityArgs
   >;
-  cart: Resolver<ResolversTypes['CartMutations'], ParentType, ContextType>;
   auth: Resolver<ResolversTypes['AuthMutations'], ParentType, ContextType>;
 };
 
@@ -1098,7 +849,6 @@ export type QueryResolvers<ContextType = Context, ParentType = ResolversParentTy
   product: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, QueryProductArgs>;
   schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
   users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  cart: Resolver<ResolversTypes['Cart'], ParentType, ContextType>;
 };
 
 export type SchoolResolvers<ContextType = Context, ParentType = ResolversParentTypes['School']> = {
@@ -1120,9 +870,6 @@ export type UserResolvers<ContextType = Context, ParentType = ResolversParentTyp
 
 export type Resolvers<ContextType = Context> = {
   AuthMutations: AuthMutationsResolvers<ContextType>;
-  Cart: CartResolvers<ContextType>;
-  CartItem: CartItemResolvers<ContextType>;
-  CartMutations: CartMutationsResolvers<ContextType>;
   Category: CategoryResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Order: OrderResolvers<ContextType>;
