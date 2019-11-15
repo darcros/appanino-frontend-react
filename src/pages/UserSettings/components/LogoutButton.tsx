@@ -1,20 +1,25 @@
 import React from 'react';
-
-import { useDoLogoutMutation } from '../../../generated/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
 import { useTranslation } from 'react-i18next';
+
+import { client } from '../../../graphql/client';
+import { removeToken } from '../../../graphql/client/token';
+
+import { LoadingButton } from '../../../components/LoadingButton';
 
 export const LogoutButton: React.FC = () => {
   const { t } = useTranslation();
-  const [doLogout, { loading }] = useDoLogoutMutation();
+  const logout = async () => {
+    removeToken();
+    await client.resetStore();
+  };
 
   return (
     <LoadingButton
       variant="outlined"
       color="secondary"
-      loading={loading}
+      loading={false} // TODO: use state
       onClick={() => {
-        doLogout();
+        logout();
       }}
     >
       {t('action.logout')}
