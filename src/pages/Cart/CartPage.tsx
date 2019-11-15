@@ -2,52 +2,40 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { useCartQuery, usePlaceOrderMutation } from '../../generated/graphql';
+import { usePlaceOrderMutation } from '../../generated/graphql';
+import { Cart } from '../../context/cart';
+
 import { PageContainer } from '../../components/PageContainer';
-import { Center } from '../../components/Center';
 import { LoadingButton } from '../../components/LoadingButton';
 import { ProductList } from '../../components/ProductList/ProductList';
 
 export const CartPage: React.FC = () => {
   const { t } = useTranslation();
-  const { data } = useCartQuery();
   const [placeOrderMutation, { loading, hasError }] = usePlaceOrderMutation();
 
-  if (!data) {
-    return (
-      <PageContainer maxWidth="md">
-        <Center>
-          <CircularProgress />
-        </Center>
-      </PageContainer>
-    );
-  }
+  const { items } = Cart.useContainer();
+
+  const categoryName = t('page.cart.header');
+  const mappedProducts = items.map(({ product }) => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    categoryName,
+  }));
 
   const placeOrder = async () => {
-    const items = data.cart.items.map(i => ({
+    const orderItems = items.map(i => ({
       productId: i.product.id,
       quantity: i.quantity,
     }));
-    await placeOrderMutation({ variables: { items } });
+    await placeOrderMutation({ variables: { items: orderItems } });
     alert(t('page.cart.order-placed'));
   };
-
-  const mappedProducts = data.cart.items.map(({ product }) => ({
-    id: product.id,
-    name: product.name,
-    categoryName: product.category.name,
-    price: product.price,
-  }));
 
   return (
     <PageContainer maxWidth="md">
       <Box my={4}>
-        <Typography variant="h4" component="h1">
-          {t('page.cart.header')}
-        </Typography>
-
         <ProductList products={mappedProducts} />
 
         <LoadingButton
