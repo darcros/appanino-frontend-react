@@ -8,11 +8,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 import Slide from '@material-ui/core/Slide';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
+import { useCartQuantitiesQuery } from '../../generated/graphql';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,6 +49,10 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
   const classes = useStyles();
   const location = useLocation();
 
+  const { data } = useCartQuantitiesQuery();
+  const items = (data && data.cart.items) || [];
+  const total = items.reduce((tot, item) => item.quantity + tot, 0);
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
@@ -76,15 +84,28 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
           {t('appanino')}
         </Typography>
         {loggedIn ? (
-          <IconButton
-            component={RouterLink}
-            to="/user/"
-            edge="end"
-            color="inherit"
-            aria-label={t('component.navbar.account-button-aria-label')}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+          <React.Fragment>
+            <IconButton
+              component={RouterLink}
+              to="/cart/"
+              edge="end"
+              color="inherit"
+              aria-label={t('component.navbar.cart-button-aria-label')}
+            >
+              <Badge badgeContent={total} max={10} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              component={RouterLink}
+              to="/user/"
+              edge="end"
+              color="inherit"
+              aria-label={t('component.navbar.account-button-aria-label')}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          </React.Fragment>
         ) : (
           <Button component={RouterLink} to="/login/" color="inherit">
             {t('action.login')}

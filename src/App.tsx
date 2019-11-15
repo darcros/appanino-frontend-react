@@ -19,6 +19,7 @@ import { LoginPage } from './pages/Login/LoginPage';
 import { SignUpPage } from './pages/SignUp/SignUpPage';
 import { UserSettingsPage } from './pages/UserSettings/UserSettingsPage';
 import { ShopPage } from './pages/Shop/ShopPage';
+import { CartPage } from './pages/Cart/CartPage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 
 import { DrawerAndNavbar } from './components/DrawerAndNavbar';
@@ -59,6 +60,7 @@ const App: React.FC = () => {
 
                   <LoggedInRoute path="/user" exact component={UserSettingsPage} />
                   <LoggedInRoute path="/shop" component={ShopPage} />
+                  <LoggedInRoute path="/cart" component={CartPage} />
 
                   <Route component={NotFoundPage} />
                 </Switch>

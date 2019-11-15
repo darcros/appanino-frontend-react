@@ -8,7 +8,12 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { QuantityInput } from './QuantityInput';
+import { QuantityInput } from '../../pages/Shop/components/QuantityInput';
+import {
+  useUpdateCartQuantityMutation,
+  useProductQuantityQuery,
+  ProductQuantityDocument,
+} from '../../generated/graphql';
 
 interface ProductListItemStyleProps {
   isQuantityInputExpanded: boolean;
@@ -31,16 +36,30 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ProductListItemProps {
+  productId: string;
   text: string;
   imageUrl: string;
   price: number;
 }
 
-export const ProductListItem: React.FC<ProductListItemProps> = ({ text, imageUrl, price }) => {
+export const ProductListItem: React.FC<ProductListItemProps> = ({ productId, text, imageUrl, price }) => {
   const { t } = useTranslation();
 
-  // TODO: use Apollo to store cart items
-  const [items, setItems] = React.useState(0);
+  const { data } = useProductQuantityQuery({ variables: { productId } });
+  const [updateCart] = useUpdateCartQuantityMutation();
+  const setItems = async (quantity: number) => {
+    await updateCart({
+      variables: { productId, quantity },
+      refetchQueries: [
+        {
+          query: ProductQuantityDocument,
+          variables: { productId },
+        },
+      ],
+    });
+  };
+
+  const items = (data && data.cart.productQuantity) || 0;
   const classes = useStyles({ isQuantityInputExpanded: items > 0 });
 
   return (

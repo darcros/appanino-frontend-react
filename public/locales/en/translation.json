@@ -27,6 +27,11 @@
       "remove": "remove",
       "product-image": "product image: {{productName}}"
     },
+    "cart": {
+      "header": "Shopping cart",
+      "place-order": "Place order",
+      "order-placed": "Order has been placed"
+    },
     "user-settings": {
       "breadcrumb": "User Settings",
       "header": "User settings",
@@ -60,6 +65,7 @@
     },
     "navbar": {
       "menu-aria-label": "menu",
+      "cart-button-aria-label": "shopping cart",
       "account-button-aria-label": "account",
       "back-button-aria-label": "back"
     },
@@ -133,6 +139,7 @@
     "retry-later": "Please retry later.",
     "same-password": "The new password must be different from the old one",
     "wrong-password": "Wrong password",
+    "cannot-place-order": "Cannot place order. $t(error.retry-later)",
     "graphql": {
       "NONEXISTENT_EMAIL": "That email addres doesn't exist",
       "WRONG_PASSWORD": "$t(error.wrong-password)"

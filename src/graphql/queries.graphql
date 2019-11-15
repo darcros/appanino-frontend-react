@@ -46,3 +46,57 @@ query Schools {
     name
   }
 }
+
+query Cart {
+  cart @client {
+    items {
+      id
+      quantity
+      product {
+        id
+        name
+        price
+        category {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query ProductQuantity($productId: ID!) {
+  cart @client {
+    productQuantity(productId: $productId)
+  }
+}
+
+query CartQuantities {
+  cart @client {
+    items {
+      quantity
+    }
+  }
+}
+
+# ------------------------------ #
+# RESOLVER QUERIES AND FRAGMENTS #
+# ------------------------------ #
+
+# TODO: move resolver queries and fragments into another file
+
+query Resolver_Cart {
+  cart @client {
+    items {
+      id
+      quantity
+      product {
+        id
+      }
+    }
+  }
+}
+
+fragment Resolver_CartItemQuantity on CartItem {
+  quantity
+}

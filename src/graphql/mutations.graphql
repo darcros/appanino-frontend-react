@@ -3,7 +3,9 @@ mutation DoLogin($email: String!, $password: String!) {
 }
 
 mutation DoSaveToken($token: String!) {
-  saveToken(token: $token) @client
+  auth @client {
+    saveToken(token: $token)
+  }
 }
 
 mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
@@ -18,7 +20,9 @@ mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
 }
 
 mutation DoLogout {
-  logOut @client
+  auth @client {
+    logOut
+  }
 }
 
 mutation DoUserInfoUpdate(
@@ -78,4 +82,20 @@ mutation RegisterAndLogin(
   }
 
   token: login(email: $email, password: $password)
+}
+
+mutation UpdateCartQuantity($productId: ID!, $quantity: Int!) {
+  cart @client {
+    updateProductQuantity(productId: $productId, quantity: $quantity)
+  }
+}
+
+mutation PlaceOrder($items: [OrderItemInput!]!) {
+  placeOrder(
+    orderData: {
+      items: $items
+    }
+  ) {
+    id
+  }
 }
