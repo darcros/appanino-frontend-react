@@ -2,8 +2,6 @@ import gql from 'graphql-tag';
 import * as ReactApollo from 'react-apollo';
 import * as React from 'react';
 import * as ReactApolloHooks from 'react-apollo-hooks';
-import { GraphQLResolveInfo } from 'graphql';
-import { Context } from '../graphql/client/context.interface';
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -13,16 +11,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-};
-
-export type AuthMutations = {
-  __typename?: 'AuthMutations';
-  saveToken: Maybe<Scalars['Boolean']>;
-  logOut: Maybe<Scalars['Boolean']>;
-};
-
-export type AuthMutationsSaveTokenArgs = {
-  token: Scalars['String'];
 };
 
 export type Category = {
@@ -57,7 +45,6 @@ export type Mutation = {
   addProduct: Product;
   /** Show or hide a product */
   updateProductVisibility: Product;
-  auth: AuthMutations;
 };
 
 export type MutationLoginArgs = {
@@ -160,13 +147,13 @@ export type Product = {
 
 export type Query = {
   __typename?: 'Query';
-  self: Maybe<User>;
+  self?: Maybe<User>;
   categories: Array<Category>;
   orders: Array<Order>;
   /** Returns all products */
   products: Array<Product>;
   /** Returns a product given its ID */
-  product: Maybe<Product>;
+  product?: Maybe<Product>;
   schools: Array<School>;
   users: Array<User>;
 };
@@ -214,9 +201,9 @@ export type UserRegistrationInput = {
 };
 
 export type UserUpdateInput = {
-  firstname: Maybe<Scalars['String']>;
-  lastname: Maybe<Scalars['String']>;
-  schoolId: Maybe<Scalars['ID']>;
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  schoolId?: Maybe<Scalars['ID']>;
 };
 export type DoLoginMutationVariables = {
   email: Scalars['String'];
@@ -224,14 +211,6 @@ export type DoLoginMutationVariables = {
 };
 
 export type DoLoginMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'login'>;
-
-export type DoSaveTokenMutationVariables = {
-  token: Scalars['String'];
-};
-
-export type DoSaveTokenMutation = { __typename?: 'Mutation' } & {
-  auth: { __typename?: 'AuthMutations' } & Pick<AuthMutations, 'saveToken'>;
-};
 
 export type DoPasswordUpdateMutationVariables = {
   oldPassword: Scalars['String'];
@@ -242,16 +221,10 @@ export type DoPasswordUpdateMutation = { __typename?: 'Mutation' } & {
   updatePassword: { __typename?: 'User' } & Pick<User, 'id'>;
 };
 
-export type DoLogoutMutationVariables = {};
-
-export type DoLogoutMutation = { __typename?: 'Mutation' } & {
-  auth: { __typename?: 'AuthMutations' } & Pick<AuthMutations, 'logOut'>;
-};
-
 export type DoUserInfoUpdateMutationVariables = {
-  firstname: Maybe<Scalars['String']>;
-  lastname: Maybe<Scalars['String']>;
-  schoolId: Maybe<Scalars['ID']>;
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  schoolId?: Maybe<Scalars['ID']>;
 };
 
 export type DoUserInfoUpdateMutation = { __typename?: 'Mutation' } & {
@@ -350,32 +323,6 @@ export function useDoLoginMutation(
   return ReactApolloHooks.useMutation<DoLoginMutation, DoLoginMutationVariables>(DoLoginDocument, baseOptions);
 }
 export type DoLoginMutationHookResult = ReturnType<typeof useDoLoginMutation>;
-export const DoSaveTokenDocument = gql`
-  mutation DoSaveToken($token: String!) {
-    auth @client {
-      saveToken(token: $token)
-    }
-  }
-`;
-export type DoSaveTokenMutationFn = ReactApollo.MutationFn<DoSaveTokenMutation, DoSaveTokenMutationVariables>;
-export type DoSaveTokenComponentProps = Omit<
-  ReactApollo.MutationProps<DoSaveTokenMutation, DoSaveTokenMutationVariables>,
-  'mutation'
->;
-
-export const DoSaveTokenComponent = (props: DoSaveTokenComponentProps) => (
-  <ReactApollo.Mutation<DoSaveTokenMutation, DoSaveTokenMutationVariables> mutation={DoSaveTokenDocument} {...props} />
-);
-
-export function useDoSaveTokenMutation(
-  baseOptions?: ReactApolloHooks.MutationHookOptions<DoSaveTokenMutation, DoSaveTokenMutationVariables>,
-) {
-  return ReactApolloHooks.useMutation<DoSaveTokenMutation, DoSaveTokenMutationVariables>(
-    DoSaveTokenDocument,
-    baseOptions,
-  );
-}
-export type DoSaveTokenMutationHookResult = ReturnType<typeof useDoSaveTokenMutation>;
 export const DoPasswordUpdateDocument = gql`
   mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
     updatePassword(updateData: { oldPassword: $oldPassword, newPassword: $newPassword }) {
@@ -408,29 +355,6 @@ export function useDoPasswordUpdateMutation(
   );
 }
 export type DoPasswordUpdateMutationHookResult = ReturnType<typeof useDoPasswordUpdateMutation>;
-export const DoLogoutDocument = gql`
-  mutation DoLogout {
-    auth @client {
-      logOut
-    }
-  }
-`;
-export type DoLogoutMutationFn = ReactApollo.MutationFn<DoLogoutMutation, DoLogoutMutationVariables>;
-export type DoLogoutComponentProps = Omit<
-  ReactApollo.MutationProps<DoLogoutMutation, DoLogoutMutationVariables>,
-  'mutation'
->;
-
-export const DoLogoutComponent = (props: DoLogoutComponentProps) => (
-  <ReactApollo.Mutation<DoLogoutMutation, DoLogoutMutationVariables> mutation={DoLogoutDocument} {...props} />
-);
-
-export function useDoLogoutMutation(
-  baseOptions?: ReactApolloHooks.MutationHookOptions<DoLogoutMutation, DoLogoutMutationVariables>,
-) {
-  return ReactApolloHooks.useMutation<DoLogoutMutation, DoLogoutMutationVariables>(DoLogoutDocument, baseOptions);
-}
-export type DoLogoutMutationHookResult = ReturnType<typeof useDoLogoutMutation>;
 export const DoUserInfoUpdateDocument = gql`
   mutation DoUserInfoUpdate($firstname: String, $lastname: String, $schoolId: ID) {
     updateSelf(updateData: { firstname: $firstname, lastname: $lastname, schoolId: $schoolId }) {
@@ -680,208 +604,3 @@ export function useSchoolsQuery(baseOptions?: ReactApolloHooks.QueryHookOptions<
   return ReactApolloHooks.useQuery<SchoolsQuery, SchoolsQueryVariables>(SchoolsDocument, baseOptions);
 }
 export type SchoolsQueryHookResult = ReturnType<typeof useSchoolsQuery>;
-
-export type ResolverTypeWrapper<T> = Promise<T> | T;
-
-export type ResolverFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => Promise<TResult> | TResult;
-
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs>;
-
-export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
-
-export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => TResult | Promise<TResult>;
-
-export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, TParent, TContext, TArgs>;
-}
-
-export type SubscriptionResolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionResolverObject<TResult, TParent, TContext, TArgs>)
-  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
-
-export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
-  parent: TParent,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => Maybe<TTypes>;
-
-export type NextResolverFn<T> = () => Promise<T>;
-
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
-  next: NextResolverFn<TResult>,
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo,
-) => TResult | Promise<TResult>;
-
-/** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  User: ResolverTypeWrapper<User>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  Role: Role;
-  School: ResolverTypeWrapper<School>;
-  Product: ResolverTypeWrapper<Product>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Category: ResolverTypeWrapper<Category>;
-  Order: ResolverTypeWrapper<Order>;
-  OrderStatus: OrderStatus;
-  OrderItem: ResolverTypeWrapper<OrderItem>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Mutation: ResolverTypeWrapper<{}>;
-  UserRegistrationInput: UserRegistrationInput;
-  UserUpdateInput: UserUpdateInput;
-  EmailUpdateInput: EmailUpdateInput;
-  PasswordUpdateInput: PasswordUpdateInput;
-  OrderInput: OrderInput;
-  OrderItemInput: OrderItemInput;
-  NewProductInput: NewProductInput;
-  UpdateVisibilityInput: UpdateVisibilityInput;
-  AuthMutations: ResolverTypeWrapper<AuthMutations>;
-};
-
-/** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
-  Query: {};
-  User: User;
-  ID: Scalars['ID'];
-  String: Scalars['String'];
-  Role: Role;
-  School: School;
-  Product: Product;
-  Float: Scalars['Float'];
-  Boolean: Scalars['Boolean'];
-  Category: Category;
-  Order: Order;
-  OrderStatus: OrderStatus;
-  OrderItem: OrderItem;
-  Int: Scalars['Int'];
-  Mutation: {};
-  UserRegistrationInput: UserRegistrationInput;
-  UserUpdateInput: UserUpdateInput;
-  EmailUpdateInput: EmailUpdateInput;
-  PasswordUpdateInput: PasswordUpdateInput;
-  OrderInput: OrderInput;
-  OrderItemInput: OrderItemInput;
-  NewProductInput: NewProductInput;
-  UpdateVisibilityInput: UpdateVisibilityInput;
-  AuthMutations: AuthMutations;
-};
-
-export type AuthMutationsResolvers<ContextType = Context, ParentType = ResolversParentTypes['AuthMutations']> = {
-  saveToken: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, AuthMutationsSaveTokenArgs>;
-  logOut: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-};
-
-export type CategoryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Category']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
-};
-
-export type MutationResolvers<ContextType = Context, ParentType = ResolversParentTypes['Mutation']> = {
-  login: Resolver<ResolversTypes['String'], ParentType, ContextType, MutationLoginArgs>;
-  registerUser: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationRegisterUserArgs>;
-  updateSelf: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateSelfArgs>;
-  updateEmail: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdateEmailArgs>;
-  updatePassword: Resolver<ResolversTypes['User'], ParentType, ContextType, MutationUpdatePasswordArgs>;
-  placeOrder: Resolver<ResolversTypes['Order'], ParentType, ContextType, MutationPlaceOrderArgs>;
-  cancelOrder: Resolver<ResolversTypes['Order'], ParentType, ContextType, MutationCancelOrderArgs>;
-  advanceOrderStatus: Resolver<ResolversTypes['Order'], ParentType, ContextType, MutationAdvanceOrderStatusArgs>;
-  addProduct: Resolver<ResolversTypes['Product'], ParentType, ContextType, MutationAddProductArgs>;
-  updateProductVisibility: Resolver<
-    ResolversTypes['Product'],
-    ParentType,
-    ContextType,
-    MutationUpdateProductVisibilityArgs
-  >;
-  auth: Resolver<ResolversTypes['AuthMutations'], ParentType, ContextType>;
-};
-
-export type OrderResolvers<ContextType = Context, ParentType = ResolversParentTypes['Order']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  status: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>;
-  items: Resolver<Array<ResolversTypes['OrderItem']>, ParentType, ContextType>;
-  user: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  total: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-};
-
-export type OrderItemResolvers<ContextType = Context, ParentType = ResolversParentTypes['OrderItem']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  quantity: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  product: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
-  subtotal: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-};
-
-export type ProductResolvers<ContextType = Context, ParentType = ResolversParentTypes['Product']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  price: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  hidden: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
-  category: Resolver<ResolversTypes['Category'], ParentType, ContextType>;
-};
-
-export type QueryResolvers<ContextType = Context, ParentType = ResolversParentTypes['Query']> = {
-  self: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  categories: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType>;
-  orders: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType>;
-  products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
-  product: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, QueryProductArgs>;
-  schools: Resolver<Array<ResolversTypes['School']>, ParentType, ContextType>;
-  users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-};
-
-export type SchoolResolvers<ContextType = Context, ParentType = ResolversParentTypes['School']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  products: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
-};
-
-export type UserResolvers<ContextType = Context, ParentType = ResolversParentTypes['User']> = {
-  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  firstname: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  lastname: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  email: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  role: Resolver<ResolversTypes['Role'], ParentType, ContextType>;
-  school: Resolver<ResolversTypes['School'], ParentType, ContextType>;
-  orders: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType>;
-};
-
-export type Resolvers<ContextType = Context> = {
-  AuthMutations: AuthMutationsResolvers<ContextType>;
-  Category: CategoryResolvers<ContextType>;
-  Mutation: MutationResolvers<ContextType>;
-  Order: OrderResolvers<ContextType>;
-  OrderItem: OrderItemResolvers<ContextType>;
-  Product: ProductResolvers<ContextType>;
-  Query: QueryResolvers<ContextType>;
-  School: SchoolResolvers<ContextType>;
-  User: UserResolvers<ContextType>;
-};
-
-/**
- * @deprecated
- * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
- */
-export type IResolvers<ContextType = Context> = Resolvers<ContextType>;

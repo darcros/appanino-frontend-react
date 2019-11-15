@@ -17,7 +17,6 @@
     "@graphql-codegen/typescript": "1.4.0",
     "@graphql-codegen/typescript-operations": "1.4.0",
     "@graphql-codegen/typescript-react-apollo": "1.4.0",
-    "@graphql-codegen/typescript-resolvers": "1.4.0",
     "@types/jest": "24.0.15",
     "@types/jwt-decode": "^2.2.1",
     "@types/lodash.groupby": "^4.6.6",

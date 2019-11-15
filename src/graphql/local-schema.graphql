@@ -1,8 +1,0 @@
-type AuthMutations {
-  saveToken(token: String!): Boolean
-  logOut: Boolean
-}
-
-extend type Mutation {
-  auth: AuthMutations!
-}
