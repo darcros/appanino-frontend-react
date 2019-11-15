@@ -26,7 +26,9 @@ const useCart = () => {
     });
   };
 
-  return { items, getQuantity, updateItem };
+  const empty = () => setState({});
+
+  return { items, getQuantity, updateItem, empty };
 };
 
 export const Cart = createContainer(useCart);

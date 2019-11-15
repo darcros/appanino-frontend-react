@@ -14,7 +14,7 @@ export const CartPage: React.FC = () => {
   const { t } = useTranslation();
   const [placeOrderMutation, { loading, hasError }] = usePlaceOrderMutation();
 
-  const { items } = Cart.useContainer();
+  const { items, empty } = Cart.useContainer();
 
   const categoryName = t('page.cart.header');
   const mappedProducts = items.map(({ product }) => ({
@@ -30,6 +30,7 @@ export const CartPage: React.FC = () => {
       quantity: i.quantity,
     }));
     await placeOrderMutation({ variables: { items: orderItems } });
+    empty();
     alert(t('page.cart.order-placed'));
   };
 
