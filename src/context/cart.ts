@@ -3,8 +3,8 @@ import { createContainer } from 'unstated-next';
 
 export interface CartItem {
   product: {
-    id: String;
-    name: String;
+    id: string;
+    name: string;
     price: number;
   };
   quantity: number;
@@ -22,7 +22,7 @@ const useCart = () => {
   const updateItem = (item: CartItem) => {
     setState({
       ...state,
-      [item.product.id as string]: item,
+      [item.product.id]: item,
     });
   };
 
