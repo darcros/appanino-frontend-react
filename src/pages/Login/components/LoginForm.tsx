@@ -37,8 +37,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ loading: mutationLoading, 
   const classes = useStyles();
 
   const loginValidationSchema = yup.object({
-    email: yup.string().required().email(),
-    password: yup.string().required(),
+    email: yup
+      .string()
+      .required(t('form.email.required'))
+      .email(t('form.email.invalid')),
+    password: yup.string().required(t('form.password.required')),
   });
 
   return (

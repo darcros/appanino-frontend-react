@@ -114,6 +114,7 @@
             "inputName",
             "autoComplete",
             "variant",
+            "margin",
             "aria-labelledby"
           ]
         }
