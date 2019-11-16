@@ -39,7 +39,7 @@ export const LoginPage: React.FC = () => {
         return [{ query: UserRoleDocument }];
       },
     });
-  }
+  };
 
   return (
     <PageContainer maxWidth="xs">
