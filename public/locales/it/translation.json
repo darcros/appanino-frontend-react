@@ -112,11 +112,15 @@
     },
     "first-name": {
       "label": "Nome",
-      "required": "Nome richiesto"
+      "required": "Nome richiesto",
+      "too-short": "Il nome deve contenere almeno {{count}} carattere",
+      "too-short_plural": "Il nome deve contenere almeno {{count}} caratteri"
     },
     "last-name": {
       "label": "Cognome",
-      "required": "Cognome richiesto"
+      "required": "Cognome richiesto",
+      "too-short": "Il cognome deve contenere almeno {{count}} carattere",
+      "too-short_plural": "Il cognome deve contenere almeno {{count}} caratteri"
     },
     "school": {
       "label": "Scuola",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import isEquals from 'lodash.isequal';
+import * as yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 
 import Grid from '@material-ui/core/Grid';
@@ -27,16 +28,28 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValue
   const { t } = useTranslation();
   const [doUserInfoUpdate, { hasError }] = useDoUserInfoUpdateMutation();
 
+  const userSettingsValidationSchema = yup.object({
+    firstname: yup
+      .string()
+      .required(t('form.first-name.required'))
+      .min(2, t('form.first-name.too-short', { count: 2 })),
+    lastname: yup
+      .string()
+      .required(t('form.last-name.required'))
+      .min(2, t('form.last-name.too-short', { count: 2 })),
+  });
+
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={userSettingsValidationSchema}
       onSubmit={values =>
         doUserInfoUpdate({
           variables: values,
         })
       }
     >
-      {({ values, isSubmitting }) => (
+      {({ values, isValidating, isSubmitting }) => (
         <Form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -75,7 +88,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValue
                 variant="contained"
                 color="primary"
                 disabled={isEquals(values, initialValues)}
-                loading={isSubmitting}
+                loading={isValidating || isSubmitting}
               >
                 {t('action.save')}
               </LoadingButton>
