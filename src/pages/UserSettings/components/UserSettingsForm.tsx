@@ -13,7 +13,7 @@ import { useDoUserInfoUpdateMutation } from '../../../generated/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
 
 interface UserSettingsFormProps {
-  initialValues: {
+  currentSettings: {
     firstname: string;
     lastname: string;
     schoolId: string;
@@ -24,7 +24,7 @@ interface UserSettingsFormProps {
   }[];
 }
 
-export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValues, schools }) => {
+export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ currentSettings, schools }) => {
   const { t } = useTranslation();
   const [doUserInfoUpdate, { hasError }] = useDoUserInfoUpdateMutation();
 
@@ -41,7 +41,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValue
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={currentSettings}
       validationSchema={userSettingsValidationSchema}
       onSubmit={values =>
         doUserInfoUpdate({
@@ -87,7 +87,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValue
                 fullWidth
                 variant="contained"
                 color="primary"
-                disabled={isEquals(values, initialValues)}
+                disabled={isEquals(values, currentSettings)}
                 loading={isValidating || isSubmitting}
               >
                 {t('action.save')}

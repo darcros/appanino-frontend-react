@@ -47,7 +47,7 @@ export const UserSettingsPage: React.FC = () => {
 
           return (
             <UserSettingsForm
-              initialValues={{
+              currentSettings={{
                 firstname: data.self!.firstname,
                 lastname: data.self!.lastname,
                 schoolId: data.self!.school.id,
