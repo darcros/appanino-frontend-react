@@ -1,14 +1,13 @@
 import React from 'react';
-import useForm from 'react-hook-form';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { TextField } from 'formik-material-ui';
 
 import { LoadingButton } from '../../../components/LoadingButton';
-import { emailRegex, getErrorMessage } from '../../../util/form';
-import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,70 +24,75 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LoginFormState {
   email: string;
   password: string;
-  remember: boolean;
 }
 
 interface LoginFormProps {
   loading: boolean;
   errorMessage?: string;
-  onSubmit: (formState: LoginFormState) => void;
+  onSubmit: (formState: LoginFormState) => Promise<void>;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ loading, errorMessage, onSubmit }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ loading: mutationLoading, errorMessage, onSubmit }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { register, handleSubmit, errors } = useForm<LoginFormState>();
+
+  const loginValidationSchema = yup.object({
+    email: yup.string().required().email(),
+    password: yup.string().required(),
+  });
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        fullWidth
-        label={t('form.email.label')}
-        name="email"
-        autoComplete="email"
-        autoFocus
-        inputRef={register({
-          required: t('form.email.required'),
-          pattern: { value: emailRegex, message: t('form.email.invalid') },
-        })}
-        error={!!errors.email}
-        helperText={errors.email ? getErrorMessage(errors.email) : null}
-        disabled={loading}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        fullWidth
-        name="password"
-        label={t('form.password.label')}
-        type="password"
-        autoComplete="current-password"
-        inputRef={register({ required: t('form.password.required') })}
-        error={!!errors.password}
-        helperText={errors.password ? getErrorMessage(errors.password) : null}
-        disabled={loading}
-      />
-      <FormControlLabel
-        control={<Checkbox name="remember" inputRef={register} color="primary" defaultChecked disabled={loading} />}
-        label={t('form.remember.label')}
-      />
-      <LoadingButton
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        loading={loading}
-      >
-        {t('action.login')}
-      </LoadingButton>
-      {errorMessage && (
-        <Typography color="error" align="center" component="h3" variant="subtitle2">
-          {errorMessage}
-        </Typography>
+    <Formik<LoginFormState>
+      initialValues={{
+        email: '',
+        password: '',
+      }}
+      validationSchema={loginValidationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isValidating, isSubmitting }) => (
+        <div className={classes.form}>
+          <Form>
+            <Field
+              name="email"
+              component={TextField}
+              label={t('form.email.label')}
+              type="email"
+              autoComplete="email"
+              autoFocus
+              variant="outlined"
+              margin="normal"
+              fullWidth
+            />
+            <Field
+              name="password"
+              component={TextField}
+              label={t('form.password.label')}
+              type="password"
+              autoComplete="password"
+              autoFocus
+              variant="outlined"
+              margin="normal"
+              fullWidth
+            />
+            <LoadingButton
+              type="submit"
+              loading={isValidating || isSubmitting || mutationLoading}
+              className={classes.submit}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              {t('action.login')}
+            </LoadingButton>
+            {errorMessage && (
+              <Typography color="error" align="center" component="h3" variant="subtitle2">
+                {errorMessage}
+              </Typography>
+            )}
+          </Form>
+        </div>
       )}
-    </form>
+    </Formik>
   );
 };

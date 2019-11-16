@@ -28,8 +28,8 @@ export const LoginPage: React.FC = () => {
   const classes = useStyles();
   const [doLogin, { loading, error }] = useDoLoginMutation();
 
-  const login = async (variables: DoLoginMutationVariables) =>
-    doLogin({
+  const login = async (variables: DoLoginMutationVariables) => {
+    await doLogin({
       variables,
       awaitRefetchQueries: true,
       refetchQueries: ({ data }) => {
@@ -39,6 +39,7 @@ export const LoginPage: React.FC = () => {
         return [{ query: UserRoleDocument }];
       },
     });
+  }
 
   return (
     <PageContainer maxWidth="xs">
