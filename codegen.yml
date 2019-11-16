@@ -1,7 +1,6 @@
 overwrite: true
 schema: 
   - "http://localhost:4000/graphql"
-  - "./src/graphql/local-schema.graphql"
 documents:
   - "src/graphql/mutations.graphql"
   - "src/graphql/queries.graphql"
@@ -11,7 +10,6 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
-      - "typescript-resolvers"
     config:
       # Configuration for the `typescript-react-apollo` plugin.
 
@@ -19,15 +17,3 @@ generates:
       withHooks: true
       # Disable Higher Order Components
       withHOC: false
-
-      # Configuration for the `typescript-resolvers` plugin.
-
-      # Import path for the context type (path is relative to generated file)
-      contextType: "../graphql/client/context.interface#Context"
-
-      # The following settings are needed to make the generated resolver types compatible with `apollo-client`.  
-
-      # make all resolvers non-optional
-      avoidOptionals: true
-      # disable stitching
-      noSchemaStitching: true

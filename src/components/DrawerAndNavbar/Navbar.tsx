@@ -16,7 +16,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-import { useCartQuantitiesQuery } from '../../generated/graphql';
+import { Cart } from '../../context/cart';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,8 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ loggedIn, onMenuButtonClick }) =
   const classes = useStyles();
   const location = useLocation();
 
-  const { data } = useCartQuantitiesQuery();
-  const items = (data && data.cart.items) || [];
+  const { items } = Cart.useContainer();
   const total = items.reduce((tot, item) => item.quantity + tot, 0);
 
   return (

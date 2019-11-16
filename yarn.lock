@@ -1017,16 +1017,6 @@
     "@graphql-codegen/visitor-plugin-common" "1.4.0"
     tslib "1.10.0"
 
-"@graphql-codegen/typescript-resolvers@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-1.4.0.tgz#2e54e56f93b622ca2296a3f6c3f022b2aeb0f83f"
-  integrity sha512-ZtneQC0e//4Vi8VhxwIWKlyHv/RkNbPBapOnAeNONkiaU07O0yBSXrJZeHUNsdWucN/ZRtcBiIGEUbxwt0rkpQ==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "1.4.0"
-    "@graphql-codegen/typescript" "1.4.0"
-    "@graphql-codegen/visitor-plugin-common" "1.4.0"
-    tslib "1.10.0"
-
 "@graphql-codegen/typescript@1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-1.4.0.tgz#8c920643310ad05522b7609a9cd48d1663a6c71d"
@@ -10918,6 +10908,11 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+unstated-next@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/unstated-next/-/unstated-next-1.1.0.tgz#7bb4911a12fdf3cc8ad3eb11a0b315e4a8685ea8"
+  integrity sha512-AAn47ZncPvgBGOvMcn8tSRxsrqwf2VdAPxLASTuLJvZt4rhKfDvUkmYZLGfclImSfTVMv7tF4ynaVxin0JjDCA==
 
 upath@^1.1.1:
   version "1.1.2"

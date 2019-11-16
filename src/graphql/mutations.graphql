@@ -2,12 +2,6 @@ mutation DoLogin($email: String!, $password: String!) {
   login(email: $email, password: $password)
 }
 
-mutation DoSaveToken($token: String!) {
-  auth @client {
-    saveToken(token: $token)
-  }
-}
-
 mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
   updatePassword(
     updateData: {
@@ -16,12 +10,6 @@ mutation DoPasswordUpdate($oldPassword: String!, $newPassword: String!) {
     }
   ) {
     id
-  }
-}
-
-mutation DoLogout {
-  auth @client {
-    logOut
   }
 }
 
@@ -82,12 +70,6 @@ mutation RegisterAndLogin(
   }
 
   token: login(email: $email, password: $password)
-}
-
-mutation UpdateCartQuantity($productId: ID!, $quantity: Int!) {
-  cart @client {
-    updateProductQuantity(productId: $productId, quantity: $quantity)
-  }
 }
 
 mutation PlaceOrder($items: [OrderItemInput!]!) {

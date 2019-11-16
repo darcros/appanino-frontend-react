@@ -9,9 +9,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
   useRegisterAndLoginMutation,
   RegisterAndLoginMutationVariables,
-  useDoSaveTokenMutation,
   UserRoleDocument,
 } from '../../generated/graphql';
+import { saveToken } from '../../graphql/client/token';
 import { PageContainer } from '../../components/PageContainer';
 import { AvatarHeader } from '../../components/AvatarHeader';
 import { SignUpForm } from './components/SignUpForm';
@@ -31,20 +31,18 @@ const useStyles = makeStyles((theme: Theme) =>
 export const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [doRegistration, { error: registrationError, loading: registrationLoading }] = useRegisterAndLoginMutation();
-  const [doSaveToken, { loading: saveTokenLoading }] = useDoSaveTokenMutation();
-  const loading = registrationLoading || saveTokenLoading;
+  const [doRegistration, { error: registrationError, loading }] = useRegisterAndLoginMutation();
 
-  const doRegistrationAndSaveToken = async (variables: RegisterAndLoginMutationVariables) => {
-    const { data } = await doRegistration({ variables });
-    if (!data) return;
+  const doRegistrationAndSaveToken = async (variables: RegisterAndLoginMutationVariables) =>
+    doRegistration({
+      variables,
+      refetchQueries: ({ data }) => {
+        if (!data) return [];
 
-    const { token } = data;
-    await doSaveToken({
-      variables: { token },
-      refetchQueries: [{ query: UserRoleDocument }],
+        saveToken(data.token);
+        return [{ query: UserRoleDocument }];
+      },
     });
-  };
 
   return (
     <PageContainer maxWidth="xs">

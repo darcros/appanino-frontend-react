@@ -1,6 +1,5 @@
-/* eslint-disable i18next/no-literal-string */
+const TOKEN_STORAGE_KEY = 'token';
 
-export const saveToken = (token: string) => localStorage.setItem('token', token);
-export const getToken = () => localStorage.getItem('token');
-export const loggedIn = () => !!getToken();
-export const removeToken = () => localStorage.removeItem('token');
+export const saveToken = (token: string) => localStorage.setItem(TOKEN_STORAGE_KEY, token);
+export const getToken = () => localStorage.getItem(TOKEN_STORAGE_KEY);
+export const removeToken = () => localStorage.removeItem(TOKEN_STORAGE_KEY);

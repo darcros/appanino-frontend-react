@@ -9,11 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { QuantityInput } from '../../pages/Shop/components/QuantityInput';
-import {
-  useUpdateCartQuantityMutation,
-  useProductQuantityQuery,
-  ProductQuantityDocument,
-} from '../../generated/graphql';
+import { Cart } from '../../context/cart';
 
 interface ProductListItemStyleProps {
   isQuantityInputExpanded: boolean;
@@ -45,21 +41,18 @@ interface ProductListItemProps {
 export const ProductListItem: React.FC<ProductListItemProps> = ({ productId, text, imageUrl, price }) => {
   const { t } = useTranslation();
 
-  const { data } = useProductQuantityQuery({ variables: { productId } });
-  const [updateCart] = useUpdateCartQuantityMutation();
-  const setItems = async (quantity: number) => {
-    await updateCart({
-      variables: { productId, quantity },
-      refetchQueries: [
-        {
-          query: ProductQuantityDocument,
-          variables: { productId },
-        },
-      ],
+  const { getQuantity, updateItem } = Cart.useContainer();
+  const items = getQuantity(productId);
+  const setItems = (quantity: number) =>
+    updateItem({
+      product: {
+        id: productId,
+        name: text,
+        price,
+      },
+      quantity,
     });
-  };
 
-  const items = (data && data.cart.productQuantity) || 0;
   const classes = useStyles({ isQuantityInputExpanded: items > 0 });
 
   return (
