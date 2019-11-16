@@ -1,92 +1,93 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useForm from 'react-hook-form';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import isEquals from 'lodash.isequal';
+import { Formik, Form, Field } from 'formik';
 
-import {
-  UserSettingsQuery,
-  useDoUserInfoUpdateMutation,
-  DoUserInfoUpdateMutationVariables,
-} from '../../../generated/graphql';
-import { getErrorMessage } from '../../../util/form';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import { TextField } from 'formik-material-ui';
+
+import { useDoUserInfoUpdateMutation } from '../../../generated/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
-import { OutlinedSelect } from '../../../components/OutlinedSelect';
 
 interface UserSettingsFormProps {
-  userQuery: UserSettingsQuery;
+  initialValues: {
+    firstname: string;
+    lastname: string;
+    schoolId: string;
+  };
+  schools: {
+    id: string;
+    name: string;
+  }[];
 }
 
-export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ userQuery }) => {
+export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ initialValues, schools }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit, errors } = useForm<DoUserInfoUpdateMutationVariables>();
-  const [doUserInfoUpdate, { loading, hasError }] = useDoUserInfoUpdateMutation();
-
-  const onSubmit = (formData: DoUserInfoUpdateMutationVariables) => {
-    doUserInfoUpdate({
-      variables: formData,
-    });
-  };
+  const [doUserInfoUpdate, { hasError }] = useDoUserInfoUpdateMutation();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            autoComplete="fname"
-            name="firstname"
-            variant="outlined"
-            fullWidth
-            id="firstname-textField"
-            label={t('form.first-name.label')}
-            defaultValue={userQuery.self!.firstname}
-            helperText={errors.firstname ? getErrorMessage(errors.firstname) : null}
-            inputRef={register({
-              required: t('form.first-name.required'),
-            })}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            autoComplete="lname"
-            name="lastname"
-            variant="outlined"
-            fullWidth
-            id="lastname-textField"
-            label={t('form.last-name.label')}
-            defaultValue={userQuery.self!.lastname}
-            helperText={errors.lastname ? getErrorMessage(errors.lastname) : null}
-            inputRef={register({
-              required: t('form.first-name.required'),
-            })}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <OutlinedSelect
-            defaultValue={userQuery.self!.school.id}
-            inputRef={register}
-            label={t('form.school.label')}
-            inputName="schoolId"
-          >
-            {userQuery.schools.map(school => (
-              <option key={school.id} value={school.id}>
-                {school.name}
-              </option>
-            ))}
-          </OutlinedSelect>
-        </Grid>
-        <Grid item xs={12}>
-          <LoadingButton type="submit" fullWidth variant="contained" color="primary" loading={loading}>
-            {t('action.save')}
-          </LoadingButton>
-          {hasError && (
-            <Typography color="error" align="center" component="h3" variant="subtitle2">
-              {t('error.generic')}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-    </form>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={values =>
+        doUserInfoUpdate({
+          variables: values,
+        })
+      }
+    >
+      {({ values, isSubmitting }) => (
+        <Form>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="firstname"
+                component={TextField}
+                label={t('form.first-name.label')}
+                autoComplete="fname"
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Field
+                name="lastname"
+                component={TextField}
+                label={t('form.first-name.label')}
+                autoComplete="lname"
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Field name="schoolId" component={TextField} label={t('form.school.label')} select variant="outlined">
+                {schools.map(({ id, name }) => (
+                  <MenuItem key={id} value={id}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Field>
+            </Grid>
+            <Grid item xs={12}>
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={isEquals(values, initialValues)}
+                loading={isSubmitting}
+              >
+                {t('action.save')}
+              </LoadingButton>
+              {hasError && (
+                <Typography color="error" align="center" component="h3" variant="subtitle2">
+                  {t('error.generic')}
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+        </Form>
+      )}
+    </Formik>
   );
 };

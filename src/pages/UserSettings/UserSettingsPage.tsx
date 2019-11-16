@@ -45,7 +45,16 @@ export const UserSettingsPage: React.FC = () => {
             );
           }
 
-          return <UserSettingsForm userQuery={data} />;
+          return (
+            <UserSettingsForm
+              initialValues={{
+                firstname: data.self!.firstname,
+                lastname: data.self!.lastname,
+                schoolId: data.self!.school.id,
+              }}
+              schools={data.schools}
+            />
+          );
         }}
       </UserSettingsComponent>
       <UpdateEmailButton />
