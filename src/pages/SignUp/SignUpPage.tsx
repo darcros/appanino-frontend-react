@@ -33,8 +33,8 @@ export const SignUpPage: React.FC = () => {
   const classes = useStyles();
   const [doRegistration, { error: registrationError, loading }] = useRegisterAndLoginMutation();
 
-  const doRegistrationAndSaveToken = async (variables: RegisterAndLoginMutationVariables) =>
-    doRegistration({
+  const doRegistrationAndSaveToken = async (variables: RegisterAndLoginMutationVariables) => {
+    await doRegistration({
       variables,
       refetchQueries: ({ data }) => {
         if (!data) return [];
@@ -43,6 +43,7 @@ export const SignUpPage: React.FC = () => {
         return [{ query: UserRoleDocument }];
       },
     });
+  };
 
   return (
     <PageContainer maxWidth="xs">

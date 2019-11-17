@@ -125,6 +125,7 @@
     },
     "school": {
       "label": "Scuola",
+      "required": "Scuola è un campo richiesto",
       "loading": "Caricamento scuole..."
     }
   },

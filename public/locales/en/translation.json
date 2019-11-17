@@ -125,6 +125,7 @@
     },
     "school": {
       "label": "School",
+      "required": "School is required",
       "loading": "Loading schools..."
     }
   },
