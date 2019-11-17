@@ -105,7 +105,8 @@
     },
     "password": {
       "label": "Password",
-      "required": "Password required"
+      "required": "Password required",
+      "too-short": "Password must be at least 8 characters long"
     },
     "remember": {
       "label": "Remember Me"
