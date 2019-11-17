@@ -66,14 +66,21 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ currentSetti
               <Field
                 name="lastname"
                 component={TextField}
-                label={t('form.first-name.label')}
+                label={t('form.last-name.label')}
                 autoComplete="lname"
                 variant="outlined"
                 fullWidth
               />
             </Grid>
             <Grid item xs={12}>
-              <Field name="schoolId" component={TextField} label={t('form.school.label')} select variant="outlined">
+              <Field
+                name="schoolId"
+                component={TextField}
+                label={t('form.school.label')}
+                select
+                variant="outlined"
+                fullWidth
+              >
                 {schools.map(({ id, name }) => (
                   <MenuItem key={id} value={id}>
                     {name}
