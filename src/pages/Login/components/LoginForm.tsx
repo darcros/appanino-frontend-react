@@ -32,7 +32,7 @@ interface LoginFormValues {
 export const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [doLogin, { loading, error }] = useDoLoginMutation();
+  const [doLogin, { error }] = useDoLoginMutation();
   const errorMessage = errorToMessage(error);
 
   const login = async (values: LoginFormValues) => {
@@ -92,7 +92,7 @@ export const LoginForm: React.FC = () => {
             />
             <LoadingButton
               type="submit"
-              loading={isSubmitting || loading}
+              loading={isSubmitting}
               className={classes.submit}
               fullWidth
               variant="contained"
