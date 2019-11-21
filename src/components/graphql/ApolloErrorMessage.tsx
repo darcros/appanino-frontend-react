@@ -1,5 +1,7 @@
+import React from 'react';
+import i18n from '../../i18n';
 import { ApolloError } from 'apollo-client';
-import i18n from '../i18n';
+import Typography from '@material-ui/core/Typography';
 
 /**
  * An helper that returns an error message based on the error code.
@@ -26,3 +28,14 @@ export const errorToMessage = (err: ApolloError | null | undefined): string | un
 
   return i18n.t('error.generic');
 };
+
+export interface ApolloErrorMessageProps {
+  error: ApolloError | null | undefined;
+}
+
+export const ApolloErrorMessage: React.FC<ApolloErrorMessageProps> = ({ error }) =>
+  error ? (
+    <Typography color="error" align="center" component="h3" variant="subtitle2">
+      {errorToMessage(error)}
+    </Typography>
+  ) : null;

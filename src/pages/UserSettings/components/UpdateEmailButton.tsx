@@ -9,18 +9,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
 import { TextField } from 'formik-material-ui';
 
-import { errorToMessage } from '../../../util/graphql';
 import { useDoEmailUpdateMutation } from '../../../generated/graphql';
 import { FormLoadingButton } from '../../../components/FormLoadingButton';
+import { ApolloErrorMessage } from '../../../components/graphql/ApolloErrorMessage';
 
 export const UpdateEmailButton: React.FC = () => {
   const { t } = useTranslation();
   const [emailModalOpen, setEmailModalOpen] = React.useState(false);
   const [doEmailUpdate, { error }] = useDoEmailUpdateMutation();
-  const errorMessage = errorToMessage(error);
 
   const newEmailValidationSchema = yup.object({
     newEmail: yup
@@ -69,11 +67,7 @@ export const UpdateEmailButton: React.FC = () => {
                     margin="normal"
                     fullWidth
                   />
-                  {errorMessage && (
-                    <Typography color="error" align="center" component="h3" variant="subtitle2">
-                      {errorMessage}
-                    </Typography>
-                  )}
+                  <ApolloErrorMessage error={error} />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => close()} disabled={isValidating || isSubmitting} color="secondary">

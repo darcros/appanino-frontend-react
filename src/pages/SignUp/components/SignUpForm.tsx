@@ -5,14 +5,13 @@ import * as yup from 'yup';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import { TextField } from 'formik-material-ui';
 
 import { useSchoolsQuery, useRegisterAndLoginMutation, UserRoleDocument } from '../../../generated/graphql';
 import { saveToken } from '../../../graphql/client/token';
-import { errorToMessage } from '../../../util/graphql';
 import { FormLoadingButton } from '../../../components/FormLoadingButton';
+import { ApolloErrorMessage } from '../../../components/graphql/ApolloErrorMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +38,6 @@ export const SignUpForm: React.FC = () => {
   const classes = useStyles();
   const [doRegistration, { error: registrationError }] = useRegisterAndLoginMutation();
   const { data: schools, loading: schoolsLoading, error: schoolsError } = useSchoolsQuery();
-  const errorMessage = errorToMessage(registrationError || schoolsError);
 
   const registerAndSaveToken = async (values: SignUpFormValues) => {
     await doRegistration({
@@ -168,11 +166,7 @@ export const SignUpForm: React.FC = () => {
               {t('action.signUp')}
             </FormLoadingButton>
 
-            {errorMessage && (
-              <Typography color="error" align="center" component="h3" variant="subtitle2">
-                {errorMessage}
-              </Typography>
-            )}
+            <ApolloErrorMessage error={registrationError || schoolsError} />
           </Form>
         </div>
       )}

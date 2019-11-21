@@ -9,18 +9,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
 import { TextField } from 'formik-material-ui';
 
-import { errorToMessage } from '../../../util/graphql';
 import { useDoPasswordUpdateMutation } from '../../../generated/graphql';
 import { FormLoadingButton } from '../../../components/FormLoadingButton';
+import { ApolloErrorMessage } from '../../../components/graphql/ApolloErrorMessage';
 
 export const UpdatePasswordButton: React.FC = () => {
   const { t } = useTranslation();
   const [passwordModalOpen, setPasswordModalOpen] = React.useState(false);
   const [doPasswordUpdate, { error }] = useDoPasswordUpdateMutation();
-  const errorMessage = errorToMessage(error);
 
   const newPasswordValidationSchema = yup.object({
     oldPassword: yup
@@ -85,11 +83,7 @@ export const UpdatePasswordButton: React.FC = () => {
                     margin="normal"
                     fullWidth
                   />
-                  {errorMessage && (
-                    <Typography color="error" align="center" component="h3" variant="subtitle2">
-                      {errorMessage}
-                    </Typography>
-                  )}
+                  <ApolloErrorMessage error={error} />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => close()} disabled={isSubmitting} color="secondary">

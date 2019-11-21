@@ -4,13 +4,12 @@ import * as yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { TextField } from 'formik-material-ui';
 
 import { useDoLoginMutation, UserRoleDocument } from '../../../generated/graphql';
 import { saveToken } from '../../../graphql/client/token';
-import { errorToMessage } from '../../../util/graphql';
 import { FormLoadingButton } from '../../../components/FormLoadingButton';
+import { ApolloErrorMessage } from '../../../components/graphql/ApolloErrorMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +32,6 @@ export const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [doLogin, { error }] = useDoLoginMutation();
-  const errorMessage = errorToMessage(error);
 
   const login = async (values: LoginFormValues) => {
     await doLogin({
@@ -90,20 +88,10 @@ export const LoginForm: React.FC = () => {
               margin="normal"
               fullWidth
             />
-            <FormLoadingButton
-              type="submit"
-              className={classes.submit}
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
+            <FormLoadingButton type="submit" className={classes.submit} fullWidth variant="contained" color="primary">
               {t('action.login')}
             </FormLoadingButton>
-            {errorMessage && (
-              <Typography color="error" align="center" component="h3" variant="subtitle2">
-                {errorMessage}
-              </Typography>
-            )}
+            <ApolloErrorMessage error={error} />
           </Form>
         </div>
       )}
