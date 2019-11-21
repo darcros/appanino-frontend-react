@@ -14,7 +14,7 @@ import { TextField } from 'formik-material-ui';
 
 import { errorToMessage } from '../../../util/graphql';
 import { useDoEmailUpdateMutation } from '../../../generated/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
+import { FormLoadingButton } from '../../../components/FormLoadingButton';
 
 export const UpdateEmailButton: React.FC = () => {
   const { t } = useTranslation();
@@ -79,9 +79,9 @@ export const UpdateEmailButton: React.FC = () => {
                   <Button onClick={() => close()} disabled={isValidating || isSubmitting} color="secondary">
                     {t('action.cancel')}
                   </Button>
-                  <LoadingButton loading={isValidating || isSubmitting} type="submit" color="primary">
+                  <FormLoadingButton type="submit" color="primary">
                     {t('action.confirm')}
-                  </LoadingButton>
+                  </FormLoadingButton>
                 </DialogActions>
               </Form>
             </Dialog>

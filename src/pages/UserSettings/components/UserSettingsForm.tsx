@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { TextField } from 'formik-material-ui';
 
 import { useDoUserInfoUpdateMutation } from '../../../generated/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
+import { FormLoadingButton } from '../../../components/FormLoadingButton';
 
 interface UserSettingsFormProps {
   currentSettings: {
@@ -49,7 +49,7 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ currentSetti
         })
       }
     >
-      {({ values, isValidating, isSubmitting }) => (
+      {({ values }) => (
         <Form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -89,16 +89,15 @@ export const UserSettingsForm: React.FC<UserSettingsFormProps> = ({ currentSetti
               </Field>
             </Grid>
             <Grid item xs={12}>
-              <LoadingButton
+              <FormLoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 disabled={isEquals(values, currentSettings)}
-                loading={isValidating || isSubmitting}
               >
                 {t('action.save')}
-              </LoadingButton>
+              </FormLoadingButton>
               {hasError && (
                 <Typography color="error" align="center" component="h3" variant="subtitle2">
                   {t('error.generic')}

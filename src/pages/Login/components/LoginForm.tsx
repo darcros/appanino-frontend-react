@@ -10,7 +10,7 @@ import { TextField } from 'formik-material-ui';
 import { useDoLoginMutation, UserRoleDocument } from '../../../generated/graphql';
 import { saveToken } from '../../../graphql/client/token';
 import { errorToMessage } from '../../../util/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
+import { FormLoadingButton } from '../../../components/FormLoadingButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,7 +65,7 @@ export const LoginForm: React.FC = () => {
       validationSchema={loginValidationSchema}
       onSubmit={login}
     >
-      {({ isSubmitting }) => (
+      {() => (
         <div className={classes.form}>
           <Form>
             <Field
@@ -90,16 +90,15 @@ export const LoginForm: React.FC = () => {
               margin="normal"
               fullWidth
             />
-            <LoadingButton
+            <FormLoadingButton
               type="submit"
-              loading={isSubmitting}
               className={classes.submit}
               fullWidth
               variant="contained"
               color="primary"
             >
               {t('action.login')}
-            </LoadingButton>
+            </FormLoadingButton>
             {errorMessage && (
               <Typography color="error" align="center" component="h3" variant="subtitle2">
                 {errorMessage}

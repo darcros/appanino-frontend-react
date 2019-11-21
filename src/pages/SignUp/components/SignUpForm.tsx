@@ -12,7 +12,7 @@ import { TextField } from 'formik-material-ui';
 import { useSchoolsQuery, useRegisterAndLoginMutation, UserRoleDocument } from '../../../generated/graphql';
 import { saveToken } from '../../../graphql/client/token';
 import { errorToMessage } from '../../../util/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
+import { FormLoadingButton } from '../../../components/FormLoadingButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,7 +88,7 @@ export const SignUpForm: React.FC = () => {
       validationSchema={signUpSchema}
       onSubmit={registerAndSaveToken}
     >
-      {({ isSubmitting }) => (
+      {() => (
         <div className={classes.form}>
           <Form>
             <Grid container spacing={2}>
@@ -157,9 +157,8 @@ export const SignUpForm: React.FC = () => {
               </Grid>
             </Grid>
 
-            <LoadingButton
+            <FormLoadingButton
               type="submit"
-              loading={isSubmitting}
               disabled={schoolsLoading}
               className={classes.submit}
               variant="contained"
@@ -167,7 +166,7 @@ export const SignUpForm: React.FC = () => {
               fullWidth
             >
               {t('action.signUp')}
-            </LoadingButton>
+            </FormLoadingButton>
 
             {errorMessage && (
               <Typography color="error" align="center" component="h3" variant="subtitle2">

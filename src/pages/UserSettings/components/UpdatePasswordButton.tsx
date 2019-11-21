@@ -14,7 +14,7 @@ import { TextField } from 'formik-material-ui';
 
 import { errorToMessage } from '../../../util/graphql';
 import { useDoPasswordUpdateMutation } from '../../../generated/graphql';
-import { LoadingButton } from '../../../components/LoadingButton';
+import { FormLoadingButton } from '../../../components/FormLoadingButton';
 
 export const UpdatePasswordButton: React.FC = () => {
   const { t } = useTranslation();
@@ -52,9 +52,9 @@ export const UpdatePasswordButton: React.FC = () => {
           setPasswordModalOpen(false);
         }}
       >
-        {({ isValidating, isSubmitting, resetForm }) => {
+        {({ isSubmitting, resetForm }) => {
           const close = () => {
-            if (isValidating || isSubmitting) return;
+            if (isSubmitting) return;
             resetForm();
             setPasswordModalOpen(false);
           };
@@ -68,7 +68,6 @@ export const UpdatePasswordButton: React.FC = () => {
                   <Field
                     name="oldPassword"
                     component={TextField}
-                    disabled={isValidating || isSubmitting}
                     label={t('dialog.update-password.old-password.label')}
                     type="password"
                     autoComplete="current-password"
@@ -79,7 +78,6 @@ export const UpdatePasswordButton: React.FC = () => {
                   <Field
                     name="newPassword"
                     component={TextField}
-                    disabled={isValidating || isSubmitting}
                     label={t('dialog.update-password.new-password.label')}
                     type="password"
                     autoComplete="new-password"
@@ -94,12 +92,12 @@ export const UpdatePasswordButton: React.FC = () => {
                   )}
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => close()} disabled={isValidating || isSubmitting} color="secondary">
+                  <Button onClick={() => close()} disabled={isSubmitting} color="secondary">
                     {t('action.cancel')}
                   </Button>
-                  <LoadingButton loading={isValidating || isSubmitting} type="submit" color="primary">
+                  <FormLoadingButton type="submit" color="primary">
                     {t('action.confirm')}
-                  </LoadingButton>
+                  </FormLoadingButton>
                 </DialogActions>
               </Form>
             </Dialog>

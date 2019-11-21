@@ -24,8 +24,8 @@ const useStyles = makeStyles<Theme, { fullWidth: boolean }>(theme =>
   }),
 );
 
-interface LoadingButtonProps extends ButtonProps {
-  loading: boolean;
+export interface LoadingButtonProps extends ButtonProps {
+  loading?: boolean;
 }
 
 export const LoadingButton: React.FC<LoadingButtonProps> = ({ loading, disabled, fullWidth, children, ...props }) => {
@@ -33,7 +33,7 @@ export const LoadingButton: React.FC<LoadingButtonProps> = ({ loading, disabled,
 
   return (
     <div className={classes.wrapper}>
-      <Button {...props} disabled={disabled || loading} fullWidth={fullWidth}>
+      <Button {...props} disabled={disabled || !!loading} fullWidth={fullWidth}>
         {children}
       </Button>
       {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
