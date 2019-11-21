@@ -7,6 +7,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { TextField } from 'formik-material-ui';
 
+import { useDoLoginMutation, UserRoleDocument } from '../../../generated/graphql';
+import { saveToken } from '../../../graphql/client/token';
+import { errorToMessage } from '../../../util/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,22 +24,31 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface LoginFormState {
+interface LoginFormValues {
   email: string;
   password: string;
 }
 
-interface LoginFormProps {
-  loading: boolean;
-  errorMessage?: string;
-  onSubmit: (formState: LoginFormState) => Promise<void>;
-}
-
-export const LoginForm: React.FC<LoginFormProps> = ({ loading: mutationLoading, errorMessage, onSubmit }) => {
+export const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [doLogin, { loading, error }] = useDoLoginMutation();
+  const errorMessage = errorToMessage(error);
 
-  const loginValidationSchema = yup.object({
+  const login = async (values: LoginFormValues) => {
+    await doLogin({
+      variables: values,
+      awaitRefetchQueries: true,
+      refetchQueries: ({ data }) => {
+        if (!data) return [];
+
+        saveToken(data.login);
+        return [{ query: UserRoleDocument }];
+      },
+    });
+  };
+
+  const loginValidationSchema = yup.object<LoginFormValues>({
     email: yup
       .string()
       .required(t('form.email.required'))
@@ -45,15 +57,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ loading: mutationLoading, 
   });
 
   return (
-    <Formik<LoginFormState>
+    <Formik<LoginFormValues>
       initialValues={{
         email: '',
         password: '',
       }}
       validationSchema={loginValidationSchema}
-      onSubmit={onSubmit}
+      onSubmit={login}
     >
-      {({ isValidating, isSubmitting }) => (
+      {({ isSubmitting }) => (
         <div className={classes.form}>
           <Form>
             <Field
@@ -80,7 +92,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ loading: mutationLoading, 
             />
             <LoadingButton
               type="submit"
-              loading={isValidating || isSubmitting || mutationLoading}
+              loading={isSubmitting || loading}
               className={classes.submit}
               fullWidth
               variant="contained"
