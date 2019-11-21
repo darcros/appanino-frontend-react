@@ -9,7 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import { TextField } from 'formik-material-ui';
 
-import { useSchoolsQuery } from '../../../generated/graphql';
+import { useSchoolsQuery, useRegisterAndLoginMutation, UserRoleDocument } from '../../../generated/graphql';
+import { saveToken } from '../../../graphql/client/token';
 import { errorToMessage } from '../../../util/graphql';
 import { LoadingButton } from '../../../components/LoadingButton';
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface SignUpFormState {
+interface SignUpFormValues {
   firstname: string;
   lastname: string;
   email: string;
@@ -33,19 +34,26 @@ interface SignUpFormState {
   schoolId: string;
 }
 
-interface SignUpFormProps {
-  loading: boolean;
-  errorMessage?: string;
-  onSubmit: (formState: SignUpFormState) => Promise<void>;
-}
-
-export const SignUpForm: React.FC<SignUpFormProps> = ({ loading, errorMessage: externalErrorMessage, onSubmit }) => {
+export const SignUpForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [doRegistration, { error: registrationError }] = useRegisterAndLoginMutation();
   const { data: schools, loading: schoolsLoading, error: schoolsError } = useSchoolsQuery();
-  const errorMessage = externalErrorMessage || errorToMessage(schoolsError);
+  const errorMessage = errorToMessage(registrationError || schoolsError);
 
-  const signUpSchema = yup.object<SignUpFormState>({
+  const registerAndSaveToken = async (values: SignUpFormValues) => {
+    await doRegistration({
+      variables: values,
+      refetchQueries: ({ data }) => {
+        if (!data) return [];
+
+        saveToken(data.token);
+        return [{ query: UserRoleDocument }];
+      },
+    });
+  };
+
+  const signUpSchema = yup.object<SignUpFormValues>({
     firstname: yup
       .string()
       .required(t('form.first-name.required'))
@@ -69,7 +77,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ loading, errorMessage: e
   });
 
   return (
-    <Formik<SignUpFormState>
+    <Formik<SignUpFormValues>
       initialValues={{
         firstname: '',
         lastname: '',
@@ -78,9 +86,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ loading, errorMessage: e
         schoolId: '',
       }}
       validationSchema={signUpSchema}
-      onSubmit={onSubmit}
+      onSubmit={registerAndSaveToken}
     >
-      {({ isValidating, isSubmitting }) => (
+      {({ isSubmitting }) => (
         <div className={classes.form}>
           <Form>
             <Grid container spacing={2}>
@@ -131,6 +139,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ loading, errorMessage: e
                   name="schoolId"
                   component={TextField}
                   label={t('form.school.label')}
+                  disabled={!schools}
                   select
                   variant="outlined"
                   fullWidth
@@ -150,7 +159,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ loading, errorMessage: e
 
             <LoadingButton
               type="submit"
-              loading={isValidating || isSubmitting || loading}
+              loading={isSubmitting}
               disabled={schoolsLoading}
               className={classes.submit}
               variant="contained"
